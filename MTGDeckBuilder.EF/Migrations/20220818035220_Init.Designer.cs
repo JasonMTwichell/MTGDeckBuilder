@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MTGDeckBuilder.EF.Migrations
 {
     [DbContext(typeof(MTGDeckBuilderContext))]
-    [Migration("20220818025351_Init")]
+    [Migration("20220818035220_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,17 +42,9 @@ namespace MTGDeckBuilder.EF.Migrations
                     b.Property<int>("fkColorIdentity")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("CardColorIdentityDatafkCard")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("CardColorIdentityDatafkColorIdentity")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("fkCard", "fkColorIdentity");
 
                     b.HasIndex("fkColorIdentity");
-
-                    b.HasIndex("CardColorIdentityDatafkCard", "CardColorIdentityDatafkColorIdentity");
 
                     b.ToTable("tblCardColorIdentity", (string)null);
                 });
@@ -112,6 +104,12 @@ namespace MTGDeckBuilder.EF.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("pkCard");
+
+                    b.HasIndex("ManaValue");
+
+                    b.HasIndex("Name");
+
+                    b.HasIndex("Type");
 
                     b.ToTable("tblCard", (string)null);
                 });
@@ -188,6 +186,8 @@ namespace MTGDeckBuilder.EF.Migrations
 
                     b.HasKey("pkColor");
 
+                    b.HasIndex("ColorName");
+
                     b.ToTable("tblColor", (string)null);
                 });
 
@@ -203,6 +203,8 @@ namespace MTGDeckBuilder.EF.Migrations
 
                     b.HasKey("pkColorIdentity");
 
+                    b.HasIndex("ColorIdentityName");
+
                     b.ToTable("tblColorIdentity", (string)null);
                 });
 
@@ -217,6 +219,8 @@ namespace MTGDeckBuilder.EF.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("pkKeyword");
+
+                    b.HasIndex("Keyword");
 
                     b.ToTable("tblKeyword", (string)null);
                 });
@@ -281,6 +285,8 @@ namespace MTGDeckBuilder.EF.Migrations
 
                     b.HasKey("pkSubType");
 
+                    b.HasIndex("SubTypeName");
+
                     b.ToTable("tblSubType", (string)null);
                 });
 
@@ -296,6 +302,8 @@ namespace MTGDeckBuilder.EF.Migrations
 
                     b.HasKey("pkSuperType");
 
+                    b.HasIndex("SuperTypeName");
+
                     b.ToTable("tblSuperType", (string)null);
                 });
 
@@ -310,6 +318,8 @@ namespace MTGDeckBuilder.EF.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("pkType");
+
+                    b.HasIndex("TypeName");
 
                     b.ToTable("tblType", (string)null);
                 });
@@ -346,10 +356,6 @@ namespace MTGDeckBuilder.EF.Migrations
                         .HasForeignKey("fkColorIdentity")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("MTGDeckBuilder.EF.Entities.CardColorIdentityData", null)
-                        .WithMany("CardColorIdentities")
-                        .HasForeignKey("CardColorIdentityDatafkCard", "CardColorIdentityDatafkColorIdentity");
 
                     b.Navigation("Card");
 
@@ -452,11 +458,6 @@ namespace MTGDeckBuilder.EF.Migrations
                         .IsRequired();
 
                     b.Navigation("Card");
-                });
-
-            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.CardColorIdentityData", b =>
-                {
-                    b.Navigation("CardColorIdentities");
                 });
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.CardData", b =>

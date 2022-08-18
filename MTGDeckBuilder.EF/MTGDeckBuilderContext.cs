@@ -10,7 +10,7 @@ namespace MTGDeckBuilder.EF
         {
             var folder = Environment.SpecialFolder.LocalApplicationData;
             var path = Environment.GetFolderPath(folder);
-            _dbPath = System.IO.Path.Join(path, "blogging.db");
+            _dbPath = System.IO.Path.Join(path, "MTG.db");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -51,6 +51,10 @@ namespace MTGDeckBuilder.EF
             card.HasMany(e => e.Keywords)
                 .WithMany(e => e.Cards)
                 .UsingEntity<CardKeywordData>();
+            card.HasIndex(e => e.Name);
+            card.HasIndex(e => e.Type);
+            card.HasIndex(e => e.ManaValue);
+                
 
             var color = modelBuilder.Entity<ColorData>();
             color.ToTable("tblColor");
@@ -60,6 +64,7 @@ namespace MTGDeckBuilder.EF
             color.HasMany(e => e.Cards)
                 .WithMany(e => e.Colors)
                 .UsingEntity<CardColorData>();
+            color.HasIndex(e => e.ColorName);
 
             var cardColor = modelBuilder.Entity<CardColorData>();
             cardColor.ToTable("tblCardColor");
@@ -79,6 +84,7 @@ namespace MTGDeckBuilder.EF
             colorIdentity.HasMany(e => e.Cards)
                 .WithMany(e => e.ColorIdentities)
                 .UsingEntity<CardColorIdentityData>();
+            colorIdentity.HasIndex(e => e.ColorIdentityName);
 
             var cardColorIdentity = modelBuilder.Entity<CardColorIdentityData>();
             cardColorIdentity.ToTable("tblCardColorIdentity");
@@ -99,6 +105,7 @@ namespace MTGDeckBuilder.EF
             type.HasMany(e => e.Cards)
                 .WithMany(e => e.Types)
                 .UsingEntity<CardTypeData>();
+            type.HasIndex(e => e.TypeName);
 
             var cardType = modelBuilder.Entity<CardTypeData>();
             cardType.ToTable("tblCardType");
@@ -118,6 +125,7 @@ namespace MTGDeckBuilder.EF
             superType.HasMany(e => e.Cards)
                 .WithMany(e => e.SuperTypes)
                 .UsingEntity<CardSuperTypeData>();
+            superType.HasIndex(e => e.SuperTypeName);
 
             var cardSuperType = modelBuilder.Entity<CardSuperTypeData>();
             cardSuperType.ToTable("tblCardSuperType");
@@ -137,6 +145,7 @@ namespace MTGDeckBuilder.EF
             subType.HasMany(e => e.Cards)
                 .WithMany(e => e.SubTypes)
                 .UsingEntity<CardSubTypeData>();
+            subType.HasIndex(e => e.SubTypeName);
 
             var cardSubType = modelBuilder.Entity<CardSubTypeData>();
             cardSubType.ToTable("tblCardSubType");
@@ -156,6 +165,7 @@ namespace MTGDeckBuilder.EF
             keyword.HasMany(e => e.Cards)
                 .WithMany(e => e.Keywords)
                 .UsingEntity<CardKeywordData>();
+            keyword.HasIndex(e => e.Keyword);
 
             var cardKeywordData = modelBuilder.Entity<CardKeywordData>();
             cardKeywordData.ToTable("tblCardKeywordData");

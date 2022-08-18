@@ -185,9 +185,7 @@ namespace MTGDeckBuilder.EF.Migrations
                 columns: table => new
                 {
                     fkCard = table.Column<int>(type: "INTEGER", nullable: false),
-                    fkColorIdentity = table.Column<int>(type: "INTEGER", nullable: false),
-                    CardColorIdentityDatafkCard = table.Column<int>(type: "INTEGER", nullable: true),
-                    CardColorIdentityDatafkColorIdentity = table.Column<int>(type: "INTEGER", nullable: true)
+                    fkColorIdentity = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -198,11 +196,6 @@ namespace MTGDeckBuilder.EF.Migrations
                         principalTable: "tblCard",
                         principalColumn: "pkCard",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_tblCardColorIdentity_tblCardColorIdentity_CardColorIdentityDatafkCard_CardColorIdentityDatafkColorIdentity",
-                        columns: x => new { x.CardColorIdentityDatafkCard, x.CardColorIdentityDatafkColorIdentity },
-                        principalTable: "tblCardColorIdentity",
-                        principalColumns: new[] { "fkCard", "fkColorIdentity" });
                     table.ForeignKey(
                         name: "FK_tblCardColorIdentity_tblColorIdentity_fkColorIdentity",
                         column: x => x.fkColorIdentity,
@@ -308,14 +301,24 @@ namespace MTGDeckBuilder.EF.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_tblCard_ManaValue",
+                table: "tblCard",
+                column: "ManaValue");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblCard_Name",
+                table: "tblCard",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblCard_Type",
+                table: "tblCard",
+                column: "Type");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tblCardColor_fkColor",
                 table: "tblCardColor",
                 column: "fkColor");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblCardColorIdentity_CardColorIdentityDatafkCard_CardColorIdentityDatafkColorIdentity",
-                table: "tblCardColorIdentity",
-                columns: new[] { "CardColorIdentityDatafkCard", "CardColorIdentityDatafkColorIdentity" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblCardColorIdentity_fkColorIdentity",
@@ -343,6 +346,21 @@ namespace MTGDeckBuilder.EF.Migrations
                 column: "fkType");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tblColor_ColorName",
+                table: "tblColor",
+                column: "ColorName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblColorIdentity_ColorIdentityName",
+                table: "tblColorIdentity",
+                column: "ColorIdentityName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblKeyword_Keyword",
+                table: "tblKeyword",
+                column: "Keyword");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tblLegality_fkCard",
                 table: "tblLegality",
                 column: "fkCard");
@@ -351,6 +369,21 @@ namespace MTGDeckBuilder.EF.Migrations
                 name: "IX_tblPurchaseInformation_fkCard",
                 table: "tblPurchaseInformation",
                 column: "fkCard");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblSubType_SubTypeName",
+                table: "tblSubType",
+                column: "SubTypeName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblSuperType_SuperTypeName",
+                table: "tblSuperType",
+                column: "SuperTypeName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblType_TypeName",
+                table: "tblType",
+                column: "TypeName");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
