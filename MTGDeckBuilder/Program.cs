@@ -16,8 +16,10 @@ namespace MTGDeckBuilder
     {
         static async Task Main(string[] args)
         {
+            // TODO: Move this to configuration
             MTGEmbeddedScriptsProvider.ExecuteDbUpScripts("MTGDeckBuilder.db");
 
+            // TODO: Move this to configuration
             IMTGParser parser = new MTGJsonParser();
             DataFile dataFile = await parser.ParseMTGFile(@"C:\Users\jason\Downloads\MTG JSON\AtomicCards\AtomicCards.json");
 
@@ -119,7 +121,7 @@ namespace MTGDeckBuilder
                 Cards = cards,
             };
 
-            using (MTGDeckBuilderContext ctx = new MTGDeckBuilderContext())
+            using (MTGDeckBuilderContext ctx = new MTGDeckBuilderContext("MTGDeckBuilder.db"))
             {
                 IMTGDeckBuilderRepository repo = new MTGDeckBuilderRepository(ctx);
                 await repo.BootstrapDB(bootstrapData);

@@ -6,11 +6,9 @@ namespace MTGDeckBuilder.EF
     public class MTGDeckBuilderContext : DbContext
     {
         private readonly string _dbPath;
-        public MTGDeckBuilderContext()
+        public MTGDeckBuilderContext(string connectionString)
         {
-            var folder = Environment.SpecialFolder.LocalApplicationData;
-            var path = Environment.GetFolderPath(folder);
-            _dbPath = System.IO.Path.Join(path, "MTG.db");
+            _dbPath = connectionString;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
