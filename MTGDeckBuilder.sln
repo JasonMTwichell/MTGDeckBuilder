@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTGDeckBuilder.EF", "MTGDec
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "MTGDeckBuilder.Web", "MTGDeckBuilder.Web\MTGDeckBuilder.Web.esproj", "{4A8C54B9-959E-43DA-9E05-3D29A248048F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTGDeckBuilder.API", "MTGDeckBuilder.API\MTGDeckBuilder.API.csproj", "{7EF6B850-49DB-4227-A664-362D4B52AFF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTGDeckBuilder.API", "MTGDeckBuilder.API\MTGDeckBuilder.API.csproj", "{7EF6B850-49DB-4227-A664-362D4B52AFF7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTGDeckBuilder.DbUp", "MTGDeckBuilder.DbUp\MTGDeckBuilder.DbUp.csproj", "{0924D324-3EC1-4BCD-8011-FB3F878B9663}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{7EF6B850-49DB-4227-A664-362D4B52AFF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EF6B850-49DB-4227-A664-362D4B52AFF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EF6B850-49DB-4227-A664-362D4B52AFF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0924D324-3EC1-4BCD-8011-FB3F878B9663}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0924D324-3EC1-4BCD-8011-FB3F878B9663}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0924D324-3EC1-4BCD-8011-FB3F878B9663}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0924D324-3EC1-4BCD-8011-FB3F878B9663}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

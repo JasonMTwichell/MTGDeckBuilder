@@ -1,5 +1,6 @@
 ﻿using MTGDeckBuilder.Core.Domain;
 using MTGDeckBuilder.Core.Service;
+using MTGDeckBuilder.DbUp;
 using MTGDeckBuilder.EF;
 using MTGDeckBuilder.EF.Entities;
 using MTGDeckBuilder.Services;
@@ -15,9 +16,11 @@ namespace MTGDeckBuilder
     {
         static async Task Main(string[] args)
         {
+            MTGEmbeddedScriptsProvider.ExecuteDbUpScripts("MTGDeckBuilder.db");
+
             IMTGParser parser = new MTGJsonParser();
             DataFile dataFile = await parser.ParseMTGFile(@"C:\Users\jason\Downloads\MTG JSON\AtomicCards\AtomicCards.json");
-            
+
             // get all reference data
             ColorData[] distinctColors = dataFile.Cards.SelectMany(c => c.Colors).Distinct().Select(c => new ColorData()
             {
@@ -44,7 +47,7 @@ namespace MTGDeckBuilder
                 SubTypeName = t
             }).ToArray();
 
-            KeywordData[] distinctKeywords= dataFile.Cards.SelectMany(c => c.Keywords).Distinct().Select(k => new KeywordData()
+            KeywordData[] distinctKeywords = dataFile.Cards.SelectMany(c => c.Keywords).Distinct().Select(k => new KeywordData()
             {
                 Keyword = k
             }).ToArray();
@@ -66,9 +69,9 @@ namespace MTGDeckBuilder
                 Toughness = c.Toughness,
                 IsFunny = c.IsFunny,
                 IsReserved = c.IsReserved,
-                HasAlternateDeckLimit = c.HasAlternateDeckLimit,        
-                CardColors = c.Colors?.Join(distinctColors, o => o, i => i.ColorName, (o, i) => new CardColorData() 
-                { 
+                HasAlternateDeckLimit = c.HasAlternateDeckLimit,
+                CardColors = c.Colors?.Join(distinctColors, o => o, i => i.ColorName, (o, i) => new CardColorData()
+                {
                     Color = i
                 }).ToArray(),
                 CardColorIdentities = c.ColorIdentity?.Join(distinctColorIdentities, o => o, i => i.ColorIdentityName, (o, i) => new CardColorIdentityData()
@@ -112,15 +115,15 @@ namespace MTGDeckBuilder
                 Types = distinctTypes,
                 SuperTypes = distinctSuperTypes,
                 SubTypes = distinctSubTypes,
-                Keywords = distinctKeywords,    
+                Keywords = distinctKeywords,
                 Cards = cards,
             };
 
-            using(MTGDeckBuilderContext ctx = new MTGDeckBuilderContext())
+            using (MTGDeckBuilderContext ctx = new MTGDeckBuilderContext())
             {
                 IMTGDeckBuilderRepository repo = new MTGDeckBuilderRepository(ctx);
                 await repo.BootstrapDB(bootstrapData);
-            }            
+            }
         }
     }
 }
