@@ -54,18 +54,17 @@ namespace MTGDeckBuilder.Services.JSONParser
                         {
                             RulingDate = r.RulingDate,
                             RulingText = r.RulingText
-                        }).ToArray(),
+                        }).ToArray() ?? Array.Empty<Ruling>(),
                         Legalities = c.Legalities?.Select(l => new Legality()
                         {
                             Format = l.Key,
                             Status = l.Value
-                        }).ToArray(),
+                        }).ToArray() ?? Array.Empty<Legality>(),
                         PurchaseInformation = c.PurchaseInformation?.Select(pi => new PurchaseInformation()
                         {
                             StoreFrontName = pi.Key,
                             CardURI = pi.Value
-                        }).ToArray(),
-
+                        }).ToArray() ?? Array.Empty<PurchaseInformation>(),
                     }).ToArray()
                 };
 

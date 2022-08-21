@@ -54,6 +54,11 @@ namespace MTGDeckBuilder
                 Keyword = k
             }).ToArray();
 
+            LegalityData[] distinctLegalities = dataFile.Cards.SelectMany(c => c.Legalities).Select(p => p.Format).Distinct().Select(p => new LegalityData()
+            {
+                Format = p,
+            }).ToArray();
+
             CardData[] cards = dataFile.Cards.Select(c => new CardData()
             {
                 Name = c.Name,
@@ -96,10 +101,10 @@ namespace MTGDeckBuilder
                 {
                     Keyword = i
                 }).ToArray(),
-                Legalities = c.Legalities?.Select(l => new LegalityData()
+                CardLegalities = c.Legalities?.Join(distinctLegalities, o => o.Format, i => i.Format, (o, i) => new CardLegalityData()
                 {
-                    Format = l.Format,
-                    Status = l.Status
+                    Legality = i,
+                    IsLegal = o.Status.ToLower() == "legal",
                 }).ToArray(),
                 PurchaseInformation = c.PurchaseInformation?.Select(pi => new PurchaseInformationData()
                 {
@@ -110,15 +115,16 @@ namespace MTGDeckBuilder
 
             BootstrapDBData bootstrapData = new BootstrapDBData()
             {
-                VersionDate = dataFile.VersionDate,
                 VersionNumber = dataFile.VersionNumber,
+                VersionDate = dataFile.VersionDate,
                 Colors = distinctColors,
-                ColorsIdentity = distinctColorIdentities,
+                ColorIdentities = distinctColorIdentities,
                 Types = distinctTypes,
                 SuperTypes = distinctSuperTypes,
                 SubTypes = distinctSubTypes,
                 Keywords = distinctKeywords,
                 Cards = cards,
+                Legalities = distinctLegalities,
             };
 
             using (MTGDeckBuilderContext ctx = new MTGDeckBuilderContext("MTGDeckBuilder.db"))

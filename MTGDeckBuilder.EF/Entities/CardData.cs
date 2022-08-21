@@ -46,7 +46,15 @@ namespace MTGDeckBuilder.EF.Entities
         public virtual ICollection<CardKeywordData> CardKeywords { get; set; }
 
         public virtual ICollection<LegalityData> Legalities { get; set; }
-        public virtual ICollection<PurchaseInformationData> PurchaseInformation { get; set; }
+        public virtual ICollection<CardLegalityData> CardLegalities { get; set; }
+
+        public virtual ICollection<UserDeckData> UserDecks { get; set; }
+        public virtual ICollection<UserDeckCardData> UserDeckCardData { get; set; }
         
+        public virtual ICollection<UserDeckSideboardData> UserDeckSideboards { get; set; }
+        public virtual ICollection<UserDeckSideboardCardData> UserDeckSideboardCards { get; set; }
+
+        public virtual ICollection<PurchaseInformationData> PurchaseInformation { get; set; }
+
     }
 }

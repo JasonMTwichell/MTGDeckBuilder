@@ -10,11 +10,12 @@ namespace MTGDeckBuilder.EF
     public interface IMTGDeckBuilderRepository
     {
         Task BootstrapDB(BootstrapDBData fileData);
-        Task AddColors(IEnumerable<ColorData> colors);
-        Task AddTypes(IEnumerable<TypeData> types);
-        Task AddSuperTypes(IEnumerable<SuperTypeData> superTypes);
-        Task AddSubTypes(IEnumerable<SubTypeData> subTypes);
-        Task AddKeywords(IEnumerable<KeywordData> keywords);
-        Task AddCards(IEnumerable<CardData> cards);
+        IEnumerable<CardData> GetCards();
+        IEnumerable<ColorData> GetColors();
+        IEnumerable<TypeData> GetTypes();
+        IEnumerable<SuperTypeData> GetSuperTypes();
+        IEnumerable<SubTypeData> GetSubTypes();
+        IEnumerable<KeywordData> GetKeywords();
+        IEnumerable<LegalityData> GetLegalities();
     }
 }

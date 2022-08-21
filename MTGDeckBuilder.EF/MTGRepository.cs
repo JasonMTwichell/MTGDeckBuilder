@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MTGDeckBuilder.EF
 {
-    public class MTGDeckBuilderRepository: IMTGDeckBuilderRepository
+    public class MTGDeckBuilderRepository : IMTGDeckBuilderRepository
     {
         private MTGDeckBuilderContext _ctx;
         public MTGDeckBuilderRepository(MTGDeckBuilderContext ctx)
@@ -16,44 +16,82 @@ namespace MTGDeckBuilder.EF
             _ctx = ctx;
         }
 
-        public async Task AddCards(IEnumerable<CardData> cards)
+        public IEnumerable<CardData> GetCards()
         {
-            await _ctx.AddRangeAsync(cards);
-            await _ctx.SaveChangesAsync();
+            return _ctx.Cards.ToArray();
         }
 
-        public async Task AddColors(IEnumerable<ColorData> colors)
+        public IEnumerable<ColorData> GetColors()
         {
-            await _ctx.Colors.AddRangeAsync(colors);
-            await _ctx.SaveChangesAsync();
+            return _ctx.Colors.ToArray();
         }
 
-        public async Task AddKeywords(IEnumerable<KeywordData> keywords)
+        public IEnumerable<ColorIdentityData> GetColorIdentities()
         {
-            await _ctx.Keywords.AddRangeAsync(keywords);
-            await _ctx.SaveChangesAsync();
+            return _ctx.ColorIdentities.ToArray();
         }
 
-        public async Task AddSubTypes(IEnumerable<SubTypeData> subTypes)
+        public IEnumerable<KeywordData> GetKeywords()
         {
-            await _ctx.SubTypes.AddRangeAsync(subTypes);
-            await _ctx.SaveChangesAsync();
+            return _ctx.Keywords.ToArray();
         }
 
-        public async Task AddSuperTypes(IEnumerable<SuperTypeData> superTypes)
+        public IEnumerable<SubTypeData> GetSubTypes()
         {
-            await _ctx.SuperTypes.AddRangeAsync(superTypes);
-            await _ctx.SaveChangesAsync();
+            return _ctx.SubTypes.ToArray();
         }
 
-        public async Task AddTypes(IEnumerable<TypeData> types)
+        public IEnumerable<SuperTypeData> GetSuperTypes()
         {
-            await _ctx.Types.AddRangeAsync(types);
-            await _ctx.SaveChangesAsync();
+            return _ctx.SuperTypes.ToArray();
         }
 
+        public IEnumerable<TypeData> GetTypes() 
+        {
+            return _ctx.Types.ToArray();
+        }
+
+        public IEnumerable<LegalityData> GetLegalities()
+        {
+            return _ctx.Legality.ToArray();
+        }
 
         public async Task BootstrapDB(BootstrapDBData fileData)
+        {
+            ColorData[] existingColors = GetColors().ToArray();
+            ColorIdentityData[] existingColorIdentities = GetColorIdentities().ToArray();
+            TypeData[] existingTypes = GetTypes().ToArray();
+            SuperTypeData[] existingSuperTypes = GetSuperTypes().ToArray();
+            SubTypeData[] existingSubTypes = GetSubTypes().ToArray();
+            KeywordData[] existingKeywords = GetKeywords().ToArray();
+            LegalityData[] existingLegalities = GetLegalities().ToArray();
+            CardData[] existingCards = GetCards().ToArray();
+
+            // inserts
+            BootstrapDBData inserts = fileData with
+            {
+                Colors = fileData.Colors.GroupJoin(existingColors, o => o.ColorName, i => i.ColorName, (o, i) => new { Incoming = o, Existing = i }).SelectMany(oi => oi.Existing.DefaultIfEmpty(), (o, i) => new { Incoming = o.Incoming, Existing = i }).Where(group => group.Existing == null).Select(group => group.Incoming).ToArray(),
+                ColorIdentities = fileData.ColorIdentities.GroupJoin(existingColorIdentities, o => o.ColorIdentityName, i => i.ColorIdentityName, (o, i) => new { Incoming = o, Existing = i }).SelectMany(oi => oi.Existing.DefaultIfEmpty(), (o, i) => new { Incoming = o.Incoming, Existing = i }).Where(group => group.Existing == null).Select(group => group.Incoming).ToArray(),
+                Types = fileData.Types.GroupJoin(existingTypes, o => o.TypeName, i => i.TypeName, (o, i) => new { Incoming = o, Existing = i }).SelectMany(oi => oi.Existing.DefaultIfEmpty(), (o, i) => new { Incoming = o.Incoming, Existing = i }).Where(group => group.Existing == null).Select(group => group.Incoming).ToArray(),
+                SuperTypes = fileData.SuperTypes.GroupJoin(existingSuperTypes, o => o.SuperTypeName, i => i.SuperTypeName, (o, i) => new { Incoming = o, Existing = i }).SelectMany(oi => oi.Existing.DefaultIfEmpty(), (o, i) => new { Incoming = o.Incoming, Existing = i }).Where(group => group.Existing == null).Select(group => group.Incoming).ToArray(),
+                SubTypes = fileData.SubTypes.GroupJoin(existingSubTypes, o => o.SubTypeName, i => i.SubTypeName, (o, i) => new { Incoming = o, Existing = i }).SelectMany(oi => oi.Existing.DefaultIfEmpty(), (o, i) => new { Incoming = o.Incoming, Existing = i }).Where(group => group.Existing == null).Select(group => group.Incoming).ToArray(),
+                Keywords = fileData.Keywords.GroupJoin(existingKeywords, o => o.Keyword, i => i.Keyword, (o, i) => new { Incoming = o, Existing = i }).SelectMany(oi => oi.Existing.DefaultIfEmpty(), (o, i) => new { Incoming = o.Incoming, Existing = i }).Where(group => group.Existing == null).Select(group => group.Incoming).ToArray(),
+                Legalities = fileData.Legalities.GroupJoin(existingLegalities, o => o.Format, i => i.Format, (o, i) => new { Incoming = o, Existing = i }).SelectMany(oi => oi.Existing.DefaultIfEmpty(), (o, i) => new { Incoming = o.Incoming, Existing = i }).Where(group => group.Existing == null).Select(group => group.Incoming).ToArray(),
+                Cards = fileData.Cards.GroupJoin(existingCards, o => o.Name, i => i.Name, (o, i) => new { Incoming = o, Existing = i }).SelectMany(oi => oi.Existing.DefaultIfEmpty(), (o, i) => new { Incoming = o.Incoming, Existing = i }).Where(group => group.Existing == null).Select(group => group.Incoming).ToArray(),                
+            };
+
+            await PerformBootstrapInserts(inserts);
+
+
+            // update card legalities as theyre the only thing that should reasonably change, unless old data is sured up
+            // join to existing cards to see whats eligible for update
+            // get the legalities from the incoming joined cards
+            // update the existing legalities to match incoming legalities
+
+            
+        }
+
+        private async Task PerformBootstrapInserts(BootstrapDBData fileData)
         {
             List<CardColorData> cardColors = new List<CardColorData>();
             List<CardColorIdentityData> cardColorIdentities = new List<CardColorIdentityData>();
@@ -61,15 +99,23 @@ namespace MTGDeckBuilder.EF
             List<CardSuperTypeData> cardSuperTypes = new List<CardSuperTypeData>();
             List<CardSubTypeData> cardSubTypes = new List<CardSubTypeData>();
             List<CardKeywordData> cardKeywords = new List<CardKeywordData>();
+            List<CardLegalityData> cardLegalities = new List<CardLegalityData>();
 
             using (var transaction = _ctx.Database.BeginTransaction())
             {
+                await _ctx.AddAsync(new FileVersionData()
+                {
+                    Version = fileData.VersionNumber,
+                    VersionDate = fileData.VersionDate
+                });
+
                 await _ctx.BulkInsertAsync(fileData.Colors.ToList(), new BulkConfig { SetOutputIdentity = true });
-                await _ctx.BulkInsertAsync(fileData.ColorsIdentity.ToList(), new BulkConfig { SetOutputIdentity = true });
+                await _ctx.BulkInsertAsync(fileData.ColorIdentities.ToList(), new BulkConfig { SetOutputIdentity = true });
                 await _ctx.BulkInsertAsync(fileData.Types.ToList(), new BulkConfig { SetOutputIdentity = true });
                 await _ctx.BulkInsertAsync(fileData.SuperTypes.ToList(), new BulkConfig { SetOutputIdentity = true });
                 await _ctx.BulkInsertAsync(fileData.SubTypes.ToList(), new BulkConfig { SetOutputIdentity = true });
                 await _ctx.BulkInsertAsync(fileData.Keywords.ToList(), new BulkConfig { SetOutputIdentity = true });
+                await _ctx.BulkInsertAsync(fileData.Legalities.ToList(), new BulkConfig { SetOutputIdentity = true });
                 await _ctx.BulkInsertAsync(fileData.Cards.ToList(), new BulkConfig { SetOutputIdentity = true });
                 foreach (var card in fileData.Cards)
                 {
@@ -114,14 +160,22 @@ namespace MTGDeckBuilder.EF
                         keyword.fkKeyword = keyword.Keyword.pkKeyword;
                     }
                     cardKeywords.AddRange(card.CardKeywords);
+
+                    foreach (var legality in card.CardLegalities)
+                    {
+                        legality.fkCard = card.pkCard;
+                        legality.fkLegality = legality.Legality.pkLegality;
+                    }
+                    cardLegalities.AddRange(card.CardLegalities);
                 }
 
-                _ctx.BulkInsert(cardColors);
-                _ctx.BulkInsert(cardColorIdentities);
-                _ctx.BulkInsert(cardTypes);
-                _ctx.BulkInsert(cardSuperTypes);
-                _ctx.BulkInsert(cardSubTypes);
-                _ctx.BulkInsert(cardKeywords);
+                await _ctx.BulkInsertAsync(cardColors);
+                await _ctx.BulkInsertAsync(cardColorIdentities);
+                await _ctx.BulkInsertAsync(cardTypes);
+                await _ctx.BulkInsertAsync(cardSuperTypes);
+                await _ctx.BulkInsertAsync(cardSubTypes);
+                await _ctx.BulkInsertAsync(cardKeywords);
+                await _ctx.BulkInsertAsync(cardLegalities);
                 transaction.Commit();
             }
 

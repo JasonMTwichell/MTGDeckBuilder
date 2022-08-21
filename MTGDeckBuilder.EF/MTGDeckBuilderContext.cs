@@ -11,6 +11,11 @@ namespace MTGDeckBuilder.EF
             _dbPath = connectionString;
         }
 
+        //public MTGDeckBuilderContext()
+        //{
+
+        //}
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite($"Data Source={_dbPath}");            
@@ -20,6 +25,10 @@ namespace MTGDeckBuilder.EF
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region Entities
+            var version = modelBuilder.Entity<FileVersionData>();
+            version.ToTable("tblFileVersion");
+            version.HasKey(e => e.pkVersion);
+
             var card = modelBuilder.Entity<CardData>();
             card.ToTable("tblCard");
             card.HasKey(e => e.pkCard);
@@ -41,14 +50,20 @@ namespace MTGDeckBuilder.EF
                 .WithMany(e => e.Cards)
                 .UsingEntity<CardSubTypeData>();           
             card.HasMany(e => e.Legalities)
-                .WithOne(e => e.Card)
-                .HasForeignKey(e => e.fkCard);
+                .WithMany(e => e.Cards)
+                .UsingEntity<CardLegalityData>();
             card.HasMany(e => e.PurchaseInformation)
                 .WithOne(e => e.Card)
                 .HasForeignKey(e => e.fkCard);
             card.HasMany(e => e.Keywords)
                 .WithMany(e => e.Cards)
                 .UsingEntity<CardKeywordData>();
+            card.HasMany(e => e.UserDecks)
+                .WithMany(e =>e.Cards)
+                .UsingEntity<UserDeckCardData>();
+            card.HasMany(e => e.UserDeckSideboards)
+                .WithMany(e => e.Cards)
+                .UsingEntity<UserDeckSideboardCardData>();
             card.HasIndex(e => e.Name);
             card.HasIndex(e => e.Type);
             card.HasIndex(e => e.ManaValue);
@@ -180,9 +195,19 @@ namespace MTGDeckBuilder.EF
             legality.HasKey(e => e.pkLegality);
             legality.Property(e => e.pkLegality)
                 .ValueGeneratedOnAdd();
-            legality.HasOne(e => e.Card)
+            legality.HasMany(e => e.Cards)
                 .WithMany(e => e.Legalities)
+                .UsingEntity<CardLegalityData>();
+
+            var cardLegalityData = modelBuilder.Entity<CardLegalityData>();
+            cardLegalityData.ToTable("tblCardLegality")
+                .HasKey(e => new {e.fkCard, e.fkLegality });
+            cardLegalityData.HasOne(e => e.Card)
+                .WithMany(e => e.CardLegalities)
                 .HasForeignKey(e => e.fkCard);
+            cardLegalityData.HasOne(e => e.Legality)
+                .WithMany(e => e.CardLegalities)
+                .HasForeignKey(e => e.fkLegality);
 
             var purchaseInformation = modelBuilder.Entity<PurchaseInformationData>();
             purchaseInformation.ToTable("tblPurchaseInformation");
@@ -192,11 +217,55 @@ namespace MTGDeckBuilder.EF
             purchaseInformation.HasOne(e => e.Card)
                 .WithMany(e => e.PurchaseInformation)
                 .HasForeignKey(e => e.fkCard);
+
+            var userDeck = modelBuilder.Entity<UserDeckData>();
+            userDeck.ToTable("tblUserDeck");
+            userDeck.HasKey(e => e.pkUserDeck);
+            userDeck.HasOne(e => e.SideBoard)
+                .WithOne(e => e.UserDeck)
+                .HasForeignKey<UserDeckSideboardData>(e => e.fkUserDeck);
+            userDeck.HasMany(e => e.Cards)
+                .WithMany(e => e.UserDecks)
+                .UsingEntity<UserDeckCardData>();
+            userDeck.HasMany(e => e.Legalities)
+                .WithMany(e => e.UserDecks)
+                .UsingEntity<UserDeckLegalityData>();
+
+            var userDeckCard = modelBuilder.Entity<UserDeckCardData>();
+            userDeckCard.ToTable("tblUserDeckCard");
+            userDeckCard.HasKey(e => new { e.fkUserDeck, e.fkCard });
+            userDeckCard.HasOne(e => e.UserDeck)
+                .WithMany()
+                .HasForeignKey(e => e.fkUserDeck);
+            userDeckCard.HasOne(e => e.Card)
+                .WithMany(e => e.UserDeckCardData)
+                .HasForeignKey(e => e.fkCard);
+
+            var userDeckSideboard = modelBuilder.Entity<UserDeckSideboardData>();
+            userDeckSideboard.ToTable("tblUserDeckSideboard");
+            userDeckSideboard.HasKey(e => e.fkUserDeck);
+            userDeckSideboard.HasOne(e => e.UserDeck)
+                .WithOne(e => e.SideBoard)
+                .HasForeignKey<UserDeckSideboardData>(e => e.fkUserDeck);
+            userDeckSideboard.HasMany(e => e.Cards)
+                .WithMany(e => e.UserDeckSideboards)
+                .UsingEntity<UserDeckSideboardCardData>();
+
+            var userDeckSideboardCard = modelBuilder.Entity<UserDeckSideboardCardData>();
+            userDeckSideboardCard.ToTable("tblUserDeckSideboardCard");
+            userDeckSideboardCard.HasKey(e => new { e.fkUserDeckSideboard, e.fkCard });
+            userDeckSideboardCard.HasOne(e => e.Card)
+                .WithMany()
+                .HasForeignKey(e => e.fkCard);
+            userDeckSideboardCard.HasOne(e => e.UserDeckSideboard)
+                .WithMany()
+                .HasForeignKey(e => e.fkUserDeckSideboard);                
             #endregion
 
             base.OnModelCreating(modelBuilder);
         }
 
+        public DbSet<FileVersionData> FileVersions { get; set; }
         public DbSet<CardData> Cards { get; set; }
         public DbSet<ColorData> Colors { get; set; }
         public DbSet<ColorIdentityData> ColorIdentities { get; set; }
@@ -204,5 +273,8 @@ namespace MTGDeckBuilder.EF
         public DbSet<SuperTypeData> SuperTypes { get; set; }
         public DbSet<SubTypeData> SubTypes { get; set; }
         public DbSet<KeywordData> Keywords { get; set; }        
+        public DbSet<UserDeckData> UserDecks { get; set; }
+        public DbSet<LegalityData> Legality { get; set; }
+        public DbSet<UserDeckSideboardData> UserDeckSideboards { get; set; }
     }
 }

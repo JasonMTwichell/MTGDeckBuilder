@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 
 namespace MTGDeckBuilder.EF.Entities
 {
-    public class BootstrapDBData
+    public record BootstrapDBData
     {
-        public string VersionNumber { get; set; }
-        public DateTime VersionDate { get; set; }
-        public IEnumerable<ColorData> Colors { get; set; }
-        public IEnumerable<ColorIdentityData> ColorsIdentity { get; set; }
-        public IEnumerable<TypeData> Types { get; set; }
-        public IEnumerable<SuperTypeData> SuperTypes { get; set; }
-        public IEnumerable<SubTypeData> SubTypes { get; set; }
-        public IEnumerable<KeywordData> Keywords { get; set; }
-        public IEnumerable<CardData> Cards { get; set; }
+        public string VersionNumber { get; init; }
+        public DateTime VersionDate { get; init; }
+        public IEnumerable<ColorData> Colors { get; init; }
+        public IEnumerable<ColorIdentityData> ColorIdentities { get; init; }
+        public IEnumerable<TypeData> Types { get; init; }
+        public IEnumerable<SuperTypeData> SuperTypes { get; init; }
+        public IEnumerable<SubTypeData> SubTypes { get; init; }
+        public IEnumerable<KeywordData> Keywords { get; init; }
+        public IEnumerable<LegalityData> Legalities { get; init; }
+        public IEnumerable<CardData> Cards { get; init; }
     }
 }

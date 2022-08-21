@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MTGDeckBuilder.EF.Entities
 {
-    public class VersionData
+    public class FileVersionData
     {
         public int pkVersion { get; set; }
         public string Version { get; set; }
