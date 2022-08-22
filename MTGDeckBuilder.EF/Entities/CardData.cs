@@ -6,7 +6,7 @@ namespace MTGDeckBuilder.EF.Entities
 {
     public class CardData
     {
-        public int pkCard { get; set; }
+        public string ScryfallOracleID { get; set; } // pk
         public string? Name { get; set; }
         public string? AsciiName { get; set; }
         public string? Text { get; set; }

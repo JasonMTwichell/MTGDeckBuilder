@@ -27,6 +27,7 @@ namespace MTGDeckBuilder.Services.JSONParser
                     VersionDate = jsonFile.Meta.Date,
                     Cards = jsonFile.Cards.SelectMany(v => v.Value).Select(c => new Card()
                     {
+                        ScryfallOracleID = c.Identifiers.FirstOrDefault(kvp => kvp.Key == "scryfallOracleId" || kvp.Key == "scryfallId").Value, // TODO: this makes it possible to just truncate the db entirely without effecting user data, but do these change?
                         AsciiName = c.AsciiName,
                         Name = c.Name,
                         Text = c.Text,
@@ -45,7 +46,7 @@ namespace MTGDeckBuilder.Services.JSONParser
                         Types = c.Types ?? Array.Empty<string>(),
                         SuperTypes = c.SuperTypes ?? Array.Empty<string>(),
                         SubTypes = c.SubTypes ?? Array.Empty<string>(),
-                        ColorIdentity = c.ColorIdentity ?? Array.Empty<string>(),
+                        ColorIdentities = c.ColorIdentity ?? Array.Empty<string>(),
                         Colors = c.Colors ?? Array.Empty<string>(),
                         IsFunny = c.IsFunny,
                         IsReserved = c.IsReserved,

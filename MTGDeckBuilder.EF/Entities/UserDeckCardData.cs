@@ -9,7 +9,7 @@ namespace MTGDeckBuilder.EF.Entities
     public class UserDeckCardData
     {
         public int fkUserDeck { get; set; }
-        public int fkCard { get; set; }
+        public string fkCard { get; set; }
         
         public virtual UserDeckData UserDeck { get; set; }
         public virtual CardData Card { get; set; }

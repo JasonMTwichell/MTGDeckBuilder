@@ -2,8 +2,8 @@
 {
     public class CardKeywordData
     {
-        public int fkCard { get; set; }
-        public int fkKeyword { get; set; }
+        public string fkCard { get; set; }
+        public string fkKeyword { get; set; }
 
         public virtual CardData Card { get; set; }
         public virtual KeywordData Keyword { get; set; }

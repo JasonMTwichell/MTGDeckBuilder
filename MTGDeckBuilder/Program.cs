@@ -26,27 +26,27 @@ namespace MTGDeckBuilder
             // get all reference data
             ColorData[] distinctColors = dataFile.Cards.SelectMany(c => c.Colors).Distinct().Select(c => new ColorData()
             {
-                ColorName = c
+                Color = c
             }).ToArray();
 
-            ColorIdentityData[] distinctColorIdentities = dataFile.Cards.SelectMany(c => c.ColorIdentity).Distinct().Select(c => new ColorIdentityData()
+            ColorIdentityData[] distinctColorIdentities = dataFile.Cards.SelectMany(c => c.ColorIdentities).Distinct().Select(c => new ColorIdentityData()
             {
-                ColorIdentityName = c
+                ColorIdentity = c
             }).ToArray();
 
             TypeData[] distinctTypes = dataFile.Cards.SelectMany(c => c.Types).Distinct().Select(t => new TypeData()
             {
-                TypeName = t
+                Type = t
             }).ToArray();
 
             SuperTypeData[] distinctSuperTypes = dataFile.Cards.SelectMany(c => c.SuperTypes).Distinct().Select(t => new SuperTypeData()
             {
-                SuperTypeName = t
+                SuperType = t
             }).ToArray();
 
             SubTypeData[] distinctSubTypes = dataFile.Cards.SelectMany(c => c.Types).Distinct().Select(t => new SubTypeData()
             {
-                SubTypeName = t
+                SubType = t
             }).ToArray();
 
             KeywordData[] distinctKeywords = dataFile.Cards.SelectMany(c => c.Keywords).Distinct().Select(k => new KeywordData()
@@ -56,11 +56,12 @@ namespace MTGDeckBuilder
 
             LegalityData[] distinctLegalities = dataFile.Cards.SelectMany(c => c.Legalities).Select(p => p.Format).Distinct().Select(p => new LegalityData()
             {
-                Format = p,
+                Legality = p,
             }).ToArray();
 
             CardData[] cards = dataFile.Cards.Select(c => new CardData()
             {
+                ScryfallOracleID = c.ScryfallOracleID,
                 Name = c.Name,
                 AsciiName = c.AsciiName,
                 Text = c.Text,
@@ -77,34 +78,41 @@ namespace MTGDeckBuilder
                 IsFunny = c.IsFunny,
                 IsReserved = c.IsReserved,
                 HasAlternateDeckLimit = c.HasAlternateDeckLimit,
-                CardColors = c.Colors?.Join(distinctColors, o => o, i => i.ColorName, (o, i) => new CardColorData()
+                CardColors = c.Colors?.Select(color => new CardColorData()
                 {
-                    Color = i
+                    fkCard = c.ScryfallOracleID,
+                    fkColor = color
                 }).ToArray(),
-                CardColorIdentities = c.ColorIdentity?.Join(distinctColorIdentities, o => o, i => i.ColorIdentityName, (o, i) => new CardColorIdentityData()
+                CardColorIdentities = c.ColorIdentities.Select(colorIdentity => new CardColorIdentityData()
                 {
-                    ColorIdentity = i
+                    fkCard = c.ScryfallOracleID,
+                    fkColorIdentity = colorIdentity,
                 }).ToArray(),
-                CardTypes = c.Types?.Join(distinctTypes, o => o, i => i.TypeName, (o, i) => new CardTypeData()
+                CardTypes = c.Types?.Select(type => new CardTypeData()
                 {
-                    Type = i
+                    fkCard = c.ScryfallOracleID,
+                    fkType = type,
                 }).ToArray(),
-                CardSuperTypes = c.SuperTypes?.Join(distinctSuperTypes, o => o, i => i.SuperTypeName, (o, i) => new CardSuperTypeData()
+                CardSuperTypes = c.SuperTypes?.Select(superType => new CardSuperTypeData()
                 {
-                    SuperType = i
+                    fkCard = c.ScryfallOracleID,
+                    fkSuperType = superType,
                 }).ToArray(),
-                CardSubTypes = c.SubTypes?.Join(distinctSubTypes, o => o, i => i.SubTypeName, (o, i) => new CardSubTypeData()
+                CardSubTypes = c.SubTypes?.Select(subType => new CardSubTypeData()
                 {
-                    SubType = i
+                    fkCard = c.ScryfallOracleID,
+                    fkSubType = subType,
                 }).ToArray(),
-                CardKeywords = c.Keywords?.Join(distinctKeywords, o => o, i => i.Keyword, (o, i) => new CardKeywordData()
+                CardKeywords = c.Keywords?.Select(keyword => new CardKeywordData()
                 {
-                    Keyword = i
+                    fkCard = c.ScryfallOracleID,
+                    fkKeyword = keyword,
                 }).ToArray(),
-                CardLegalities = c.Legalities?.Join(distinctLegalities, o => o.Format, i => i.Format, (o, i) => new CardLegalityData()
+                CardLegalities = c.Legalities?.Select(legality => new CardLegalityData()
                 {
-                    Legality = i,
-                    IsLegal = o.Status.ToLower() == "legal",
+                    fkCard = c.ScryfallOracleID,
+                    fkLegality = legality.Format,
+                    IsLegal = legality.Status.ToLower() == "legal"
                 }).ToArray(),
                 PurchaseInformation = c.PurchaseInformation?.Select(pi => new PurchaseInformationData()
                 {

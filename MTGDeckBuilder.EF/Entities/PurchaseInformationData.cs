@@ -3,7 +3,7 @@
     public class PurchaseInformationData
     {
         public int pkPurchaseInformation { get; set; }
-        public int fkCard { get; set; }
+        public string fkCard { get; set; }
         public string StorefrontName { get; set; }
         public string CardURI { get; set; }
 

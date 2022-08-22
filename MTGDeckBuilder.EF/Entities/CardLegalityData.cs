@@ -2,8 +2,8 @@
 {
     public class CardLegalityData
     {
-        public int fkCard { get; set; }
-        public int fkLegality { get; set; }
+        public string fkCard { get; set; }
+        public string fkLegality { get; set; }
         public bool IsLegal { get; set; }
 
         public virtual CardData Card { get; set; }
