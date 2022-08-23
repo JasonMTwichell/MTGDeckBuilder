@@ -17,6 +17,7 @@ namespace MTGDeckBuilder.EF.Entities
         public IEnumerable<SubTypeData> SubTypes { get; init; }
         public IEnumerable<KeywordData> Keywords { get; init; }
         public IEnumerable<LegalityData> Legalities { get; init; }
+        public IEnumerable<SetData> Sets { get; set; }
         public IEnumerable<CardData> Cards { get; init; }
     }
 }

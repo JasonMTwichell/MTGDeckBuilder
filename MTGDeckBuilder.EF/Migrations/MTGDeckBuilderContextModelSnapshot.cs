@@ -49,10 +49,18 @@ namespace MTGDeckBuilder.EF.Migrations
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.CardData", b =>
                 {
-                    b.Property<string>("ScryfallOracleID")
+                    b.Property<string>("UUID")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("AsciiName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FaceName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FlavorText")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("HandModifier")
@@ -85,7 +93,19 @@ namespace MTGDeckBuilder.EF.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("NumberInSet")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Power")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Rarity")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SetCode")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Side")
@@ -100,11 +120,13 @@ namespace MTGDeckBuilder.EF.Migrations
                     b.Property<string>("Type")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("ScryfallOracleID");
+                    b.HasKey("UUID");
 
                     b.HasIndex("ManaValue");
 
                     b.HasIndex("Name");
+
+                    b.HasIndex("SetCode");
 
                     b.HasIndex("Type");
 
@@ -278,6 +300,33 @@ namespace MTGDeckBuilder.EF.Migrations
                     b.ToTable("tblPurchaseInformation", (string)null);
                 });
 
+            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.SetData", b =>
+                {
+                    b.Property<string>("SetCode")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("BaseSetSize")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SetName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SetType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TotalSetSize")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("SetCode");
+
+                    b.ToTable("tblSet", (string)null);
+                });
+
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.SubTypeData", b =>
                 {
                     b.Property<string>("SubType")
@@ -389,12 +438,12 @@ namespace MTGDeckBuilder.EF.Migrations
                     b.Property<string>("fkCard")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("CardDataScryfallOracleID")
+                    b.Property<string>("CardDataUUID")
                         .HasColumnType("TEXT");
 
                     b.HasKey("fkUserDeckSideboard", "fkCard");
 
-                    b.HasIndex("CardDataScryfallOracleID");
+                    b.HasIndex("CardDataUUID");
 
                     b.HasIndex("fkCard");
 
@@ -447,6 +496,17 @@ namespace MTGDeckBuilder.EF.Migrations
                     b.Navigation("Card");
 
                     b.Navigation("ColorIdentity");
+                });
+
+            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.CardData", b =>
+                {
+                    b.HasOne("MTGDeckBuilder.EF.Entities.SetData", "Set")
+                        .WithMany("SetCards")
+                        .HasForeignKey("SetCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Set");
                 });
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.CardKeywordData", b =>
@@ -609,7 +669,7 @@ namespace MTGDeckBuilder.EF.Migrations
                 {
                     b.HasOne("MTGDeckBuilder.EF.Entities.CardData", null)
                         .WithMany("UserDeckSideboardCards")
-                        .HasForeignKey("CardDataScryfallOracleID");
+                        .HasForeignKey("CardDataUUID");
 
                     b.HasOne("MTGDeckBuilder.EF.Entities.CardData", "Card")
                         .WithMany()
@@ -675,6 +735,11 @@ namespace MTGDeckBuilder.EF.Migrations
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.LegalityData", b =>
                 {
                     b.Navigation("CardLegalities");
+                });
+
+            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.SetData", b =>
+                {
+                    b.Navigation("SetCards");
                 });
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.SubTypeData", b =>

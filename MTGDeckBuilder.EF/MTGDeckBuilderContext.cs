@@ -29,9 +29,19 @@ namespace MTGDeckBuilder.EF
             version.ToTable("tblFileVersion");
             version.HasKey(e => e.pkVersion);
 
+            var set = modelBuilder.Entity<SetData>();
+            set.ToTable("tblSet");
+            set.HasKey(e => e.SetCode);
+            set.HasMany(e => e.SetCards)
+               .WithOne(e => e.Set)
+               .HasForeignKey(e => e.SetCode);
+
             var card = modelBuilder.Entity<CardData>();
             card.ToTable("tblCard");
-            card.HasKey(e => e.ScryfallOracleID);
+            card.HasKey(e => e.UUID);
+            card.HasOne(e => e.Set)
+                .WithMany(e => e.SetCards)
+                .HasForeignKey(e => e.SetCode);
             card.HasMany(e => e.Colors)
                 .WithMany(e => e.Cards)
                 .UsingEntity<CardColorData>();
@@ -252,6 +262,7 @@ namespace MTGDeckBuilder.EF
         }
 
         public DbSet<FileVersionData> FileVersions { get; set; }
+        public DbSet<SetData> Sets { get; set; }
         public DbSet<CardData> Cards { get; set; }
         public DbSet<ColorData> Colors { get; set; }
         public DbSet<ColorIdentityData> ColorIdentities { get; set; }

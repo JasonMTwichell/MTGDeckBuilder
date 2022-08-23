@@ -16,6 +16,11 @@ namespace MTGDeckBuilder.EF
             _ctx = ctx;
         }
 
+        public IEnumerable<SetData> GetSets()
+        {
+            return _ctx.Sets.ToArray();
+        }
+
         public IEnumerable<CardData> GetCards()
         {
             return _ctx.Cards.ToArray();
@@ -69,6 +74,7 @@ namespace MTGDeckBuilder.EF
             await _ctx.TruncateAsync<SubTypeData>();
             await _ctx.TruncateAsync<KeywordData>();
             await _ctx.TruncateAsync<LegalityData>();
+            await _ctx.TruncateAsync<SetData>();
             await _ctx.TruncateAsync<CardData>();
 
             await _ctx.BulkInsertAsync(fileData.Colors.ToList());
@@ -78,100 +84,10 @@ namespace MTGDeckBuilder.EF
             await _ctx.BulkInsertAsync(fileData.SubTypes.ToList());
             await _ctx.BulkInsertAsync(fileData.Keywords.ToList());
             await _ctx.BulkInsertAsync(fileData.Legalities.ToList());
+            await _ctx.BulkInsertAsync(fileData.Sets.ToList());
             await _ctx.BulkInsertAsync(fileData.Cards.ToList());
 
             await _ctx.BulkSaveChangesAsync();
         }
-
-        //private async Task PerformBootstrapInserts(BootstrapDBData fileData)
-        //{
-        //    List<CardColorData> cardColors = new List<CardColorData>();
-        //    List<CardColorIdentityData> cardColorIdentities = new List<CardColorIdentityData>();
-        //    List<CardTypeData> cardTypes = new List<CardTypeData>();
-        //    List<CardSuperTypeData> cardSuperTypes = new List<CardSuperTypeData>();
-        //    List<CardSubTypeData> cardSubTypes = new List<CardSubTypeData>();
-        //    List<CardKeywordData> cardKeywords = new List<CardKeywordData>();
-        //    List<CardLegalityData> cardLegalities = new List<CardLegalityData>();
-
-        //    using (var transaction = _ctx.Database.BeginTransaction())
-        //    {
-        //        await _ctx.AddAsync(new FileVersionData()
-        //        {
-        //            Version = fileData.VersionNumber,
-        //            VersionDate = fileData.VersionDate
-        //        });
-
-        //        await _ctx.BulkInsertAsync(fileData.Colors.ToList(), new BulkConfig { SetOutputIdentity = true });
-        //        await _ctx.BulkInsertAsync(fileData.ColorIdentities.ToList(), new BulkConfig { SetOutputIdentity = true });
-        //        await _ctx.BulkInsertAsync(fileData.Types.ToList(), new BulkConfig { SetOutputIdentity = true });
-        //        await _ctx.BulkInsertAsync(fileData.SuperTypes.ToList(), new BulkConfig { SetOutputIdentity = true });
-        //        await _ctx.BulkInsertAsync(fileData.SubTypes.ToList(), new BulkConfig { SetOutputIdentity = true });
-        //        await _ctx.BulkInsertAsync(fileData.Keywords.ToList(), new BulkConfig { SetOutputIdentity = true });
-        //        await _ctx.BulkInsertAsync(fileData.Legalities.ToList(), new BulkConfig { SetOutputIdentity = true });
-        //        await _ctx.BulkInsertAsync(fileData.Cards.ToList(), new BulkConfig { SetOutputIdentity = true });
-        //        foreach (var card in fileData.Cards)
-        //        {
-        //            foreach (var color in card.CardColors)
-        //            {
-        //                color.fkCard = card.pkCard;
-        //                color.fkColor = color.Color.pkColor;
-        //            }
-        //            cardColors.AddRange(card.CardColors);
-
-        //            foreach (var colorIdentity in card.CardColorIdentities)
-        //            {
-        //                colorIdentity.fkCard = card.pkCard;
-        //                colorIdentity.fkColorIdentity = colorIdentity.ColorIdentity.pkColorIdentity;
-        //            }
-        //            cardColorIdentities.AddRange(card.CardColorIdentities);
-
-        //            foreach (var type in card.CardTypes)
-        //            {
-        //                type.fkCard = card.pkCard;
-        //                type.fkType = type.Type.pkType;
-        //            }
-        //            cardTypes.AddRange(card.CardTypes);
-
-        //            foreach (var superType in card.CardSuperTypes)
-        //            {
-        //                superType.fkCard = card.pkCard;
-        //                superType.fkSuperType = superType.SuperType.pkSuperType;
-        //            }
-        //            cardSuperTypes.AddRange(card.CardSuperTypes);
-
-        //            foreach (var subType in card.CardSubTypes)
-        //            {
-        //                subType.fkCard = card.pkCard;
-        //                subType.fkSubType = subType.SubType.pkSubType;
-        //            }
-        //            cardSubTypes.AddRange(card.CardSubTypes);
-
-        //            foreach (var keyword in card.CardKeywords)
-        //            {
-        //                keyword.fkCard = card.pkCard;
-        //                keyword.fkKeyword = keyword.Keyword.pkKeyword;
-        //            }
-        //            cardKeywords.AddRange(card.CardKeywords);
-
-        //            foreach (var legality in card.CardLegalities)
-        //            {
-        //                legality.fkCard = card.pkCard;
-        //                legality.fkLegality = legality.Legality.pkLegality;
-        //            }
-        //            cardLegalities.AddRange(card.CardLegalities);
-        //        }
-
-        //        await _ctx.BulkInsertAsync(cardColors);
-        //        await _ctx.BulkInsertAsync(cardColorIdentities);
-        //        await _ctx.BulkInsertAsync(cardTypes);
-        //        await _ctx.BulkInsertAsync(cardSuperTypes);
-        //        await _ctx.BulkInsertAsync(cardSubTypes);
-        //        await _ctx.BulkInsertAsync(cardKeywords);
-        //        await _ctx.BulkInsertAsync(cardLegalities);
-        //        transaction.Commit();
-        //    }
-
-        //    await _ctx.BulkSaveChangesAsync();
-        //}
     }
 }

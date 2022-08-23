@@ -1,25 +1,5 @@
 ﻿BEGIN TRANSACTION;
 
-CREATE TABLE "tblCard" (
-    "ScryfallOracleID" TEXT NOT NULL CONSTRAINT "PK_tblCard" PRIMARY KEY,
-    "Name" TEXT NULL,
-    "AsciiName" TEXT NULL,
-    "Text" TEXT NULL,
-    "Type" TEXT NULL,
-    "Layout" TEXT NULL,
-    "Side" TEXT NULL,
-    "ManaCost" TEXT NULL,
-    "ManaValue" REAL NULL,
-    "Loyalty" TEXT NULL,
-    "HandModifier" INTEGER NULL,
-    "LifeModifier" INTEGER NULL,
-    "Power" TEXT NULL,
-    "Toughness" TEXT NULL,
-    "IsFunny" INTEGER NULL,
-    "IsReserved" INTEGER NULL,
-    "HasAlternateDeckLimit" INTEGER NULL
-);
-
 CREATE TABLE "tblColor" (
     "Color" TEXT NOT NULL CONSTRAINT "PK_tblColor" PRIMARY KEY
 );
@@ -42,6 +22,15 @@ CREATE TABLE "tblLegality" (
     "Legality" TEXT NOT NULL CONSTRAINT "PK_tblLegality" PRIMARY KEY
 );
 
+CREATE TABLE "tblSet" (
+    "SetCode" TEXT NOT NULL CONSTRAINT "PK_tblSet" PRIMARY KEY,
+    "SetName" TEXT NOT NULL,
+    "BaseSetSize" INTEGER NOT NULL,
+    "TotalSetSize" INTEGER NOT NULL,
+    "ReleaseDate" TEXT NOT NULL,
+    "SetType" TEXT NOT NULL
+);
+
 CREATE TABLE "tblSubType" (
     "SubType" TEXT NOT NULL CONSTRAINT "PK_tblSubType" PRIMARY KEY
 );
@@ -60,77 +49,30 @@ CREATE TABLE "tblUserDeck" (
     "DeckDescription" TEXT NOT NULL
 );
 
-CREATE TABLE "tblPurchaseInformation" (
-    "pkPurchaseInformation" INTEGER NOT NULL CONSTRAINT "PK_tblPurchaseInformation" PRIMARY KEY AUTOINCREMENT,
-    "fkCard" TEXT NOT NULL,
-    "StorefrontName" TEXT NOT NULL,
-    "CardURI" TEXT NOT NULL,
-    CONSTRAINT "FK_tblPurchaseInformation_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("ScryfallOracleID") ON DELETE CASCADE
-);
-
-CREATE TABLE "tblCardColor" (
-    "fkCard" TEXT NOT NULL,
-    "fkColor" TEXT NOT NULL,
-    CONSTRAINT "PK_tblCardColor" PRIMARY KEY ("fkCard", "fkColor"),
-    CONSTRAINT "FK_tblCardColor_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("ScryfallOracleID") ON DELETE CASCADE,
-    CONSTRAINT "FK_tblCardColor_tblColor_fkColor" FOREIGN KEY ("fkColor") REFERENCES "tblColor" ("Color") ON DELETE CASCADE
-);
-
-CREATE TABLE "tblCardColorIdentity" (
-    "fkCard" TEXT NOT NULL,
-    "fkColorIdentity" TEXT NOT NULL,
-    CONSTRAINT "PK_tblCardColorIdentity" PRIMARY KEY ("fkCard", "fkColorIdentity"),
-    CONSTRAINT "FK_tblCardColorIdentity_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("ScryfallOracleID") ON DELETE CASCADE,
-    CONSTRAINT "FK_tblCardColorIdentity_tblColorIdentity_fkColorIdentity" FOREIGN KEY ("fkColorIdentity") REFERENCES "tblColorIdentity" ("ColorIdentity") ON DELETE CASCADE
-);
-
-CREATE TABLE "tblCardKeywordData" (
-    "fkCard" TEXT NOT NULL,
-    "fkKeyword" TEXT NOT NULL,
-    CONSTRAINT "PK_tblCardKeywordData" PRIMARY KEY ("fkCard", "fkKeyword"),
-    CONSTRAINT "FK_tblCardKeywordData_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("ScryfallOracleID") ON DELETE CASCADE,
-    CONSTRAINT "FK_tblCardKeywordData_tblKeyword_fkKeyword" FOREIGN KEY ("fkKeyword") REFERENCES "tblKeyword" ("Keyword") ON DELETE CASCADE
-);
-
-CREATE TABLE "tblCardLegality" (
-    "fkCard" TEXT NOT NULL,
-    "fkLegality" TEXT NOT NULL,
-    "IsLegal" INTEGER NOT NULL,
-    CONSTRAINT "PK_tblCardLegality" PRIMARY KEY ("fkCard", "fkLegality"),
-    CONSTRAINT "FK_tblCardLegality_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("ScryfallOracleID") ON DELETE CASCADE,
-    CONSTRAINT "FK_tblCardLegality_tblLegality_fkLegality" FOREIGN KEY ("fkLegality") REFERENCES "tblLegality" ("Legality") ON DELETE CASCADE
-);
-
-CREATE TABLE "tblCardSubType" (
-    "fkCard" TEXT NOT NULL,
-    "fkSubType" TEXT NOT NULL,
-    CONSTRAINT "PK_tblCardSubType" PRIMARY KEY ("fkCard", "fkSubType"),
-    CONSTRAINT "FK_tblCardSubType_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("ScryfallOracleID") ON DELETE CASCADE,
-    CONSTRAINT "FK_tblCardSubType_tblSubType_fkSubType" FOREIGN KEY ("fkSubType") REFERENCES "tblSubType" ("SubType") ON DELETE CASCADE
-);
-
-CREATE TABLE "tblCardSuperType" (
-    "fkCard" TEXT NOT NULL,
-    "fkSuperType" TEXT NOT NULL,
-    CONSTRAINT "PK_tblCardSuperType" PRIMARY KEY ("fkCard", "fkSuperType"),
-    CONSTRAINT "FK_tblCardSuperType_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("ScryfallOracleID") ON DELETE CASCADE,
-    CONSTRAINT "FK_tblCardSuperType_tblSuperType_fkSuperType" FOREIGN KEY ("fkSuperType") REFERENCES "tblSuperType" ("SuperType") ON DELETE CASCADE
-);
-
-CREATE TABLE "tblCardType" (
-    "fkCard" TEXT NOT NULL,
-    "fkType" TEXT NOT NULL,
-    CONSTRAINT "PK_tblCardType" PRIMARY KEY ("fkCard", "fkType"),
-    CONSTRAINT "FK_tblCardType_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("ScryfallOracleID") ON DELETE CASCADE,
-    CONSTRAINT "FK_tblCardType_tblType_fkType" FOREIGN KEY ("fkType") REFERENCES "tblType" ("Type") ON DELETE CASCADE
-);
-
-CREATE TABLE "tblUserDeckCard" (
-    "fkUserDeck" INTEGER NOT NULL,
-    "fkCard" TEXT NOT NULL,
-    CONSTRAINT "PK_tblUserDeckCard" PRIMARY KEY ("fkUserDeck", "fkCard"),
-    CONSTRAINT "FK_tblUserDeckCard_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("ScryfallOracleID") ON DELETE CASCADE,
-    CONSTRAINT "FK_tblUserDeckCard_tblUserDeck_fkUserDeck" FOREIGN KEY ("fkUserDeck") REFERENCES "tblUserDeck" ("pkUserDeck") ON DELETE CASCADE
+CREATE TABLE "tblCard" (
+    "UUID" TEXT NOT NULL CONSTRAINT "PK_tblCard" PRIMARY KEY,
+    "SetCode" TEXT NOT NULL,
+    "Name" TEXT NULL,
+    "AsciiName" TEXT NULL,
+    "Text" TEXT NULL,
+    "Type" TEXT NULL,
+    "Layout" TEXT NULL,
+    "Side" TEXT NULL,
+    "ManaCost" TEXT NULL,
+    "ManaValue" REAL NULL,
+    "Loyalty" TEXT NULL,
+    "HandModifier" INTEGER NULL,
+    "LifeModifier" INTEGER NULL,
+    "Power" TEXT NULL,
+    "Toughness" TEXT NULL,
+    "IsFunny" INTEGER NULL,
+    "IsReserved" INTEGER NULL,
+    "HasAlternateDeckLimit" INTEGER NULL,
+    "FlavorText" TEXT NULL,
+    "Rarity" TEXT NULL,
+    "FaceName" TEXT NULL,
+    "NumberInSet" TEXT NOT NULL,
+    CONSTRAINT "FK_tblCard_tblSet_SetCode" FOREIGN KEY ("SetCode") REFERENCES "tblSet" ("SetCode") ON DELETE CASCADE
 );
 
 CREATE TABLE "tblUserDeckSideboard" (
@@ -152,19 +94,94 @@ CREATE TABLE "UserDeckLegalityData" (
     CONSTRAINT "FK_UserDeckLegalityData_tblUserDeck_UserDeckspkUserDeck" FOREIGN KEY ("UserDeckspkUserDeck") REFERENCES "tblUserDeck" ("pkUserDeck") ON DELETE CASCADE
 );
 
+CREATE TABLE "tblCardColor" (
+    "fkCard" TEXT NOT NULL,
+    "fkColor" TEXT NOT NULL,
+    CONSTRAINT "PK_tblCardColor" PRIMARY KEY ("fkCard", "fkColor"),
+    CONSTRAINT "FK_tblCardColor_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("UUID") ON DELETE CASCADE,
+    CONSTRAINT "FK_tblCardColor_tblColor_fkColor" FOREIGN KEY ("fkColor") REFERENCES "tblColor" ("Color") ON DELETE CASCADE
+);
+
+CREATE TABLE "tblCardColorIdentity" (
+    "fkCard" TEXT NOT NULL,
+    "fkColorIdentity" TEXT NOT NULL,
+    CONSTRAINT "PK_tblCardColorIdentity" PRIMARY KEY ("fkCard", "fkColorIdentity"),
+    CONSTRAINT "FK_tblCardColorIdentity_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("UUID") ON DELETE CASCADE,
+    CONSTRAINT "FK_tblCardColorIdentity_tblColorIdentity_fkColorIdentity" FOREIGN KEY ("fkColorIdentity") REFERENCES "tblColorIdentity" ("ColorIdentity") ON DELETE CASCADE
+);
+
+CREATE TABLE "tblCardKeywordData" (
+    "fkCard" TEXT NOT NULL,
+    "fkKeyword" TEXT NOT NULL,
+    CONSTRAINT "PK_tblCardKeywordData" PRIMARY KEY ("fkCard", "fkKeyword"),
+    CONSTRAINT "FK_tblCardKeywordData_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("UUID") ON DELETE CASCADE,
+    CONSTRAINT "FK_tblCardKeywordData_tblKeyword_fkKeyword" FOREIGN KEY ("fkKeyword") REFERENCES "tblKeyword" ("Keyword") ON DELETE CASCADE
+);
+
+CREATE TABLE "tblCardLegality" (
+    "fkCard" TEXT NOT NULL,
+    "fkLegality" TEXT NOT NULL,
+    "IsLegal" INTEGER NOT NULL,
+    CONSTRAINT "PK_tblCardLegality" PRIMARY KEY ("fkCard", "fkLegality"),
+    CONSTRAINT "FK_tblCardLegality_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("UUID") ON DELETE CASCADE,
+    CONSTRAINT "FK_tblCardLegality_tblLegality_fkLegality" FOREIGN KEY ("fkLegality") REFERENCES "tblLegality" ("Legality") ON DELETE CASCADE
+);
+
+CREATE TABLE "tblCardSubType" (
+    "fkCard" TEXT NOT NULL,
+    "fkSubType" TEXT NOT NULL,
+    CONSTRAINT "PK_tblCardSubType" PRIMARY KEY ("fkCard", "fkSubType"),
+    CONSTRAINT "FK_tblCardSubType_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("UUID") ON DELETE CASCADE,
+    CONSTRAINT "FK_tblCardSubType_tblSubType_fkSubType" FOREIGN KEY ("fkSubType") REFERENCES "tblSubType" ("SubType") ON DELETE CASCADE
+);
+
+CREATE TABLE "tblCardSuperType" (
+    "fkCard" TEXT NOT NULL,
+    "fkSuperType" TEXT NOT NULL,
+    CONSTRAINT "PK_tblCardSuperType" PRIMARY KEY ("fkCard", "fkSuperType"),
+    CONSTRAINT "FK_tblCardSuperType_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("UUID") ON DELETE CASCADE,
+    CONSTRAINT "FK_tblCardSuperType_tblSuperType_fkSuperType" FOREIGN KEY ("fkSuperType") REFERENCES "tblSuperType" ("SuperType") ON DELETE CASCADE
+);
+
+CREATE TABLE "tblCardType" (
+    "fkCard" TEXT NOT NULL,
+    "fkType" TEXT NOT NULL,
+    CONSTRAINT "PK_tblCardType" PRIMARY KEY ("fkCard", "fkType"),
+    CONSTRAINT "FK_tblCardType_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("UUID") ON DELETE CASCADE,
+    CONSTRAINT "FK_tblCardType_tblType_fkType" FOREIGN KEY ("fkType") REFERENCES "tblType" ("Type") ON DELETE CASCADE
+);
+
+CREATE TABLE "tblPurchaseInformation" (
+    "pkPurchaseInformation" INTEGER NOT NULL CONSTRAINT "PK_tblPurchaseInformation" PRIMARY KEY AUTOINCREMENT,
+    "fkCard" TEXT NOT NULL,
+    "StorefrontName" TEXT NOT NULL,
+    "CardURI" TEXT NOT NULL,
+    CONSTRAINT "FK_tblPurchaseInformation_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("UUID") ON DELETE CASCADE
+);
+
+CREATE TABLE "tblUserDeckCard" (
+    "fkUserDeck" INTEGER NOT NULL,
+    "fkCard" TEXT NOT NULL,
+    CONSTRAINT "PK_tblUserDeckCard" PRIMARY KEY ("fkUserDeck", "fkCard"),
+    CONSTRAINT "FK_tblUserDeckCard_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("UUID") ON DELETE CASCADE,
+    CONSTRAINT "FK_tblUserDeckCard_tblUserDeck_fkUserDeck" FOREIGN KEY ("fkUserDeck") REFERENCES "tblUserDeck" ("pkUserDeck") ON DELETE CASCADE
+);
+
 CREATE TABLE "tblUserDeckSideboardCard" (
     "fkCard" TEXT NOT NULL,
     "fkUserDeckSideboard" INTEGER NOT NULL,
-    "CardDataScryfallOracleID" TEXT NULL,
+    "CardDataUUID" TEXT NULL,
     CONSTRAINT "PK_tblUserDeckSideboardCard" PRIMARY KEY ("fkUserDeckSideboard", "fkCard"),
-    CONSTRAINT "FK_tblUserDeckSideboardCard_tblCard_CardDataScryfallOracleID" FOREIGN KEY ("CardDataScryfallOracleID") REFERENCES "tblCard" ("ScryfallOracleID"),
-    CONSTRAINT "FK_tblUserDeckSideboardCard_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("ScryfallOracleID") ON DELETE CASCADE,
+    CONSTRAINT "FK_tblUserDeckSideboardCard_tblCard_CardDataUUID" FOREIGN KEY ("CardDataUUID") REFERENCES "tblCard" ("UUID"),
+    CONSTRAINT "FK_tblUserDeckSideboardCard_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("UUID") ON DELETE CASCADE,
     CONSTRAINT "FK_tblUserDeckSideboardCard_tblUserDeckSideboard_fkUserDeckSideboard" FOREIGN KEY ("fkUserDeckSideboard") REFERENCES "tblUserDeckSideboard" ("fkUserDeck") ON DELETE CASCADE
 );
 
 CREATE INDEX "IX_tblCard_ManaValue" ON "tblCard" ("ManaValue");
 
 CREATE INDEX "IX_tblCard_Name" ON "tblCard" ("Name");
+
+CREATE INDEX "IX_tblCard_SetCode" ON "tblCard" ("SetCode");
 
 CREATE INDEX "IX_tblCard_Type" ON "tblCard" ("Type");
 
@@ -198,7 +215,7 @@ CREATE INDEX "IX_tblType_Type" ON "tblType" ("Type");
 
 CREATE INDEX "IX_tblUserDeckCard_fkCard" ON "tblUserDeckCard" ("fkCard");
 
-CREATE INDEX "IX_tblUserDeckSideboardCard_CardDataScryfallOracleID" ON "tblUserDeckSideboardCard" ("CardDataScryfallOracleID");
+CREATE INDEX "IX_tblUserDeckSideboardCard_CardDataUUID" ON "tblUserDeckSideboardCard" ("CardDataUUID");
 
 CREATE INDEX "IX_tblUserDeckSideboardCard_fkCard" ON "tblUserDeckSideboardCard" ("fkCard");
 

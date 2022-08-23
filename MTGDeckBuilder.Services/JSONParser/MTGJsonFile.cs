@@ -10,6 +10,6 @@ namespace MTGDeckBuilder.Services.JSONParser
         public MTGJsonMeta Meta { get; set; }
 
         [JsonProperty("data")]
-        public Dictionary<string, List<MTGJsonCard>> Cards { get; set; }
+        public Dictionary<string, MTGJsonSet> Sets { get; set; }
     }
 }

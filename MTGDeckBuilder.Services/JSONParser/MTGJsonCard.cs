@@ -7,14 +7,21 @@ namespace MTGDeckBuilder.Services.JSONParser
 {
     public class MTGJsonCard
     {
-        [JsonProperty("name")]
-        public string Name { get; set; }
+
+        [JsonProperty("uuid")]
+        public string UUID { get; set; }
 
         [JsonProperty("asciiName")]
         public string AsciiName { get; set; }
 
-        [JsonProperty("faceName")]
-        public string FaceName { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("setCode")]
+        public string SetCode { get; set; }
+
+        [JsonProperty("number")]
+        public string NumberInSet { get; set; }
 
         [JsonProperty("text")]
         public string Text { get; set; }
@@ -99,5 +106,17 @@ namespace MTGDeckBuilder.Services.JSONParser
 
         [JsonProperty("leadershipSkills")]
         public Dictionary<string, bool> LeadershipSkills { get; set; }
+
+        [JsonProperty("flavorText")]
+        public string FlavorText { get; set; }
+
+        [JsonProperty("artist")]
+        public string Artist { get; set; }
+
+        [JsonProperty("rarity")]
+        public string Rarity { get; set; }
+
+        [JsonProperty("faceName")]
+        public string FaceName { get; set; }
     }
 }
