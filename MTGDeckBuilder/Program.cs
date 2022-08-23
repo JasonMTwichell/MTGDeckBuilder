@@ -23,9 +23,8 @@ namespace MTGDeckBuilder
             IMTGParser parser = new MTGJsonParser();
             DataFile dataFile = await parser.ParseMTGFile(@"C:\Users\jason\Downloads\MTG JSON\AllPrintings.json");
 
-            Card[] allCards = dataFile.Sets.SelectMany(set => set.SetCards).ToArray();
-
             // get all reference data
+            Card[] allCards = dataFile.Sets.SelectMany(s => s.SetCards).ToArray();
             ColorData[] distinctColors = allCards.SelectMany(c => c.Colors).Distinct().Select(c => new ColorData()
             {
                 Color = c
@@ -56,25 +55,29 @@ namespace MTGDeckBuilder
                 Keyword = k
             }).ToArray();
 
-            LegalityData[] distinctLegalities = allCards.SelectMany(c => c.Legalities).Select(p => p.Format).Distinct().Select(p => new LegalityData()
+            FormatData[] distinctLegalities = allCards.SelectMany(c => c.Formats).Select(p => p.FormatName).Distinct().Select(p => new FormatData()
             {
-                Legality = p,
+                Format = p,
             }).ToArray();
 
-            SetData[] sets = dataFile.Sets.Select(s => new SetData()
+            SetData[] distinctSets = dataFile.Sets.Select(set => new SetData()
             {
-                SetCode = s.SetCode,
-                SetName = s.SetName,
-                SetType = s.SetType,
-                ReleaseDate = DateTime.Parse(s.ReleaseDate),
-                BaseSetSize = s.BaseSetSize,
-                TotalSetSize = s.TotalSetSize,
-            }).ToArray();
+                SetName = set.SetName,
+                SetCode = set.SetCode,
+                SetType = set.SetType,
+                ReleaseDate = DateTime.Parse(set.ReleaseDate),
+                BaseSetSize = set.BaseSetSize,
+                TotalSetSize = set.TotalSetSize,
+            }).Distinct().ToArray();
 
-            CardData[] cards = allCards.Select(c => new CardData()
+            CardData[] cards = allCards.Join(distinctSets, c => c.SetCode, s => s.SetCode, (c, s) => new CardData()
             {
+                Set = s,
                 UUID = c.UUID,
-                SetCode = c.SetCode,                
+                FaceName = c.FaceName,
+                FlavorText = c.FlavorText,
+                NumberInSet = c.NumberInSet,
+                Rarity = c.Rarity,
                 Name = c.Name,
                 AsciiName = c.AsciiName,
                 Text = c.Text,
@@ -91,45 +94,34 @@ namespace MTGDeckBuilder
                 IsFunny = c.IsFunny,
                 IsReserved = c.IsReserved,
                 HasAlternateDeckLimit = c.HasAlternateDeckLimit,
-                FaceName = c.FaceName,
-                FlavorText = c.FlavorText,
-                Rarity = c.Rarity,
-                NumberInSet = c.NumberInSet,
-                CardColors = c.Colors?.Select(color => new CardColorData()
+                CardColors = c.Colors?.Join(distinctColors, o => o, i => i.Color, (o, i) => new CardColorData()
                 {
-                    fkCard = c.UUID,
-                    fkColor = color
+                    Color = i
                 }).ToArray(),
-                CardColorIdentities = c.ColorIdentities.Select(colorIdentity => new CardColorIdentityData()
+                CardColorIdentities = c.ColorIdentities?.Join(distinctColorIdentities, o => o, i => i.ColorIdentity, (o, i) => new CardColorIdentityData()
                 {
-                    fkCard = c.UUID,
-                    fkColorIdentity = colorIdentity,
+                    ColorIdentity = i
                 }).ToArray(),
-                CardTypes = c.Types?.Select(type => new CardTypeData()
+                CardTypes = c.Types?.Join(distinctTypes, o => o, i => i.Type, (o, i) => new CardTypeData()
                 {
-                    fkCard = c.UUID,
-                    fkType = type,
+                    Type = i
                 }).ToArray(),
-                CardSuperTypes = c.SuperTypes?.Select(superType => new CardSuperTypeData()
+                CardSuperTypes = c.SuperTypes?.Join(distinctSuperTypes, o => o, i => i.SuperType, (o, i) => new CardSuperTypeData()
                 {
-                    fkCard = c.UUID,
-                    fkSuperType = superType,
+                    SuperType = i
                 }).ToArray(),
-                CardSubTypes = c.SubTypes?.Select(subType => new CardSubTypeData()
+                CardSubTypes = c.SubTypes?.Join(distinctSubTypes, o => o, i => i.SubType, (o, i) => new CardSubTypeData()
                 {
-                    fkCard = c.UUID,
-                    fkSubType = subType,
+                    SubType = i
                 }).ToArray(),
-                CardKeywords = c.Keywords?.Select(keyword => new CardKeywordData()
+                CardKeywords = c.Keywords?.Join(distinctKeywords, o => o, i => i.Keyword, (o, i) => new CardKeywordData()
                 {
-                    fkCard = c.UUID,
-                    fkKeyword = keyword,
+                    Keyword = i
                 }).ToArray(),
-                CardLegalities = c.Legalities?.Select(legality => new CardLegalityData()
+                CardFormats = c.Formats?.Join(distinctLegalities, o => o.FormatName, i => i.Format, (o, i) => new CardFormatData()
                 {
-                    fkCard = c.UUID,
-                    fkLegality = legality.Format,
-                    IsLegal = legality.Status.ToLower() == "legal"
+                    Format = i,
+                    IsLegal = o.Status.ToLower() == "legal",
                 }).ToArray(),
                 PurchaseInformation = c.PurchaseInformation?.Select(pi => new PurchaseInformationData()
                 {
@@ -148,9 +140,9 @@ namespace MTGDeckBuilder
                 SuperTypes = distinctSuperTypes,
                 SubTypes = distinctSubTypes,
                 Keywords = distinctKeywords,
-                Legalities = distinctLegalities,
+                Formats = distinctLegalities,
+                Sets = distinctSets,
                 Cards = cards,
-                Sets = sets,
             };
 
             using (MTGDeckBuilderContext ctx = new MTGDeckBuilderContext("MTGDeckBuilder.db"))

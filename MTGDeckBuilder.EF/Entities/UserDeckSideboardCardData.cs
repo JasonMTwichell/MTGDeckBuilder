@@ -2,10 +2,10 @@
 {
     public class UserDeckSideboardCardData
     {
-        public string fkCard { get; set; }
         public int fkUserDeckSideboard { get; set; }
-
-        public virtual CardData Card { get; set; }
+        public string CardUUID { get; set; }
+        public int NumCopies { get; set; }
+        
         public virtual UserDeckSideboardData UserDeckSideboard { get; set; }
     }
 }

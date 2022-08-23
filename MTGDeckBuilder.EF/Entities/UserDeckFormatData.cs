@@ -1,11 +1,10 @@
 ﻿namespace MTGDeckBuilder.EF.Entities
 {
-    public class UserDeckLegalityData
+    public class UserDeckFormatData
     {
         public int fkUserDeck { get; set; }
-        public string fkLegality { get; set; }
+        public string Format { get; set; }
 
         public virtual UserDeckData Deck { get; set; }
-        public virtual LegalityData Legality { get; set; }
     }
 }

@@ -69,11 +69,11 @@ namespace MTGDeckBuilder.Services.JSONParser
                                 RulingDate = r.RulingDate,
                                 RulingText = r.RulingText
                             }).ToArray() ?? Array.Empty<Ruling>(),
-                            Legalities = c.Legalities?.Select(l => new Legality()
+                            Formats = c.Formats?.Select(f => new Format()
                             {
-                                Format = l.Key,
-                                Status = l.Value
-                            }).ToArray() ?? Array.Empty<Legality>(),
+                                FormatName = f.Key,
+                                Status = f.Value
+                            }).ToArray() ?? Array.Empty<Format>(),
                             PurchaseInformation = c.PurchaseInformation?.Select(pi => new PurchaseInformation()
                             {
                                 StoreFrontName = pi.Key,

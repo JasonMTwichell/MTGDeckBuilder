@@ -93,7 +93,7 @@ namespace MTGDeckBuilder.Services.JSONParser
         public bool HasAlternateDeckLimit { get; set; }
 
         [JsonProperty("legalities")]
-        public Dictionary<string, string> Legalities { get; set; }
+        public Dictionary<string, string> Formats { get; set; }
         
         [JsonProperty("purchaseUrls")]
         public Dictionary<string, string> PurchaseInformation { get; set; }

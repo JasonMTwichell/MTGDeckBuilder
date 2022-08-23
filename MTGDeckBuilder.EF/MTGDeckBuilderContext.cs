@@ -31,17 +31,25 @@ namespace MTGDeckBuilder.EF
 
             var set = modelBuilder.Entity<SetData>();
             set.ToTable("tblSet");
-            set.HasKey(e => e.SetCode);
+            set.HasKey(e => e.pkSet);
+            set.Property(e => e.pkSet)
+                .ValueGeneratedOnAdd();
+            set.HasIndex(e => e.SetName)
+               .IsUnique();
+            set.HasIndex(e => e.SetCode)
+                .IsUnique();
             set.HasMany(e => e.SetCards)
                .WithOne(e => e.Set)
-               .HasForeignKey(e => e.SetCode);
+               .HasForeignKey(e => e.fkSet);
 
             var card = modelBuilder.Entity<CardData>();
             card.ToTable("tblCard");
-            card.HasKey(e => e.UUID);
+            card.HasKey(e => e.pkCard);
+            card.Property(e => e.pkCard)
+                .ValueGeneratedOnAdd();
             card.HasOne(e => e.Set)
                 .WithMany(e => e.SetCards)
-                .HasForeignKey(e => e.SetCode);
+                .HasForeignKey(e => e.fkSet);
             card.HasMany(e => e.Colors)
                 .WithMany(e => e.Cards)
                 .UsingEntity<CardColorData>();
@@ -57,33 +65,32 @@ namespace MTGDeckBuilder.EF
             card.HasMany(e => e.SubTypes)
                 .WithMany(e => e.Cards)
                 .UsingEntity<CardSubTypeData>();           
-            card.HasMany(e => e.Legalities)
+            card.HasMany(e => e.Formats)
                 .WithMany(e => e.Cards)
-                .UsingEntity<CardLegalityData>();
+                .UsingEntity<CardFormatData>();
             card.HasMany(e => e.PurchaseInformation)
                 .WithOne(e => e.Card)
                 .HasForeignKey(e => e.fkCard);
             card.HasMany(e => e.Keywords)
                 .WithMany(e => e.Cards)
                 .UsingEntity<CardKeywordData>();
-            card.HasMany(e => e.UserDecks)
-                .WithMany(e =>e.Cards)
-                .UsingEntity<UserDeckCardData>();
-            card.HasMany(e => e.UserDeckSideboards)
-                .WithMany(e => e.Cards)
-                .UsingEntity<UserDeckSideboardCardData>();
             card.HasIndex(e => e.Name);
-            card.HasIndex(e => e.Type);
+            card.HasIndex(e => e.Type);            
             card.HasIndex(e => e.ManaValue);
+            card.HasIndex(e => e.UUID)
+                .IsUnique();
                 
 
             var color = modelBuilder.Entity<ColorData>();
             color.ToTable("tblColor");
-            color.HasKey(e => e.Color);
+            color.HasKey(e => e.pkColor);
+            color.Property(e => e.pkColor)
+                .ValueGeneratedOnAdd();
             color.HasMany(e => e.Cards)
                 .WithMany(e => e.Colors)
                 .UsingEntity<CardColorData>();
-            color.HasIndex(e => e.Color);
+            color.HasIndex(e => e.Color)
+                .IsUnique();
 
             var cardColor = modelBuilder.Entity<CardColorData>();
             cardColor.ToTable("tblCardColor");
@@ -97,11 +104,14 @@ namespace MTGDeckBuilder.EF
 
             var colorIdentity = modelBuilder.Entity<ColorIdentityData>();
             colorIdentity.ToTable("tblColorIdentity");
-            colorIdentity.HasKey(e => e.ColorIdentity);            
+            colorIdentity.HasKey(e => e.pkColorIdentity);
+            colorIdentity.Property(e => e.pkColorIdentity)
+                .ValueGeneratedOnAdd();
             colorIdentity.HasMany(e => e.Cards)
                 .WithMany(e => e.ColorIdentities)
                 .UsingEntity<CardColorIdentityData>();
-            colorIdentity.HasIndex(e => e.ColorIdentity);
+            colorIdentity.HasIndex(e => e.ColorIdentity)
+                .IsUnique();
 
             var cardColorIdentity = modelBuilder.Entity<CardColorIdentityData>();
             cardColorIdentity.ToTable("tblCardColorIdentity");
@@ -116,11 +126,14 @@ namespace MTGDeckBuilder.EF
            
             var type = modelBuilder.Entity<TypeData>();
             type.ToTable("tblType");
-            type.HasKey(e => e.Type);            
+            type.HasKey(e => e.pkType);
+            type.Property(e => e.pkType)
+                .ValueGeneratedOnAdd();
             type.HasMany(e => e.Cards)
                 .WithMany(e => e.Types)
                 .UsingEntity<CardTypeData>();
-            type.HasIndex(e => e.Type);
+            type.HasIndex(e => e.Type)
+                .IsUnique();
 
             var cardType = modelBuilder.Entity<CardTypeData>();
             cardType.ToTable("tblCardType");
@@ -134,11 +147,14 @@ namespace MTGDeckBuilder.EF
 
             var superType = modelBuilder.Entity<SuperTypeData>();
             superType.ToTable("tblSuperType");
-            superType.HasKey(e => e.SuperType);           
+            superType.HasKey(e => e.pkSuperType);
+            superType.Property(e => e.pkSuperType)
+                .ValueGeneratedOnAdd();
             superType.HasMany(e => e.Cards)
                 .WithMany(e => e.SuperTypes)
                 .UsingEntity<CardSuperTypeData>();
-            superType.HasIndex(e => e.SuperType);
+            superType.HasIndex(e => e.SuperType)
+                .IsUnique();
 
             var cardSuperType = modelBuilder.Entity<CardSuperTypeData>();
             cardSuperType.ToTable("tblCardSuperType");
@@ -152,11 +168,14 @@ namespace MTGDeckBuilder.EF
 
             var subType = modelBuilder.Entity<SubTypeData>();
             subType.ToTable("tblSubType");
-            subType.HasKey(e => e.SubType);
+            subType.HasKey(e => e.pkSubType);
+            subType.Property(e => e.pkSubType)
+                .ValueGeneratedOnAdd();
             subType.HasMany(e => e.Cards)
                 .WithMany(e => e.SubTypes)
                 .UsingEntity<CardSubTypeData>();
-            subType.HasIndex(e => e.SubType);
+            subType.HasIndex(e => e.SubType)
+                .IsUnique();
 
             var cardSubType = modelBuilder.Entity<CardSubTypeData>();
             cardSubType.ToTable("tblCardSubType");
@@ -170,11 +189,14 @@ namespace MTGDeckBuilder.EF
 
             var keyword = modelBuilder.Entity<KeywordData>();
             keyword.ToTable("tblKeyword");
-            keyword.HasKey(e => e.Keyword);
+            keyword.HasKey(e => e.pkKeyword);
+            keyword.Property(e => e.pkKeyword)
+                .ValueGeneratedOnAdd();
             keyword.HasMany(e => e.Cards)
                 .WithMany(e => e.Keywords)
                 .UsingEntity<CardKeywordData>();
-            keyword.HasIndex(e => e.Keyword);
+            keyword.HasIndex(e => e.Keyword)
+                .IsUnique();
 
             var cardKeywordData = modelBuilder.Entity<CardKeywordData>();
             cardKeywordData.ToTable("tblCardKeywordData");
@@ -186,22 +208,26 @@ namespace MTGDeckBuilder.EF
                 .WithMany(e => e.CardKeywords)
                 .HasForeignKey(e => e.fkKeyword);
 
-            var legality = modelBuilder.Entity<LegalityData>();
-            legality.ToTable("tblLegality");
-            legality.HasKey(e => e.Legality);
-            legality.HasMany(e => e.Cards)
-                .WithMany(e => e.Legalities)
-                .UsingEntity<CardLegalityData>();
+            var format = modelBuilder.Entity<FormatData>();
+            format.ToTable("tblFormat");
+            format.HasKey(e => e.pkFormat);
+            format.Property(e => e.pkFormat)
+                .ValueGeneratedOnAdd();
+            format.HasIndex(e => e.Format)
+                .IsUnique();
+            format.HasMany(e => e.Cards)
+                .WithMany(e => e.Formats)
+                .UsingEntity<CardFormatData>();
 
-            var cardLegalityData = modelBuilder.Entity<CardLegalityData>();
-            cardLegalityData.ToTable("tblCardLegality")
-                .HasKey(e => new {e.fkCard, e.fkLegality });
-            cardLegalityData.HasOne(e => e.Card)
-                .WithMany(e => e.CardLegalities)
+            var cardFormatData = modelBuilder.Entity<CardFormatData>();
+            cardFormatData.ToTable("tblCardFormat")
+                .HasKey(e => new {e.fkCard, e.fkFormat });
+            cardFormatData.HasOne(e => e.Card)
+                .WithMany(e => e.CardFormats)
                 .HasForeignKey(e => e.fkCard);
-            cardLegalityData.HasOne(e => e.Legality)
-                .WithMany(e => e.CardLegalities)
-                .HasForeignKey(e => e.fkLegality);
+            cardFormatData.HasOne(e => e.Format)
+                .WithMany(e => e.CardFormats)
+                .HasForeignKey(e => e.fkFormat);
 
             var purchaseInformation = modelBuilder.Entity<PurchaseInformationData>();
             purchaseInformation.ToTable("tblPurchaseInformation");
@@ -217,25 +243,31 @@ namespace MTGDeckBuilder.EF
             userDeck.HasKey(e => e.pkUserDeck);
             userDeck.Property(e => e.pkUserDeck)
                 .ValueGeneratedOnAdd();
+            userDeck.HasMany(e => e.Cards)
+                .WithOne(e => e.UserDeck)
+                .HasForeignKey(e => e.fkUserDeck);
             userDeck.HasOne(e => e.SideBoard)
                 .WithOne(e => e.UserDeck)
                 .HasForeignKey<UserDeckSideboardData>(e => e.fkUserDeck);
-            userDeck.HasMany(e => e.Cards)
-                .WithMany(e => e.UserDecks)
-                .UsingEntity<UserDeckCardData>();
-            userDeck.HasMany(e => e.Legalities)
-                .WithMany(e => e.UserDecks)
-                .UsingEntity<UserDeckLegalityData>();
+            userDeck.HasMany(e => e.Formats)
+                .WithOne(e => e.Deck)
+                .HasForeignKey(e => e.fkUserDeck);
+            userDeck.HasIndex(e => e.DeckName);
+            userDeck.HasIndex(e => e.DateCreated);
+
+            var userDeckFormat = modelBuilder.Entity<UserDeckFormatData>();
+            userDeckFormat.ToTable("tblUserDeckFormat");
+            userDeckFormat.HasKey(e => new { e.fkUserDeck, e.Format });
+            userDeckFormat.HasOne(e => e.Deck)
+                .WithMany(e => e.Formats)
+                .HasForeignKey(e => e.fkUserDeck);
 
             var userDeckCard = modelBuilder.Entity<UserDeckCardData>();
             userDeckCard.ToTable("tblUserDeckCard");
-            userDeckCard.HasKey(e => new { e.fkUserDeck, e.fkCard });
+            userDeckCard.HasKey(e => new { e.fkUserDeck, e.CardUUID });
             userDeckCard.HasOne(e => e.UserDeck)
-                .WithMany()
+                .WithMany(e => e.Cards)
                 .HasForeignKey(e => e.fkUserDeck);
-            userDeckCard.HasOne(e => e.Card)
-                .WithMany(e => e.UserDeckCardData)
-                .HasForeignKey(e => e.fkCard);
 
             var userDeckSideboard = modelBuilder.Entity<UserDeckSideboardData>();
             userDeckSideboard.ToTable("tblUserDeckSideboard");
@@ -244,18 +276,15 @@ namespace MTGDeckBuilder.EF
                 .WithOne(e => e.SideBoard)
                 .HasForeignKey<UserDeckSideboardData>(e => e.fkUserDeck);
             userDeckSideboard.HasMany(e => e.Cards)
-                .WithMany(e => e.UserDeckSideboards)
-                .UsingEntity<UserDeckSideboardCardData>();
+                .WithOne(e => e.UserDeckSideboard)
+                .HasForeignKey(e => e.fkUserDeckSideboard);
 
             var userDeckSideboardCard = modelBuilder.Entity<UserDeckSideboardCardData>();
             userDeckSideboardCard.ToTable("tblUserDeckSideboardCard");
-            userDeckSideboardCard.HasKey(e => new { e.fkUserDeckSideboard, e.fkCard });
-            userDeckSideboardCard.HasOne(e => e.Card)
-                .WithMany()
-                .HasForeignKey(e => e.fkCard);
+            userDeckSideboardCard.HasKey(e => new { e.fkUserDeckSideboard, e.CardUUID });
             userDeckSideboardCard.HasOne(e => e.UserDeckSideboard)
-                .WithMany()
-                .HasForeignKey(e => e.fkUserDeckSideboard);                
+                .WithMany(e => e.Cards)
+                .HasForeignKey(e => e.fkUserDeckSideboard);
             #endregion
 
             base.OnModelCreating(modelBuilder);
@@ -271,7 +300,7 @@ namespace MTGDeckBuilder.EF
         public DbSet<SubTypeData> SubTypes { get; set; }
         public DbSet<KeywordData> Keywords { get; set; }        
         public DbSet<UserDeckData> UserDecks { get; set; }
-        public DbSet<LegalityData> Legality { get; set; }
+        public DbSet<FormatData> Formats { get; set; }
         public DbSet<UserDeckSideboardData> UserDeckSideboards { get; set; }
     }
 }

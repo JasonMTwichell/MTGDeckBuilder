@@ -6,7 +6,8 @@ namespace MTGDeckBuilder.EF.Entities
 {
     public class ColorData
     {
-        public string Color { get; set; } //pk
+        public int pkColor { get; set; } // pk
+        public string Color { get; set; } // unique index
 
         public virtual ICollection<CardData> Cards { get; set; }
     }

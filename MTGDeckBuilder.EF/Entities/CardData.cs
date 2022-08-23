@@ -6,12 +6,13 @@ namespace MTGDeckBuilder.EF.Entities
 {
     public class CardData
     {
-        public string UUID { get; set; } // pk
-        public string SetCode { get; set; } // fk
-        public string? Name { get; set; }
+        public int pkCard { get; set; } // pk
+        public int fkSet { get; set; } // fk
+        public string UUID { get; set; } // unique index
+        public string? Name { get; set; } // index
         public string? AsciiName { get; set; }
         public string? Text { get; set; }
-        public string? Type { get; set; }
+        public string? Type { get; set; } // index
         public string? Layout { get; set; }
         public string? Side { get; set; }
         public string? ManaCost { get; set; }
@@ -52,8 +53,8 @@ namespace MTGDeckBuilder.EF.Entities
         public virtual ICollection<KeywordData> Keywords { get; set; }
         public virtual ICollection<CardKeywordData> CardKeywords { get; set; }
 
-        public virtual ICollection<LegalityData> Legalities { get; set; }
-        public virtual ICollection<CardLegalityData> CardLegalities { get; set; }
+        public virtual ICollection<FormatData> Formats { get; set; }
+        public virtual ICollection<CardFormatData> CardFormats { get; set; }
 
         public virtual ICollection<UserDeckData> UserDecks { get; set; }
         public virtual ICollection<UserDeckCardData> UserDeckCardData { get; set; }

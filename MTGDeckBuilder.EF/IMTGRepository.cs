@@ -17,6 +17,6 @@ namespace MTGDeckBuilder.EF
         IEnumerable<SuperTypeData> GetSuperTypes();
         IEnumerable<SubTypeData> GetSubTypes();
         IEnumerable<KeywordData> GetKeywords();
-        IEnumerable<LegalityData> GetLegalities();
+        IEnumerable<FormatData> GetFormats();
     }
 }

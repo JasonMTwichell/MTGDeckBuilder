@@ -13,22 +13,26 @@ namespace MTGDeckBuilder.EF.Migrations
                 name: "tblColor",
                 columns: table => new
                 {
+                    pkColor = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Color = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblColor", x => x.Color);
+                    table.PrimaryKey("PK_tblColor", x => x.pkColor);
                 });
 
             migrationBuilder.CreateTable(
                 name: "tblColorIdentity",
                 columns: table => new
                 {
+                    pkColorIdentity = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     ColorIdentity = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblColorIdentity", x => x.ColorIdentity);
+                    table.PrimaryKey("PK_tblColorIdentity", x => x.pkColorIdentity);
                 });
 
             migrationBuilder.CreateTable(
@@ -46,31 +50,37 @@ namespace MTGDeckBuilder.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tblFormat",
+                columns: table => new
+                {
+                    pkFormat = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Format = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblFormat", x => x.pkFormat);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "tblKeyword",
                 columns: table => new
                 {
+                    pkKeyword = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Keyword = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblKeyword", x => x.Keyword);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "tblLegality",
-                columns: table => new
-                {
-                    Legality = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tblLegality", x => x.Legality);
+                    table.PrimaryKey("PK_tblKeyword", x => x.pkKeyword);
                 });
 
             migrationBuilder.CreateTable(
                 name: "tblSet",
                 columns: table => new
                 {
+                    pkSet = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     SetCode = table.Column<string>(type: "TEXT", nullable: false),
                     SetName = table.Column<string>(type: "TEXT", nullable: false),
                     BaseSetSize = table.Column<int>(type: "INTEGER", nullable: false),
@@ -80,62 +90,56 @@ namespace MTGDeckBuilder.EF.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblSet", x => x.SetCode);
+                    table.PrimaryKey("PK_tblSet", x => x.pkSet);
                 });
 
             migrationBuilder.CreateTable(
                 name: "tblSubType",
                 columns: table => new
                 {
+                    pkSubType = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     SubType = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblSubType", x => x.SubType);
+                    table.PrimaryKey("PK_tblSubType", x => x.pkSubType);
                 });
 
             migrationBuilder.CreateTable(
                 name: "tblSuperType",
                 columns: table => new
                 {
+                    pkSuperType = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     SuperType = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblSuperType", x => x.SuperType);
+                    table.PrimaryKey("PK_tblSuperType", x => x.pkSuperType);
                 });
 
             migrationBuilder.CreateTable(
                 name: "tblType",
                 columns: table => new
                 {
+                    pkType = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Type = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblType", x => x.Type);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "tblUserDeck",
-                columns: table => new
-                {
-                    pkUserDeck = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    DeckName = table.Column<string>(type: "TEXT", nullable: false),
-                    DeckDescription = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tblUserDeck", x => x.pkUserDeck);
+                    table.PrimaryKey("PK_tblType", x => x.pkType);
                 });
 
             migrationBuilder.CreateTable(
                 name: "tblCard",
                 columns: table => new
                 {
+                    pkCard = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    fkSet = table.Column<int>(type: "INTEGER", nullable: false),
                     UUID = table.Column<string>(type: "TEXT", nullable: false),
-                    SetCode = table.Column<string>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     AsciiName = table.Column<string>(type: "TEXT", nullable: true),
                     Text = table.Column<string>(type: "TEXT", nullable: true),
@@ -152,76 +156,19 @@ namespace MTGDeckBuilder.EF.Migrations
                     IsFunny = table.Column<bool>(type: "INTEGER", nullable: true),
                     IsReserved = table.Column<bool>(type: "INTEGER", nullable: true),
                     HasAlternateDeckLimit = table.Column<bool>(type: "INTEGER", nullable: true),
-                    FlavorText = table.Column<string>(type: "TEXT", nullable: false),
-                    Rarity = table.Column<string>(type: "TEXT", nullable: false),
-                    FaceName = table.Column<string>(type: "TEXT", nullable: false),
+                    FlavorText = table.Column<string>(type: "TEXT", nullable: true),
+                    Rarity = table.Column<string>(type: "TEXT", nullable: true),
+                    FaceName = table.Column<string>(type: "TEXT", nullable: true),
                     NumberInSet = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblCard", x => x.UUID);
+                    table.PrimaryKey("PK_tblCard", x => x.pkCard);
                     table.ForeignKey(
-                        name: "FK_tblCard_tblSet_SetCode",
-                        column: x => x.SetCode,
+                        name: "FK_tblCard_tblSet_fkSet",
+                        column: x => x.fkSet,
                         principalTable: "tblSet",
-                        principalColumn: "SetCode",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "tblUserDeckSideboard",
-                columns: table => new
-                {
-                    fkUserDeck = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tblUserDeckSideboard", x => x.fkUserDeck);
-                    table.ForeignKey(
-                        name: "FK_tblUserDeckSideboard_tblUserDeck_fkUserDeck",
-                        column: x => x.fkUserDeck,
-                        principalTable: "tblUserDeck",
-                        principalColumn: "pkUserDeck",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserDeckLegalityData",
-                columns: table => new
-                {
-                    LegalitiesLegality = table.Column<string>(type: "TEXT", nullable: false),
-                    UserDeckspkUserDeck = table.Column<int>(type: "INTEGER", nullable: false),
-                    fkUserDeck = table.Column<int>(type: "INTEGER", nullable: false),
-                    fkLegality = table.Column<string>(type: "TEXT", nullable: false),
-                    DeckpkUserDeck = table.Column<int>(type: "INTEGER", nullable: false),
-                    Legality1 = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserDeckLegalityData", x => new { x.LegalitiesLegality, x.UserDeckspkUserDeck });
-                    table.ForeignKey(
-                        name: "FK_UserDeckLegalityData_tblLegality_LegalitiesLegality",
-                        column: x => x.LegalitiesLegality,
-                        principalTable: "tblLegality",
-                        principalColumn: "Legality",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserDeckLegalityData_tblLegality_Legality1",
-                        column: x => x.Legality1,
-                        principalTable: "tblLegality",
-                        principalColumn: "Legality",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserDeckLegalityData_tblUserDeck_DeckpkUserDeck",
-                        column: x => x.DeckpkUserDeck,
-                        principalTable: "tblUserDeck",
-                        principalColumn: "pkUserDeck",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserDeckLegalityData_tblUserDeck_UserDeckspkUserDeck",
-                        column: x => x.UserDeckspkUserDeck,
-                        principalTable: "tblUserDeck",
-                        principalColumn: "pkUserDeck",
+                        principalColumn: "pkSet",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -229,8 +176,8 @@ namespace MTGDeckBuilder.EF.Migrations
                 name: "tblCardColor",
                 columns: table => new
                 {
-                    fkCard = table.Column<string>(type: "TEXT", nullable: false),
-                    fkColor = table.Column<string>(type: "TEXT", nullable: false)
+                    fkCard = table.Column<int>(type: "INTEGER", nullable: false),
+                    fkColor = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -239,13 +186,13 @@ namespace MTGDeckBuilder.EF.Migrations
                         name: "FK_tblCardColor_tblCard_fkCard",
                         column: x => x.fkCard,
                         principalTable: "tblCard",
-                        principalColumn: "UUID",
+                        principalColumn: "pkCard",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tblCardColor_tblColor_fkColor",
                         column: x => x.fkColor,
                         principalTable: "tblColor",
-                        principalColumn: "Color",
+                        principalColumn: "pkColor",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -253,8 +200,8 @@ namespace MTGDeckBuilder.EF.Migrations
                 name: "tblCardColorIdentity",
                 columns: table => new
                 {
-                    fkCard = table.Column<string>(type: "TEXT", nullable: false),
-                    fkColorIdentity = table.Column<string>(type: "TEXT", nullable: false)
+                    fkCard = table.Column<int>(type: "INTEGER", nullable: false),
+                    fkColorIdentity = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -263,13 +210,38 @@ namespace MTGDeckBuilder.EF.Migrations
                         name: "FK_tblCardColorIdentity_tblCard_fkCard",
                         column: x => x.fkCard,
                         principalTable: "tblCard",
-                        principalColumn: "UUID",
+                        principalColumn: "pkCard",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tblCardColorIdentity_tblColorIdentity_fkColorIdentity",
                         column: x => x.fkColorIdentity,
                         principalTable: "tblColorIdentity",
-                        principalColumn: "ColorIdentity",
+                        principalColumn: "pkColorIdentity",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblCardFormat",
+                columns: table => new
+                {
+                    fkCard = table.Column<int>(type: "INTEGER", nullable: false),
+                    fkFormat = table.Column<int>(type: "INTEGER", nullable: false),
+                    IsLegal = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblCardFormat", x => new { x.fkCard, x.fkFormat });
+                    table.ForeignKey(
+                        name: "FK_tblCardFormat_tblCard_fkCard",
+                        column: x => x.fkCard,
+                        principalTable: "tblCard",
+                        principalColumn: "pkCard",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tblCardFormat_tblFormat_fkFormat",
+                        column: x => x.fkFormat,
+                        principalTable: "tblFormat",
+                        principalColumn: "pkFormat",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -277,8 +249,8 @@ namespace MTGDeckBuilder.EF.Migrations
                 name: "tblCardKeywordData",
                 columns: table => new
                 {
-                    fkCard = table.Column<string>(type: "TEXT", nullable: false),
-                    fkKeyword = table.Column<string>(type: "TEXT", nullable: false)
+                    fkCard = table.Column<int>(type: "INTEGER", nullable: false),
+                    fkKeyword = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -287,38 +259,13 @@ namespace MTGDeckBuilder.EF.Migrations
                         name: "FK_tblCardKeywordData_tblCard_fkCard",
                         column: x => x.fkCard,
                         principalTable: "tblCard",
-                        principalColumn: "UUID",
+                        principalColumn: "pkCard",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tblCardKeywordData_tblKeyword_fkKeyword",
                         column: x => x.fkKeyword,
                         principalTable: "tblKeyword",
-                        principalColumn: "Keyword",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "tblCardLegality",
-                columns: table => new
-                {
-                    fkCard = table.Column<string>(type: "TEXT", nullable: false),
-                    fkLegality = table.Column<string>(type: "TEXT", nullable: false),
-                    IsLegal = table.Column<bool>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tblCardLegality", x => new { x.fkCard, x.fkLegality });
-                    table.ForeignKey(
-                        name: "FK_tblCardLegality_tblCard_fkCard",
-                        column: x => x.fkCard,
-                        principalTable: "tblCard",
-                        principalColumn: "UUID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_tblCardLegality_tblLegality_fkLegality",
-                        column: x => x.fkLegality,
-                        principalTable: "tblLegality",
-                        principalColumn: "Legality",
+                        principalColumn: "pkKeyword",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -326,8 +273,8 @@ namespace MTGDeckBuilder.EF.Migrations
                 name: "tblCardSubType",
                 columns: table => new
                 {
-                    fkCard = table.Column<string>(type: "TEXT", nullable: false),
-                    fkSubType = table.Column<string>(type: "TEXT", nullable: false)
+                    fkCard = table.Column<int>(type: "INTEGER", nullable: false),
+                    fkSubType = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -336,13 +283,13 @@ namespace MTGDeckBuilder.EF.Migrations
                         name: "FK_tblCardSubType_tblCard_fkCard",
                         column: x => x.fkCard,
                         principalTable: "tblCard",
-                        principalColumn: "UUID",
+                        principalColumn: "pkCard",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tblCardSubType_tblSubType_fkSubType",
                         column: x => x.fkSubType,
                         principalTable: "tblSubType",
-                        principalColumn: "SubType",
+                        principalColumn: "pkSubType",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -350,8 +297,8 @@ namespace MTGDeckBuilder.EF.Migrations
                 name: "tblCardSuperType",
                 columns: table => new
                 {
-                    fkCard = table.Column<string>(type: "TEXT", nullable: false),
-                    fkSuperType = table.Column<string>(type: "TEXT", nullable: false)
+                    fkCard = table.Column<int>(type: "INTEGER", nullable: false),
+                    fkSuperType = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -360,13 +307,13 @@ namespace MTGDeckBuilder.EF.Migrations
                         name: "FK_tblCardSuperType_tblCard_fkCard",
                         column: x => x.fkCard,
                         principalTable: "tblCard",
-                        principalColumn: "UUID",
+                        principalColumn: "pkCard",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tblCardSuperType_tblSuperType_fkSuperType",
                         column: x => x.fkSuperType,
                         principalTable: "tblSuperType",
-                        principalColumn: "SuperType",
+                        principalColumn: "pkSuperType",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -374,8 +321,8 @@ namespace MTGDeckBuilder.EF.Migrations
                 name: "tblCardType",
                 columns: table => new
                 {
-                    fkCard = table.Column<string>(type: "TEXT", nullable: false),
-                    fkType = table.Column<string>(type: "TEXT", nullable: false)
+                    fkCard = table.Column<int>(type: "INTEGER", nullable: false),
+                    fkType = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -384,13 +331,13 @@ namespace MTGDeckBuilder.EF.Migrations
                         name: "FK_tblCardType_tblCard_fkCard",
                         column: x => x.fkCard,
                         principalTable: "tblCard",
-                        principalColumn: "UUID",
+                        principalColumn: "pkCard",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tblCardType_tblType_fkType",
                         column: x => x.fkType,
                         principalTable: "tblType",
-                        principalColumn: "Type",
+                        principalColumn: "pkType",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -400,7 +347,7 @@ namespace MTGDeckBuilder.EF.Migrations
                 {
                     pkPurchaseInformation = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    fkCard = table.Column<string>(type: "TEXT", nullable: false),
+                    fkCard = table.Column<int>(type: "INTEGER", nullable: false),
                     StorefrontName = table.Column<string>(type: "TEXT", nullable: false),
                     CardURI = table.Column<string>(type: "TEXT", nullable: false)
                 },
@@ -411,8 +358,35 @@ namespace MTGDeckBuilder.EF.Migrations
                         name: "FK_tblPurchaseInformation_tblCard_fkCard",
                         column: x => x.fkCard,
                         principalTable: "tblCard",
-                        principalColumn: "UUID",
+                        principalColumn: "pkCard",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblUserDeck",
+                columns: table => new
+                {
+                    pkUserDeck = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    DeckName = table.Column<string>(type: "TEXT", nullable: false),
+                    DeckDescription = table.Column<string>(type: "TEXT", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CardDatapkCard = table.Column<int>(type: "INTEGER", nullable: true),
+                    FormatDatapkFormat = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblUserDeck", x => x.pkUserDeck);
+                    table.ForeignKey(
+                        name: "FK_tblUserDeck_tblCard_CardDatapkCard",
+                        column: x => x.CardDatapkCard,
+                        principalTable: "tblCard",
+                        principalColumn: "pkCard");
+                    table.ForeignKey(
+                        name: "FK_tblUserDeck_tblFormat_FormatDatapkFormat",
+                        column: x => x.FormatDatapkFormat,
+                        principalTable: "tblFormat",
+                        principalColumn: "pkFormat");
                 });
 
             migrationBuilder.CreateTable(
@@ -420,19 +394,62 @@ namespace MTGDeckBuilder.EF.Migrations
                 columns: table => new
                 {
                     fkUserDeck = table.Column<int>(type: "INTEGER", nullable: false),
-                    fkCard = table.Column<string>(type: "TEXT", nullable: false)
+                    CardUUID = table.Column<string>(type: "TEXT", nullable: false),
+                    NumCopies = table.Column<int>(type: "INTEGER", nullable: false),
+                    CardDatapkCard = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblUserDeckCard", x => new { x.fkUserDeck, x.fkCard });
+                    table.PrimaryKey("PK_tblUserDeckCard", x => new { x.fkUserDeck, x.CardUUID });
                     table.ForeignKey(
-                        name: "FK_tblUserDeckCard_tblCard_fkCard",
-                        column: x => x.fkCard,
+                        name: "FK_tblUserDeckCard_tblCard_CardDatapkCard",
+                        column: x => x.CardDatapkCard,
                         principalTable: "tblCard",
-                        principalColumn: "UUID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "pkCard");
                     table.ForeignKey(
                         name: "FK_tblUserDeckCard_tblUserDeck_fkUserDeck",
+                        column: x => x.fkUserDeck,
+                        principalTable: "tblUserDeck",
+                        principalColumn: "pkUserDeck",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblUserDeckFormat",
+                columns: table => new
+                {
+                    fkUserDeck = table.Column<int>(type: "INTEGER", nullable: false),
+                    Format = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblUserDeckFormat", x => new { x.fkUserDeck, x.Format });
+                    table.ForeignKey(
+                        name: "FK_tblUserDeckFormat_tblUserDeck_fkUserDeck",
+                        column: x => x.fkUserDeck,
+                        principalTable: "tblUserDeck",
+                        principalColumn: "pkUserDeck",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblUserDeckSideboard",
+                columns: table => new
+                {
+                    fkUserDeck = table.Column<int>(type: "INTEGER", nullable: false),
+                    pkSideBoardData = table.Column<int>(type: "INTEGER", nullable: false),
+                    CardDatapkCard = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblUserDeckSideboard", x => x.fkUserDeck);
+                    table.ForeignKey(
+                        name: "FK_tblUserDeckSideboard_tblCard_CardDatapkCard",
+                        column: x => x.CardDatapkCard,
+                        principalTable: "tblCard",
+                        principalColumn: "pkCard");
+                    table.ForeignKey(
+                        name: "FK_tblUserDeckSideboard_tblUserDeck_fkUserDeck",
                         column: x => x.fkUserDeck,
                         principalTable: "tblUserDeck",
                         principalColumn: "pkUserDeck",
@@ -443,24 +460,19 @@ namespace MTGDeckBuilder.EF.Migrations
                 name: "tblUserDeckSideboardCard",
                 columns: table => new
                 {
-                    fkCard = table.Column<string>(type: "TEXT", nullable: false),
                     fkUserDeckSideboard = table.Column<int>(type: "INTEGER", nullable: false),
-                    CardDataUUID = table.Column<string>(type: "TEXT", nullable: true)
+                    CardUUID = table.Column<string>(type: "TEXT", nullable: false),
+                    NumCopies = table.Column<int>(type: "INTEGER", nullable: false),
+                    CardDatapkCard = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblUserDeckSideboardCard", x => new { x.fkUserDeckSideboard, x.fkCard });
+                    table.PrimaryKey("PK_tblUserDeckSideboardCard", x => new { x.fkUserDeckSideboard, x.CardUUID });
                     table.ForeignKey(
-                        name: "FK_tblUserDeckSideboardCard_tblCard_CardDataUUID",
-                        column: x => x.CardDataUUID,
+                        name: "FK_tblUserDeckSideboardCard_tblCard_CardDatapkCard",
+                        column: x => x.CardDatapkCard,
                         principalTable: "tblCard",
-                        principalColumn: "UUID");
-                    table.ForeignKey(
-                        name: "FK_tblUserDeckSideboardCard_tblCard_fkCard",
-                        column: x => x.fkCard,
-                        principalTable: "tblCard",
-                        principalColumn: "UUID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "pkCard");
                     table.ForeignKey(
                         name: "FK_tblUserDeckSideboardCard_tblUserDeckSideboard_fkUserDeckSideboard",
                         column: x => x.fkUserDeckSideboard,
@@ -468,6 +480,11 @@ namespace MTGDeckBuilder.EF.Migrations
                         principalColumn: "fkUserDeck",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblCard_fkSet",
+                table: "tblCard",
+                column: "fkSet");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblCard_ManaValue",
@@ -480,14 +497,15 @@ namespace MTGDeckBuilder.EF.Migrations
                 column: "Name");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tblCard_SetCode",
-                table: "tblCard",
-                column: "SetCode");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_tblCard_Type",
                 table: "tblCard",
                 column: "Type");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblCard_UUID",
+                table: "tblCard",
+                column: "UUID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblCardColor_fkColor",
@@ -500,14 +518,14 @@ namespace MTGDeckBuilder.EF.Migrations
                 column: "fkColorIdentity");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tblCardFormat_fkFormat",
+                table: "tblCardFormat",
+                column: "fkFormat");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tblCardKeywordData_fkKeyword",
                 table: "tblCardKeywordData",
                 column: "fkKeyword");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblCardLegality_fkLegality",
-                table: "tblCardLegality",
-                column: "fkLegality");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblCardSubType_fkSubType",
@@ -527,17 +545,26 @@ namespace MTGDeckBuilder.EF.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_tblColor_Color",
                 table: "tblColor",
-                column: "Color");
+                column: "Color",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblColorIdentity_ColorIdentity",
                 table: "tblColorIdentity",
-                column: "ColorIdentity");
+                column: "ColorIdentity",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFormat_Format",
+                table: "tblFormat",
+                column: "Format",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblKeyword_Keyword",
                 table: "tblKeyword",
-                column: "Keyword");
+                column: "Keyword",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblPurchaseInformation_fkCard",
@@ -545,49 +572,69 @@ namespace MTGDeckBuilder.EF.Migrations
                 column: "fkCard");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tblSet_SetCode",
+                table: "tblSet",
+                column: "SetCode",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblSet_SetName",
+                table: "tblSet",
+                column: "SetName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tblSubType_SubType",
                 table: "tblSubType",
-                column: "SubType");
+                column: "SubType",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblSuperType_SuperType",
                 table: "tblSuperType",
-                column: "SuperType");
+                column: "SuperType",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblType_Type",
                 table: "tblType",
-                column: "Type");
+                column: "Type",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_tblUserDeckCard_fkCard",
+                name: "IX_tblUserDeck_CardDatapkCard",
+                table: "tblUserDeck",
+                column: "CardDatapkCard");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblUserDeck_DateCreated",
+                table: "tblUserDeck",
+                column: "DateCreated");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblUserDeck_DeckName",
+                table: "tblUserDeck",
+                column: "DeckName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblUserDeck_FormatDatapkFormat",
+                table: "tblUserDeck",
+                column: "FormatDatapkFormat");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblUserDeckCard_CardDatapkCard",
                 table: "tblUserDeckCard",
-                column: "fkCard");
+                column: "CardDatapkCard");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tblUserDeckSideboardCard_CardDataUUID",
+                name: "IX_tblUserDeckSideboard_CardDatapkCard",
+                table: "tblUserDeckSideboard",
+                column: "CardDatapkCard");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblUserDeckSideboardCard_CardDatapkCard",
                 table: "tblUserDeckSideboardCard",
-                column: "CardDataUUID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblUserDeckSideboardCard_fkCard",
-                table: "tblUserDeckSideboardCard",
-                column: "fkCard");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserDeckLegalityData_DeckpkUserDeck",
-                table: "UserDeckLegalityData",
-                column: "DeckpkUserDeck");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserDeckLegalityData_Legality1",
-                table: "UserDeckLegalityData",
-                column: "Legality1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserDeckLegalityData_UserDeckspkUserDeck",
-                table: "UserDeckLegalityData",
-                column: "UserDeckspkUserDeck");
+                column: "CardDatapkCard");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -599,10 +646,10 @@ namespace MTGDeckBuilder.EF.Migrations
                 name: "tblCardColorIdentity");
 
             migrationBuilder.DropTable(
-                name: "tblCardKeywordData");
+                name: "tblCardFormat");
 
             migrationBuilder.DropTable(
-                name: "tblCardLegality");
+                name: "tblCardKeywordData");
 
             migrationBuilder.DropTable(
                 name: "tblCardSubType");
@@ -623,10 +670,10 @@ namespace MTGDeckBuilder.EF.Migrations
                 name: "tblUserDeckCard");
 
             migrationBuilder.DropTable(
-                name: "tblUserDeckSideboardCard");
+                name: "tblUserDeckFormat");
 
             migrationBuilder.DropTable(
-                name: "UserDeckLegalityData");
+                name: "tblUserDeckSideboardCard");
 
             migrationBuilder.DropTable(
                 name: "tblColor");
@@ -647,19 +694,19 @@ namespace MTGDeckBuilder.EF.Migrations
                 name: "tblType");
 
             migrationBuilder.DropTable(
-                name: "tblCard");
-
-            migrationBuilder.DropTable(
                 name: "tblUserDeckSideboard");
 
             migrationBuilder.DropTable(
-                name: "tblLegality");
+                name: "tblUserDeck");
+
+            migrationBuilder.DropTable(
+                name: "tblCard");
+
+            migrationBuilder.DropTable(
+                name: "tblFormat");
 
             migrationBuilder.DropTable(
                 name: "tblSet");
-
-            migrationBuilder.DropTable(
-                name: "tblUserDeck");
         }
     }
 }

@@ -19,11 +19,11 @@ namespace MTGDeckBuilder.EF.Migrations
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.CardColorData", b =>
                 {
-                    b.Property<string>("fkCard")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("fkCard")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("fkColor")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("fkColor")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("fkCard", "fkColor");
 
@@ -34,11 +34,11 @@ namespace MTGDeckBuilder.EF.Migrations
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.CardColorIdentityData", b =>
                 {
-                    b.Property<string>("fkCard")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("fkCard")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("fkColorIdentity")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("fkColorIdentity")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("fkCard", "fkColorIdentity");
 
@@ -49,18 +49,17 @@ namespace MTGDeckBuilder.EF.Migrations
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.CardData", b =>
                 {
-                    b.Property<string>("UUID")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("pkCard")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("AsciiName")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("FaceName")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("FlavorText")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("HandModifier")
@@ -101,11 +100,6 @@ namespace MTGDeckBuilder.EF.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Rarity")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("SetCode")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Side")
@@ -120,26 +114,54 @@ namespace MTGDeckBuilder.EF.Migrations
                     b.Property<string>("Type")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("UUID");
+                    b.Property<string>("UUID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("fkSet")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("pkCard");
 
                     b.HasIndex("ManaValue");
 
                     b.HasIndex("Name");
 
-                    b.HasIndex("SetCode");
-
                     b.HasIndex("Type");
+
+                    b.HasIndex("UUID")
+                        .IsUnique();
+
+                    b.HasIndex("fkSet");
 
                     b.ToTable("tblCard", (string)null);
                 });
 
+            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.CardFormatData", b =>
+                {
+                    b.Property<int>("fkCard")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("fkFormat")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsLegal")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("fkCard", "fkFormat");
+
+                    b.HasIndex("fkFormat");
+
+                    b.ToTable("tblCardFormat", (string)null);
+                });
+
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.CardKeywordData", b =>
                 {
-                    b.Property<string>("fkCard")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("fkCard")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("fkKeyword")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("fkKeyword")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("fkCard", "fkKeyword");
 
@@ -148,31 +170,13 @@ namespace MTGDeckBuilder.EF.Migrations
                     b.ToTable("tblCardKeywordData", (string)null);
                 });
 
-            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.CardLegalityData", b =>
-                {
-                    b.Property<string>("fkCard")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("fkLegality")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsLegal")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("fkCard", "fkLegality");
-
-                    b.HasIndex("fkLegality");
-
-                    b.ToTable("tblCardLegality", (string)null);
-                });
-
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.CardSubTypeData", b =>
                 {
-                    b.Property<string>("fkCard")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("fkCard")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("fkSubType")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("fkSubType")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("fkCard", "fkSubType");
 
@@ -183,11 +187,11 @@ namespace MTGDeckBuilder.EF.Migrations
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.CardSuperTypeData", b =>
                 {
-                    b.Property<string>("fkCard")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("fkCard")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("fkSuperType")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("fkSuperType")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("fkCard", "fkSuperType");
 
@@ -198,11 +202,11 @@ namespace MTGDeckBuilder.EF.Migrations
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.CardTypeData", b =>
                 {
-                    b.Property<string>("fkCard")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("fkCard")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("fkType")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("fkType")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("fkCard", "fkType");
 
@@ -213,24 +217,36 @@ namespace MTGDeckBuilder.EF.Migrations
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.ColorData", b =>
                 {
+                    b.Property<int>("pkColor")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Color")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Color");
+                    b.HasKey("pkColor");
 
-                    b.HasIndex("Color");
+                    b.HasIndex("Color")
+                        .IsUnique();
 
                     b.ToTable("tblColor", (string)null);
                 });
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.ColorIdentityData", b =>
                 {
+                    b.Property<int>("pkColorIdentity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("ColorIdentity")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("ColorIdentity");
+                    b.HasKey("pkColorIdentity");
 
-                    b.HasIndex("ColorIdentity");
+                    b.HasIndex("ColorIdentity")
+                        .IsUnique();
 
                     b.ToTable("tblColorIdentity", (string)null);
                 });
@@ -253,26 +269,40 @@ namespace MTGDeckBuilder.EF.Migrations
                     b.ToTable("tblFileVersion", (string)null);
                 });
 
-            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.KeywordData", b =>
+            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.FormatData", b =>
                 {
-                    b.Property<string>("Keyword")
+                    b.Property<int>("pkFormat")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Format")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Keyword");
+                    b.HasKey("pkFormat");
 
-                    b.HasIndex("Keyword");
+                    b.HasIndex("Format")
+                        .IsUnique();
 
-                    b.ToTable("tblKeyword", (string)null);
+                    b.ToTable("tblFormat", (string)null);
                 });
 
-            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.LegalityData", b =>
+            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.KeywordData", b =>
                 {
-                    b.Property<string>("Legality")
+                    b.Property<int>("pkKeyword")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Keyword")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Legality");
+                    b.HasKey("pkKeyword");
 
-                    b.ToTable("tblLegality", (string)null);
+                    b.HasIndex("Keyword")
+                        .IsUnique();
+
+                    b.ToTable("tblKeyword", (string)null);
                 });
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.PurchaseInformationData", b =>
@@ -289,9 +319,8 @@ namespace MTGDeckBuilder.EF.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("fkCard")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("fkCard")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("pkPurchaseInformation");
 
@@ -302,13 +331,18 @@ namespace MTGDeckBuilder.EF.Migrations
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.SetData", b =>
                 {
-                    b.Property<string>("SetCode")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("pkSet")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("BaseSetSize")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SetCode")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SetName")
@@ -322,43 +356,67 @@ namespace MTGDeckBuilder.EF.Migrations
                     b.Property<int>("TotalSetSize")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("SetCode");
+                    b.HasKey("pkSet");
+
+                    b.HasIndex("SetCode")
+                        .IsUnique();
+
+                    b.HasIndex("SetName")
+                        .IsUnique();
 
                     b.ToTable("tblSet", (string)null);
                 });
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.SubTypeData", b =>
                 {
+                    b.Property<int>("pkSubType")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("SubType")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("SubType");
+                    b.HasKey("pkSubType");
 
-                    b.HasIndex("SubType");
+                    b.HasIndex("SubType")
+                        .IsUnique();
 
                     b.ToTable("tblSubType", (string)null);
                 });
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.SuperTypeData", b =>
                 {
+                    b.Property<int>("pkSuperType")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("SuperType")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("SuperType");
+                    b.HasKey("pkSuperType");
 
-                    b.HasIndex("SuperType");
+                    b.HasIndex("SuperType")
+                        .IsUnique();
 
                     b.ToTable("tblSuperType", (string)null);
                 });
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.TypeData", b =>
                 {
+                    b.Property<int>("pkType")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Type")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Type");
+                    b.HasKey("pkType");
 
-                    b.HasIndex("Type");
+                    b.HasIndex("Type")
+                        .IsUnique();
 
                     b.ToTable("tblType", (string)null);
                 });
@@ -368,12 +426,18 @@ namespace MTGDeckBuilder.EF.Migrations
                     b.Property<int>("fkUserDeck")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("fkCard")
+                    b.Property<string>("CardUUID")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("fkUserDeck", "fkCard");
+                    b.Property<int?>("CardDatapkCard")
+                        .HasColumnType("INTEGER");
 
-                    b.HasIndex("fkCard");
+                    b.Property<int>("NumCopies")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("fkUserDeck", "CardUUID");
+
+                    b.HasIndex("CardDatapkCard");
 
                     b.ToTable("tblUserDeckCard", (string)null);
                 });
@@ -384,6 +448,12 @@ namespace MTGDeckBuilder.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("CardDatapkCard")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("DeckDescription")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -392,42 +462,33 @@ namespace MTGDeckBuilder.EF.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("FormatDatapkFormat")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("pkUserDeck");
+
+                    b.HasIndex("CardDatapkCard");
+
+                    b.HasIndex("DateCreated");
+
+                    b.HasIndex("DeckName");
+
+                    b.HasIndex("FormatDatapkFormat");
 
                     b.ToTable("tblUserDeck", (string)null);
                 });
 
-            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.UserDeckLegalityData", b =>
+            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.UserDeckFormatData", b =>
                 {
-                    b.Property<string>("LegalitiesLegality")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("UserDeckspkUserDeck")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("DeckpkUserDeck")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Legality1")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("fkLegality")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("fkUserDeck")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("LegalitiesLegality", "UserDeckspkUserDeck");
+                    b.Property<string>("Format")
+                        .HasColumnType("TEXT");
 
-                    b.HasIndex("DeckpkUserDeck");
+                    b.HasKey("fkUserDeck", "Format");
 
-                    b.HasIndex("Legality1");
-
-                    b.HasIndex("UserDeckspkUserDeck");
-
-                    b.ToTable("UserDeckLegalityData");
+                    b.ToTable("tblUserDeckFormat", (string)null);
                 });
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.UserDeckSideboardCardData", b =>
@@ -435,17 +496,18 @@ namespace MTGDeckBuilder.EF.Migrations
                     b.Property<int>("fkUserDeckSideboard")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("fkCard")
+                    b.Property<string>("CardUUID")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("CardDataUUID")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("CardDatapkCard")
+                        .HasColumnType("INTEGER");
 
-                    b.HasKey("fkUserDeckSideboard", "fkCard");
+                    b.Property<int>("NumCopies")
+                        .HasColumnType("INTEGER");
 
-                    b.HasIndex("CardDataUUID");
+                    b.HasKey("fkUserDeckSideboard", "CardUUID");
 
-                    b.HasIndex("fkCard");
+                    b.HasIndex("CardDatapkCard");
 
                     b.ToTable("tblUserDeckSideboardCard", (string)null);
                 });
@@ -455,7 +517,15 @@ namespace MTGDeckBuilder.EF.Migrations
                     b.Property<int>("fkUserDeck")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("CardDatapkCard")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("pkSideBoardData")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("fkUserDeck");
+
+                    b.HasIndex("CardDatapkCard");
 
                     b.ToTable("tblUserDeckSideboard", (string)null);
                 });
@@ -502,11 +572,30 @@ namespace MTGDeckBuilder.EF.Migrations
                 {
                     b.HasOne("MTGDeckBuilder.EF.Entities.SetData", "Set")
                         .WithMany("SetCards")
-                        .HasForeignKey("SetCode")
+                        .HasForeignKey("fkSet")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Set");
+                });
+
+            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.CardFormatData", b =>
+                {
+                    b.HasOne("MTGDeckBuilder.EF.Entities.CardData", "Card")
+                        .WithMany("CardFormats")
+                        .HasForeignKey("fkCard")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MTGDeckBuilder.EF.Entities.FormatData", "Format")
+                        .WithMany("CardFormats")
+                        .HasForeignKey("fkFormat")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Card");
+
+                    b.Navigation("Format");
                 });
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.CardKeywordData", b =>
@@ -526,25 +615,6 @@ namespace MTGDeckBuilder.EF.Migrations
                     b.Navigation("Card");
 
                     b.Navigation("Keyword");
-                });
-
-            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.CardLegalityData", b =>
-                {
-                    b.HasOne("MTGDeckBuilder.EF.Entities.CardData", "Card")
-                        .WithMany("CardLegalities")
-                        .HasForeignKey("fkCard")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MTGDeckBuilder.EF.Entities.LegalityData", "Legality")
-                        .WithMany("CardLegalities")
-                        .HasForeignKey("fkLegality")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Card");
-
-                    b.Navigation("Legality");
                 });
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.CardSubTypeData", b =>
@@ -617,79 +687,62 @@ namespace MTGDeckBuilder.EF.Migrations
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.UserDeckCardData", b =>
                 {
-                    b.HasOne("MTGDeckBuilder.EF.Entities.CardData", "Card")
+                    b.HasOne("MTGDeckBuilder.EF.Entities.CardData", null)
                         .WithMany("UserDeckCardData")
-                        .HasForeignKey("fkCard")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CardDatapkCard");
 
                     b.HasOne("MTGDeckBuilder.EF.Entities.UserDeckData", "UserDeck")
-                        .WithMany()
+                        .WithMany("Cards")
                         .HasForeignKey("fkUserDeck")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Card");
-
                     b.Navigation("UserDeck");
                 });
 
-            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.UserDeckLegalityData", b =>
+            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.UserDeckData", b =>
+                {
+                    b.HasOne("MTGDeckBuilder.EF.Entities.CardData", null)
+                        .WithMany("UserDecks")
+                        .HasForeignKey("CardDatapkCard");
+
+                    b.HasOne("MTGDeckBuilder.EF.Entities.FormatData", null)
+                        .WithMany("UserDecks")
+                        .HasForeignKey("FormatDatapkFormat");
+                });
+
+            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.UserDeckFormatData", b =>
                 {
                     b.HasOne("MTGDeckBuilder.EF.Entities.UserDeckData", "Deck")
-                        .WithMany()
-                        .HasForeignKey("DeckpkUserDeck")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MTGDeckBuilder.EF.Entities.LegalityData", null)
-                        .WithMany()
-                        .HasForeignKey("LegalitiesLegality")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MTGDeckBuilder.EF.Entities.LegalityData", "Legality")
-                        .WithMany()
-                        .HasForeignKey("Legality1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MTGDeckBuilder.EF.Entities.UserDeckData", null)
-                        .WithMany()
-                        .HasForeignKey("UserDeckspkUserDeck")
+                        .WithMany("Formats")
+                        .HasForeignKey("fkUserDeck")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Deck");
-
-                    b.Navigation("Legality");
                 });
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.UserDeckSideboardCardData", b =>
                 {
                     b.HasOne("MTGDeckBuilder.EF.Entities.CardData", null)
                         .WithMany("UserDeckSideboardCards")
-                        .HasForeignKey("CardDataUUID");
-
-                    b.HasOne("MTGDeckBuilder.EF.Entities.CardData", "Card")
-                        .WithMany()
-                        .HasForeignKey("fkCard")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CardDatapkCard");
 
                     b.HasOne("MTGDeckBuilder.EF.Entities.UserDeckSideboardData", "UserDeckSideboard")
-                        .WithMany()
+                        .WithMany("Cards")
                         .HasForeignKey("fkUserDeckSideboard")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Card");
 
                     b.Navigation("UserDeckSideboard");
                 });
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.UserDeckSideboardData", b =>
                 {
+                    b.HasOne("MTGDeckBuilder.EF.Entities.CardData", null)
+                        .WithMany("UserDeckSideboards")
+                        .HasForeignKey("CardDatapkCard");
+
                     b.HasOne("MTGDeckBuilder.EF.Entities.UserDeckData", "UserDeck")
                         .WithOne("SideBoard")
                         .HasForeignKey("MTGDeckBuilder.EF.Entities.UserDeckSideboardData", "fkUserDeck")
@@ -705,9 +758,9 @@ namespace MTGDeckBuilder.EF.Migrations
 
                     b.Navigation("CardColors");
 
-                    b.Navigation("CardKeywords");
+                    b.Navigation("CardFormats");
 
-                    b.Navigation("CardLegalities");
+                    b.Navigation("CardKeywords");
 
                     b.Navigation("CardSubTypes");
 
@@ -720,6 +773,10 @@ namespace MTGDeckBuilder.EF.Migrations
                     b.Navigation("UserDeckCardData");
 
                     b.Navigation("UserDeckSideboardCards");
+
+                    b.Navigation("UserDeckSideboards");
+
+                    b.Navigation("UserDecks");
                 });
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.ColorIdentityData", b =>
@@ -727,14 +784,16 @@ namespace MTGDeckBuilder.EF.Migrations
                     b.Navigation("CardColorIdentities");
                 });
 
+            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.FormatData", b =>
+                {
+                    b.Navigation("CardFormats");
+
+                    b.Navigation("UserDecks");
+                });
+
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.KeywordData", b =>
                 {
                     b.Navigation("CardKeywords");
-                });
-
-            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.LegalityData", b =>
-                {
-                    b.Navigation("CardLegalities");
                 });
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.SetData", b =>
@@ -759,8 +818,17 @@ namespace MTGDeckBuilder.EF.Migrations
 
             modelBuilder.Entity("MTGDeckBuilder.EF.Entities.UserDeckData", b =>
                 {
+                    b.Navigation("Cards");
+
+                    b.Navigation("Formats");
+
                     b.Navigation("SideBoard")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MTGDeckBuilder.EF.Entities.UserDeckSideboardData", b =>
+                {
+                    b.Navigation("Cards");
                 });
 #pragma warning restore 612, 618
         }

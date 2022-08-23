@@ -36,7 +36,7 @@ namespace MTGDeckBuilder.Core.Domain
         public string FaceName { get; set; }
         public string NumberInSet { get; set; }
         public Ruling[] Rulings { get; set; }
-        public Legality[] Legalities { get; set; }
+        public Format[] Formats { get; set; }
         public PurchaseInformation[] PurchaseInformation { get; set; }
     }
 }
