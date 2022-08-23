@@ -29,11 +29,19 @@ namespace MTGDeckBuilder.EF
             version.ToTable("tblFileVersion");
             version.HasKey(e => e.pkVersion);
 
+            var set = modelBuilder.Entity<SetData>();
+            set.ToTable("tblSet");
+            set.HasKey(e => e.SetCode);
+            set.HasMany(e => e.SetCards)
+               .WithOne(e => e.Set)
+               .HasForeignKey(e => e.SetCode);
+
             var card = modelBuilder.Entity<CardData>();
             card.ToTable("tblCard");
-            card.HasKey(e => e.pkCard);
-            card.Property(e => e.pkCard)
-                .ValueGeneratedOnAdd();
+            card.HasKey(e => e.UUID);
+            card.HasOne(e => e.Set)
+                .WithMany(e => e.SetCards)
+                .HasForeignKey(e => e.SetCode);
             card.HasMany(e => e.Colors)
                 .WithMany(e => e.Cards)
                 .UsingEntity<CardColorData>();
@@ -71,13 +79,11 @@ namespace MTGDeckBuilder.EF
 
             var color = modelBuilder.Entity<ColorData>();
             color.ToTable("tblColor");
-            color.HasKey(e => e.pkColor);
-            color.Property(e => e.pkColor)
-                .ValueGeneratedOnAdd();                            
+            color.HasKey(e => e.Color);
             color.HasMany(e => e.Cards)
                 .WithMany(e => e.Colors)
                 .UsingEntity<CardColorData>();
-            color.HasIndex(e => e.ColorName);
+            color.HasIndex(e => e.Color);
 
             var cardColor = modelBuilder.Entity<CardColorData>();
             cardColor.ToTable("tblCardColor");
@@ -91,13 +97,11 @@ namespace MTGDeckBuilder.EF
 
             var colorIdentity = modelBuilder.Entity<ColorIdentityData>();
             colorIdentity.ToTable("tblColorIdentity");
-            colorIdentity.HasKey(e => e.pkColorIdentity);
-            colorIdentity.Property(e => e.pkColorIdentity)
-                .ValueGeneratedOnAdd();
+            colorIdentity.HasKey(e => e.ColorIdentity);            
             colorIdentity.HasMany(e => e.Cards)
                 .WithMany(e => e.ColorIdentities)
                 .UsingEntity<CardColorIdentityData>();
-            colorIdentity.HasIndex(e => e.ColorIdentityName);
+            colorIdentity.HasIndex(e => e.ColorIdentity);
 
             var cardColorIdentity = modelBuilder.Entity<CardColorIdentityData>();
             cardColorIdentity.ToTable("tblCardColorIdentity");
@@ -112,13 +116,11 @@ namespace MTGDeckBuilder.EF
            
             var type = modelBuilder.Entity<TypeData>();
             type.ToTable("tblType");
-            type.HasKey(e => e.pkType);
-            type.Property(e => e.pkType)
-                .ValueGeneratedOnAdd();
+            type.HasKey(e => e.Type);            
             type.HasMany(e => e.Cards)
                 .WithMany(e => e.Types)
                 .UsingEntity<CardTypeData>();
-            type.HasIndex(e => e.TypeName);
+            type.HasIndex(e => e.Type);
 
             var cardType = modelBuilder.Entity<CardTypeData>();
             cardType.ToTable("tblCardType");
@@ -132,13 +134,11 @@ namespace MTGDeckBuilder.EF
 
             var superType = modelBuilder.Entity<SuperTypeData>();
             superType.ToTable("tblSuperType");
-            superType.HasKey(e => e.pkSuperType);
-            superType.Property(e => e.pkSuperType)
-                .ValueGeneratedOnAdd();
+            superType.HasKey(e => e.SuperType);           
             superType.HasMany(e => e.Cards)
                 .WithMany(e => e.SuperTypes)
                 .UsingEntity<CardSuperTypeData>();
-            superType.HasIndex(e => e.SuperTypeName);
+            superType.HasIndex(e => e.SuperType);
 
             var cardSuperType = modelBuilder.Entity<CardSuperTypeData>();
             cardSuperType.ToTable("tblCardSuperType");
@@ -152,13 +152,11 @@ namespace MTGDeckBuilder.EF
 
             var subType = modelBuilder.Entity<SubTypeData>();
             subType.ToTable("tblSubType");
-            subType.HasKey(e => e.pkSubType);
-            subType.Property(e => e.pkSubType)
-                .ValueGeneratedOnAdd();
+            subType.HasKey(e => e.SubType);
             subType.HasMany(e => e.Cards)
                 .WithMany(e => e.SubTypes)
                 .UsingEntity<CardSubTypeData>();
-            subType.HasIndex(e => e.SubTypeName);
+            subType.HasIndex(e => e.SubType);
 
             var cardSubType = modelBuilder.Entity<CardSubTypeData>();
             cardSubType.ToTable("tblCardSubType");
@@ -172,9 +170,7 @@ namespace MTGDeckBuilder.EF
 
             var keyword = modelBuilder.Entity<KeywordData>();
             keyword.ToTable("tblKeyword");
-            keyword.HasKey(e => e.pkKeyword);
-            keyword.Property(e => e.pkKeyword)
-                .ValueGeneratedOnAdd();
+            keyword.HasKey(e => e.Keyword);
             keyword.HasMany(e => e.Cards)
                 .WithMany(e => e.Keywords)
                 .UsingEntity<CardKeywordData>();
@@ -192,9 +188,7 @@ namespace MTGDeckBuilder.EF
 
             var legality = modelBuilder.Entity<LegalityData>();
             legality.ToTable("tblLegality");
-            legality.HasKey(e => e.pkLegality);
-            legality.Property(e => e.pkLegality)
-                .ValueGeneratedOnAdd();
+            legality.HasKey(e => e.Legality);
             legality.HasMany(e => e.Cards)
                 .WithMany(e => e.Legalities)
                 .UsingEntity<CardLegalityData>();
@@ -221,6 +215,8 @@ namespace MTGDeckBuilder.EF
             var userDeck = modelBuilder.Entity<UserDeckData>();
             userDeck.ToTable("tblUserDeck");
             userDeck.HasKey(e => e.pkUserDeck);
+            userDeck.Property(e => e.pkUserDeck)
+                .ValueGeneratedOnAdd();
             userDeck.HasOne(e => e.SideBoard)
                 .WithOne(e => e.UserDeck)
                 .HasForeignKey<UserDeckSideboardData>(e => e.fkUserDeck);
@@ -266,6 +262,7 @@ namespace MTGDeckBuilder.EF
         }
 
         public DbSet<FileVersionData> FileVersions { get; set; }
+        public DbSet<SetData> Sets { get; set; }
         public DbSet<CardData> Cards { get; set; }
         public DbSet<ColorData> Colors { get; set; }
         public DbSet<ColorIdentityData> ColorIdentities { get; set; }

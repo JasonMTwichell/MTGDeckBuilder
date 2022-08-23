@@ -6,7 +6,7 @@ namespace MTGDeckBuilder.Core.Domain
 {
     public class Card
     {
-        public string ScryfallID { get; set; }
+        public string UUID { get; set; }
         public string AsciiName { get; set; }
         public string Name { get; set; }
         public string Text { get; set; }
@@ -25,11 +25,16 @@ namespace MTGDeckBuilder.Core.Domain
         public string[] Types { get; set; }
         public string[] SuperTypes { get; set; }
         public string[] SubTypes { get; set; }
-        public string[] ColorIdentity { get; set; }
+        public string[] ColorIdentities { get; set; }
         public string[] Colors { get; set; }
         public bool IsFunny { get; set; } 
         public bool IsReserved { get; set; } 
         public bool HasAlternateDeckLimit { get; set; } 
+        public string SetCode { get; set; }
+        public string FlavorText { get; set; }
+        public string Rarity { get; set; }
+        public string FaceName { get; set; }
+        public string NumberInSet { get; set; }
         public Ruling[] Rulings { get; set; }
         public Legality[] Legalities { get; set; }
         public PurchaseInformation[] PurchaseInformation { get; set; }

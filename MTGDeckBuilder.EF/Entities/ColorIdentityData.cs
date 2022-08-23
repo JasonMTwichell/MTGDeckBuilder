@@ -8,8 +8,7 @@ namespace MTGDeckBuilder.EF.Entities
 {
     public class ColorIdentityData
     {
-        public int pkColorIdentity { get; set; }
-        public string ColorIdentityName { get; set; }
+        public string ColorIdentity { get; set; } //pk
 
         public virtual ICollection<CardData> Cards { get; set; }
         public virtual ICollection<CardColorIdentityData> CardColorIdentities { get; set; }

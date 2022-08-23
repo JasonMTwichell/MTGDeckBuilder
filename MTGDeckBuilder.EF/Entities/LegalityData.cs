@@ -2,8 +2,7 @@
 {
     public class LegalityData
     {
-        public int pkLegality { get; set; }      
-        public string Format { get; set; }     
+        public string Legality { get; set; } //pk
         
         public virtual ICollection<CardData> Cards { get; set; }
         public virtual ICollection<CardLegalityData> CardLegalities { get; set; }

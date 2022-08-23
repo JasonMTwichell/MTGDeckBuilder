@@ -21,46 +21,60 @@ namespace MTGDeckBuilder
 
             // TODO: Move this to configuration
             IMTGParser parser = new MTGJsonParser();
-            DataFile dataFile = await parser.ParseMTGFile(@"C:\Users\jason\Downloads\MTG JSON\AtomicCards\AtomicCards.json");
+            DataFile dataFile = await parser.ParseMTGFile(@"C:\Users\jason\Downloads\MTG JSON\AllPrintings.json");
+
+            Card[] allCards = dataFile.Sets.SelectMany(set => set.SetCards).ToArray();
 
             // get all reference data
-            ColorData[] distinctColors = dataFile.Cards.SelectMany(c => c.Colors).Distinct().Select(c => new ColorData()
+            ColorData[] distinctColors = allCards.SelectMany(c => c.Colors).Distinct().Select(c => new ColorData()
             {
-                ColorName = c
+                Color = c
             }).ToArray();
 
-            ColorIdentityData[] distinctColorIdentities = dataFile.Cards.SelectMany(c => c.ColorIdentity).Distinct().Select(c => new ColorIdentityData()
+            ColorIdentityData[] distinctColorIdentities = allCards.SelectMany(c => c.ColorIdentities).Distinct().Select(c => new ColorIdentityData()
             {
-                ColorIdentityName = c
+                ColorIdentity = c
             }).ToArray();
 
-            TypeData[] distinctTypes = dataFile.Cards.SelectMany(c => c.Types).Distinct().Select(t => new TypeData()
+            TypeData[] distinctTypes = allCards.SelectMany(c => c.Types).Distinct().Select(t => new TypeData()
             {
-                TypeName = t
+                Type = t
             }).ToArray();
 
-            SuperTypeData[] distinctSuperTypes = dataFile.Cards.SelectMany(c => c.SuperTypes).Distinct().Select(t => new SuperTypeData()
+            SuperTypeData[] distinctSuperTypes = allCards.SelectMany(c => c.SuperTypes).Distinct().Select(t => new SuperTypeData()
             {
-                SuperTypeName = t
+                SuperType = t
             }).ToArray();
 
-            SubTypeData[] distinctSubTypes = dataFile.Cards.SelectMany(c => c.Types).Distinct().Select(t => new SubTypeData()
+            SubTypeData[] distinctSubTypes = allCards.SelectMany(c => c.Types).Distinct().Select(t => new SubTypeData()
             {
-                SubTypeName = t
+                SubType = t
             }).ToArray();
 
-            KeywordData[] distinctKeywords = dataFile.Cards.SelectMany(c => c.Keywords).Distinct().Select(k => new KeywordData()
+            KeywordData[] distinctKeywords = allCards.SelectMany(c => c.Keywords).Distinct().Select(k => new KeywordData()
             {
                 Keyword = k
             }).ToArray();
 
-            LegalityData[] distinctLegalities = dataFile.Cards.SelectMany(c => c.Legalities).Select(p => p.Format).Distinct().Select(p => new LegalityData()
+            LegalityData[] distinctLegalities = allCards.SelectMany(c => c.Legalities).Select(p => p.Format).Distinct().Select(p => new LegalityData()
             {
-                Format = p,
+                Legality = p,
             }).ToArray();
 
-            CardData[] cards = dataFile.Cards.Select(c => new CardData()
+            SetData[] sets = dataFile.Sets.Select(s => new SetData()
             {
+                SetCode = s.SetCode,
+                SetName = s.SetName,
+                SetType = s.SetType,
+                ReleaseDate = DateTime.Parse(s.ReleaseDate),
+                BaseSetSize = s.BaseSetSize,
+                TotalSetSize = s.TotalSetSize,
+            }).ToArray();
+
+            CardData[] cards = allCards.Select(c => new CardData()
+            {
+                UUID = c.UUID,
+                SetCode = c.SetCode,                
                 Name = c.Name,
                 AsciiName = c.AsciiName,
                 Text = c.Text,
@@ -77,34 +91,45 @@ namespace MTGDeckBuilder
                 IsFunny = c.IsFunny,
                 IsReserved = c.IsReserved,
                 HasAlternateDeckLimit = c.HasAlternateDeckLimit,
-                CardColors = c.Colors?.Join(distinctColors, o => o, i => i.ColorName, (o, i) => new CardColorData()
+                FaceName = c.FaceName,
+                FlavorText = c.FlavorText,
+                Rarity = c.Rarity,
+                NumberInSet = c.NumberInSet,
+                CardColors = c.Colors?.Select(color => new CardColorData()
                 {
-                    Color = i
+                    fkCard = c.UUID,
+                    fkColor = color
                 }).ToArray(),
-                CardColorIdentities = c.ColorIdentity?.Join(distinctColorIdentities, o => o, i => i.ColorIdentityName, (o, i) => new CardColorIdentityData()
+                CardColorIdentities = c.ColorIdentities.Select(colorIdentity => new CardColorIdentityData()
                 {
-                    ColorIdentity = i
+                    fkCard = c.UUID,
+                    fkColorIdentity = colorIdentity,
                 }).ToArray(),
-                CardTypes = c.Types?.Join(distinctTypes, o => o, i => i.TypeName, (o, i) => new CardTypeData()
+                CardTypes = c.Types?.Select(type => new CardTypeData()
                 {
-                    Type = i
+                    fkCard = c.UUID,
+                    fkType = type,
                 }).ToArray(),
-                CardSuperTypes = c.SuperTypes?.Join(distinctSuperTypes, o => o, i => i.SuperTypeName, (o, i) => new CardSuperTypeData()
+                CardSuperTypes = c.SuperTypes?.Select(superType => new CardSuperTypeData()
                 {
-                    SuperType = i
+                    fkCard = c.UUID,
+                    fkSuperType = superType,
                 }).ToArray(),
-                CardSubTypes = c.SubTypes?.Join(distinctSubTypes, o => o, i => i.SubTypeName, (o, i) => new CardSubTypeData()
+                CardSubTypes = c.SubTypes?.Select(subType => new CardSubTypeData()
                 {
-                    SubType = i
+                    fkCard = c.UUID,
+                    fkSubType = subType,
                 }).ToArray(),
-                CardKeywords = c.Keywords?.Join(distinctKeywords, o => o, i => i.Keyword, (o, i) => new CardKeywordData()
+                CardKeywords = c.Keywords?.Select(keyword => new CardKeywordData()
                 {
-                    Keyword = i
+                    fkCard = c.UUID,
+                    fkKeyword = keyword,
                 }).ToArray(),
-                CardLegalities = c.Legalities?.Join(distinctLegalities, o => o.Format, i => i.Format, (o, i) => new CardLegalityData()
+                CardLegalities = c.Legalities?.Select(legality => new CardLegalityData()
                 {
-                    Legality = i,
-                    IsLegal = o.Status.ToLower() == "legal",
+                    fkCard = c.UUID,
+                    fkLegality = legality.Format,
+                    IsLegal = legality.Status.ToLower() == "legal"
                 }).ToArray(),
                 PurchaseInformation = c.PurchaseInformation?.Select(pi => new PurchaseInformationData()
                 {
@@ -123,8 +148,9 @@ namespace MTGDeckBuilder
                 SuperTypes = distinctSuperTypes,
                 SubTypes = distinctSubTypes,
                 Keywords = distinctKeywords,
-                Cards = cards,
                 Legalities = distinctLegalities,
+                Cards = cards,
+                Sets = sets,
             };
 
             using (MTGDeckBuilderContext ctx = new MTGDeckBuilderContext("MTGDeckBuilder.db"))

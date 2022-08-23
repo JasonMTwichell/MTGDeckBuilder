@@ -6,7 +6,8 @@ namespace MTGDeckBuilder.EF.Entities
 {
     public class CardData
     {
-        public int pkCard { get; set; }
+        public string UUID { get; set; } // pk
+        public string SetCode { get; set; } // fk
         public string? Name { get; set; }
         public string? AsciiName { get; set; }
         public string? Text { get; set; }
@@ -20,13 +21,19 @@ namespace MTGDeckBuilder.EF.Entities
         public int? LifeModifier { get; set; }
         public string? Power { get; set; }
         public string? Toughness { get; set; }
-
         public bool? IsFunny { get; set; }
         public bool? IsReserved { get; set; }
         public bool? HasAlternateDeckLimit { get; set; }
+        
+        public string? FlavorText { get; set; }
+        public string? Rarity { get; set; }
+        public string? FaceName { get; set; }
+        public string NumberInSet { get; set; }
 
 
         // NAVIGATION
+        public virtual SetData Set { get; set; }
+
         public virtual ICollection<ColorData> Colors { get; set; }
         public virtual ICollection<CardColorData> CardColors { get; set; }
 

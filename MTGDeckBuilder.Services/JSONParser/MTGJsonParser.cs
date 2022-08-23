@@ -16,8 +16,8 @@ namespace MTGDeckBuilder.Services.JSONParser
     {
         public async Task<DataFile> ParseMTGFile(string filePath)
         {
-            using(StreamReader streamReader = new StreamReader(filePath))
-            using(JsonReader jsonReader = new JsonTextReader(streamReader))
+            using (StreamReader streamReader = new StreamReader(filePath))
+            using (JsonReader jsonReader = new JsonTextReader(streamReader))
             {
                 JsonSerializer serializer = new JsonSerializer();
                 MTGJsonFile jsonFile = serializer.Deserialize<MTGJsonFile>(jsonReader);
@@ -25,47 +25,62 @@ namespace MTGDeckBuilder.Services.JSONParser
                 {
                     VersionNumber = jsonFile.Meta.Version,
                     VersionDate = jsonFile.Meta.Date,
-                    Cards = jsonFile.Cards.SelectMany(v => v.Value).Select(c => new Card()
+                    Sets = jsonFile.Sets.Select(kvp => kvp.Value).Select(set => new Set()
                     {
-                        AsciiName = c.AsciiName,
-                        Name = c.Name,
-                        Text = c.Text,
-                        Type = c.Type,
-                        Layout = c.Layout,
-                        Side = c.Side,
-                        ManaCost = c.ManaCost,
-                        ManaValue = c.ManaValue,
-                        Loyalty = c.Loyalty,
-                        HandModifier = c.HandModifier,
-                        LifeModifier = c.LifeModifier,
-                        Power = c.Power,
-                        Toughness = c.Toughness,
-                        Printings = c.Printings ?? Array.Empty<string>(),
-                        Keywords = c.Keywords ?? Array.Empty<string>(),
-                        Types = c.Types ?? Array.Empty<string>(),
-                        SuperTypes = c.SuperTypes ?? Array.Empty<string>(),
-                        SubTypes = c.SubTypes ?? Array.Empty<string>(),
-                        ColorIdentity = c.ColorIdentity ?? Array.Empty<string>(),
-                        Colors = c.Colors ?? Array.Empty<string>(),
-                        IsFunny = c.IsFunny,
-                        IsReserved = c.IsReserved,
-                        HasAlternateDeckLimit = c.HasAlternateDeckLimit,
-                        Rulings = c.Rulings?.Select(r => new Ruling()
+                        SetName = set.SetName,
+                        SetCode = set.SetCode,
+                        SetType = set.SetType,
+                        BaseSetSize = set.BaseSetSize,
+                        TotalSetSize = set.TotalSetSize,
+                        ReleaseDate = set.ReleaseDate,
+                        SetCards = set.SetCards.Select(c => new Card()
                         {
-                            RulingDate = r.RulingDate,
-                            RulingText = r.RulingText
-                        }).ToArray() ?? Array.Empty<Ruling>(),
-                        Legalities = c.Legalities?.Select(l => new Legality()
-                        {
-                            Format = l.Key,
-                            Status = l.Value
-                        }).ToArray() ?? Array.Empty<Legality>(),
-                        PurchaseInformation = c.PurchaseInformation?.Select(pi => new PurchaseInformation()
-                        {
-                            StoreFrontName = pi.Key,
-                            CardURI = pi.Value
-                        }).ToArray() ?? Array.Empty<PurchaseInformation>(),
-                    }).ToArray()
+                            UUID = c.UUID,
+                            AsciiName = c.AsciiName,
+                            Name = c.Name,
+                            Text = c.Text,
+                            Type = c.Type,
+                            Layout = c.Layout,
+                            Side = c.Side,
+                            ManaCost = c.ManaCost,
+                            ManaValue = c.ManaValue,
+                            Loyalty = c.Loyalty,
+                            HandModifier = c.HandModifier,
+                            LifeModifier = c.LifeModifier,
+                            Power = c.Power,
+                            Toughness = c.Toughness,
+                            Printings = c.Printings ?? Array.Empty<string>(),
+                            Keywords = c.Keywords ?? Array.Empty<string>(),
+                            Types = c.Types ?? Array.Empty<string>(),
+                            SuperTypes = c.SuperTypes ?? Array.Empty<string>(),
+                            SubTypes = c.SubTypes ?? Array.Empty<string>(),
+                            ColorIdentities = c.ColorIdentity ?? Array.Empty<string>(),
+                            Colors = c.Colors ?? Array.Empty<string>(),
+                            IsFunny = c.IsFunny,
+                            IsReserved = c.IsReserved,
+                            HasAlternateDeckLimit = c.HasAlternateDeckLimit,
+                            FaceName = c.FaceName,
+                            FlavorText = c.FlavorText,
+                            NumberInSet = c.NumberInSet,
+                            Rarity = c.Rarity,
+                            SetCode = c.SetCode,
+                            Rulings = c.Rulings?.Select(r => new Ruling()
+                            {
+                                RulingDate = r.RulingDate,
+                                RulingText = r.RulingText
+                            }).ToArray() ?? Array.Empty<Ruling>(),
+                            Legalities = c.Legalities?.Select(l => new Legality()
+                            {
+                                Format = l.Key,
+                                Status = l.Value
+                            }).ToArray() ?? Array.Empty<Legality>(),
+                            PurchaseInformation = c.PurchaseInformation?.Select(pi => new PurchaseInformation()
+                            {
+                                StoreFrontName = pi.Key,
+                                CardURI = pi.Value
+                            }).ToArray() ?? Array.Empty<PurchaseInformation>(),
+                        }).ToArray(),
+                    }).ToArray(),
                 };
 
                 return dataFile;

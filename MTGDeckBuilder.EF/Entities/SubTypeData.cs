@@ -6,8 +6,7 @@ namespace MTGDeckBuilder.EF.Entities
 {
     public class SubTypeData
     {
-        public int pkSubType { get; set; }
-        public string SubTypeName { get; set; }
+        public string SubType { get; set; } //pk
 
         public virtual ICollection<CardData> Cards { get; set; }
         public virtual ICollection<CardSubTypeData> CardSubTypes { get; set; }

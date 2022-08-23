@@ -6,8 +6,7 @@ namespace MTGDeckBuilder.EF.Entities
 {
     public class SuperTypeData
     {
-        public int pkSuperType { get; set; }
-        public string SuperTypeName { get; set; }
+        public string SuperType { get; set; } //pk
 
         public virtual ICollection<CardData> Cards { get; set; }
         public virtual ICollection<CardSuperTypeData> CardSuperTypes { get; set; }

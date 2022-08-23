@@ -10,6 +10,6 @@ namespace MTGDeckBuilder.Core.Domain
     {
         public string VersionNumber { get; set; }
         public DateTime VersionDate { get; set; }
-        public IEnumerable<Card> Cards { get; set; }
+        public IEnumerable<Set> Sets { get; set; }
     }
 }

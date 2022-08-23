@@ -10,6 +10,7 @@ namespace MTGDeckBuilder.EF
     public interface IMTGDeckBuilderRepository
     {
         Task BootstrapDB(BootstrapDBData fileData);
+        IEnumerable<SetData> GetSets();
         IEnumerable<CardData> GetCards();
         IEnumerable<ColorData> GetColors();
         IEnumerable<TypeData> GetTypes();
