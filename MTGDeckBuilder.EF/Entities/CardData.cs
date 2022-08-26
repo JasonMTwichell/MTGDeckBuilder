@@ -17,11 +17,11 @@ namespace MTGDeckBuilder.EF.Entities
         public string? Side { get; set; }
         public string? ManaCost { get; set; }
         public double? ManaValue { get; set; }
-        public string? Loyalty { get; set; }
+        public int? Loyalty { get; set; }
         public int? HandModifier { get; set; }
         public int? LifeModifier { get; set; }
-        public string? Power { get; set; }
-        public string? Toughness { get; set; }
+        public int? Power { get; set; }
+        public int? Toughness { get; set; }
         public bool? IsFunny { get; set; }
         public bool? IsReserved { get; set; }
         public bool? HasAlternateDeckLimit { get; set; }
@@ -29,7 +29,7 @@ namespace MTGDeckBuilder.EF.Entities
         public string? FlavorText { get; set; }
         public string? Rarity { get; set; }
         public string? FaceName { get; set; }
-        public string NumberInSet { get; set; }
+        public int? NumberInSet { get; set; }
 
 
         // NAVIGATION
