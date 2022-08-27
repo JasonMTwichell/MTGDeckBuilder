@@ -1,4 +1,5 @@
-﻿using MTGDeckBuilder.Core.Domain;
+﻿using Microsoft.Extensions.Configuration;
+using MTGDeckBuilder.Core.Domain;
 using MTGDeckBuilder.Core.Service;
 using MTGDeckBuilder.DbUp;
 using MTGDeckBuilder.EF;
@@ -7,6 +8,7 @@ using MTGDeckBuilder.Services;
 using MTGDeckBuilder.Services.JSONParser;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,12 +18,15 @@ namespace MTGDeckBuilder
     {
         static async Task Main(string[] args)
         {
-            // TODO: Move this to configuration
-            MTGEmbeddedScriptsProvider.ExecuteDbUpScripts("MTGDeckBuilder.db");
 
-            // TODO: Move this to configuration
+            IMTGConfiguration cfg = new MTGDeckBuilderConfiguration();
+            string mtgJsonFilePath = cfg.GetConfigurationValue("MTG_JSON_FILE_PATH");
+            string dbPath = cfg.GetConfigurationValue("MTG_DB_PATH");
+
+            MTGEmbeddedScriptsProvider.ExecuteDbUpScripts(dbPath);
+            
             IMTGParser parser = new MTGJsonParser();
-            DataFile dataFile = await parser.ParseMTGFile(@"C:\Users\jason\Downloads\MTG JSON\AllPrintings.json");
+            DataFile dataFile = await parser.ParseMTGFile(mtgJsonFilePath);
 
             // get all reference data
             Card[] allCards = dataFile.Sets.SelectMany(s => s.SetCards).ToArray();
@@ -76,7 +81,7 @@ namespace MTGDeckBuilder
                 UUID = c.UUID,
                 FaceName = c.FaceName,
                 FlavorText = c.FlavorText,
-                NumberInSet = int.TryParse(c.NumberInSet, out int numInSet) ? numInSet : null,
+                NumberInSet = c.NumberInSet,
                 Rarity = c.Rarity,
                 Name = c.Name,
                 AsciiName = c.AsciiName,
@@ -89,8 +94,8 @@ namespace MTGDeckBuilder
                 Loyalty = int.TryParse(c.Loyalty, out int loyalty) ? loyalty : null,
                 HandModifier = c.HandModifier,
                 LifeModifier = c.LifeModifier,
-                Power = int.TryParse(c.Power, out int power) ? power : null,
-                Toughness = int.TryParse(c.Toughness, out int toughness) ? toughness : null,
+                Power = c.Power,
+                Toughness = c.Toughness,
                 IsFunny = c.IsFunny,
                 IsReserved = c.IsReserved,
                 HasAlternateDeckLimit = c.HasAlternateDeckLimit,
@@ -145,7 +150,7 @@ namespace MTGDeckBuilder
                 Cards = cards,
             };
 
-            using (MTGDeckBuilderContext ctx = new MTGDeckBuilderContext("MTGDeckBuilder.db"))
+            using (MTGDeckBuilderContext ctx = new MTGDeckBuilderContext(dbPath))
             {
                 IMTGDeckBuilderRepository repo = new MTGDeckBuilderRepository(ctx);
                 await repo.BootstrapDB(bootstrapData);

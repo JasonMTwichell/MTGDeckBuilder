@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTGDeckBuilder.API", "MTGDe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTGDeckBuilder.DbUp", "MTGDeckBuilder.DbUp\MTGDeckBuilder.DbUp.csproj", "{0924D324-3EC1-4BCD-8011-FB3F878B9663}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{1EA27922-C80E-4B9B-A541-042742FA2ED6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{0924D324-3EC1-4BCD-8011-FB3F878B9663}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0924D324-3EC1-4BCD-8011-FB3F878B9663}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0924D324-3EC1-4BCD-8011-FB3F878B9663}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EA27922-C80E-4B9B-A541-042742FA2ED6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EA27922-C80E-4B9B-A541-042742FA2ED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EA27922-C80E-4B9B-A541-042742FA2ED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EA27922-C80E-4B9B-A541-042742FA2ED6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

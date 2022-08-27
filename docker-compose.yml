@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  mtgdeckbuilder:
+    image: ${DOCKER_REGISTRY-}mtgdeckbuilder
+    build:
+      context: .
+      dockerfile: MTGDeckBuilder/Dockerfile
+    environment:
+      - MTG_DB_PATH=/MTG_APP/MTGDeckBuilder.db
+      - MTG_JSON_FILE_PATH=/MTG_APP/AllPrintings.json
+    volumes:
+      - C:\MTG_DECK_BUILDER:/MTG_APP

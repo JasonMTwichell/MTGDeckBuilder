@@ -74,7 +74,7 @@ CREATE TABLE "tblCard" (
     "FlavorText" TEXT NULL,
     "Rarity" TEXT NULL,
     "FaceName" TEXT NULL,
-    "NumberInSet" TEXT NOT NULL,
+    "NumberInSet" TEXT NULL,
     CONSTRAINT "FK_tblCard_tblSet_fkSet" FOREIGN KEY ("fkSet") REFERENCES "tblSet" ("pkSet") ON DELETE CASCADE
 );
 
