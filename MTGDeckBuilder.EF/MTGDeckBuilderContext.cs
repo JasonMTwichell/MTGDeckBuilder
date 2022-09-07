@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MTGDeckBuilder.Core.Service;
 using MTGDeckBuilder.EF.Entities;
 
 namespace MTGDeckBuilder.EF
@@ -6,6 +7,12 @@ namespace MTGDeckBuilder.EF
     public class MTGDeckBuilderContext : DbContext
     {
         private readonly string _dbPath;
+
+        public MTGDeckBuilderContext(IMTGConfiguration cfg)
+        {
+            _dbPath = cfg.GetConfigurationValue("MTG_DB_PATH");
+        }
+
         public MTGDeckBuilderContext(string connectionString)
         {
             _dbPath = connectionString;

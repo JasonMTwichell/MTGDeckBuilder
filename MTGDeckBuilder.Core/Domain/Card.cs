@@ -6,6 +6,7 @@ namespace MTGDeckBuilder.Core.Domain
 {
     public class Card
     {
+        public int? CardID { get; set; }
         public string UUID { get; set; }
         public string AsciiName { get; set; }
         public string Name { get; set; }

@@ -7,11 +7,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\MTGDeckBuilder.Core\MTGDeckBuilder.Core.csproj" />
+	  <ProjectReference Include="..\MTGDeckBuilder.EF\MTGDeckBuilder.EF.csproj" />
 	</ItemGroup>
 
 </Project>
