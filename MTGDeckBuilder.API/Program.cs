@@ -1,6 +1,7 @@
 using MTGDeckBuilder.API;
 using MTGDeckBuilder.Core.Service;
 using MTGDeckBuilder.EF;
+using MTGDeckBuilder.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddTransient<IMTGConfiguration, MTGDeckBuilderApiConfiguration>();
 builder.Services.AddTransient<MTGDeckBuilderContext, MTGDeckBuilderContext>();
 builder.Services.AddTransient<IMTGDeckBuilderRepository, MTGDeckBuilderRepository>();
-builder.Services.AddTransient<IMTGDeckBuilderService, IMTGDeckBuilderService>();
+builder.Services.AddTransient<IMTGDeckBuilderService, MTGDeckBuilderService>();
 
 var app = builder.Build();
 

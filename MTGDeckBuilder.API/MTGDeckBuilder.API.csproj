@@ -14,6 +14,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MTGDeckBuilder.Core\MTGDeckBuilder.Core.csproj" />
+    <ProjectReference Include="..\MTGDeckBuilder.EF\MTGDeckBuilder.EF.csproj" />
+    <ProjectReference Include="..\MTGDeckBuilder.Services\MTGDeckBuilder.Services.csproj" />
   </ItemGroup>
 
 </Project>

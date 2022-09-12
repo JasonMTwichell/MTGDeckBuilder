@@ -6,6 +6,8 @@ using MTGDeckBuilder.Core.Service;
 
 namespace MTGDeckBuilder.API.Controllers
 {
+    [ApiController]
+    [Route("[controller]/[action]")]
     public class MTGSearchController: ControllerBase
     {
         private readonly IMTGDeckBuilderService _mtgSvc;
@@ -66,14 +68,17 @@ namespace MTGDeckBuilder.API.Controllers
                 SuperTypeID = searchVM.SuperTypeID,
                 SubTypeID = searchVM.SubTypeID,
                 SelectedColorFilters = searchVM.Colors,
-                MatchColorIdentity = searchVM.MatchColorIdentity,
-                MatchColorsExactly = searchVM.MatchColorsExactly,
+                MatchColorIdentity = searchVM.MatchColorIdentity ?? false,
+                MatchColorsExactly = searchVM.MatchColorsExactly ?? false,
             };
 
             IEnumerable<Card> searchResults = await _mtgSvc.PerformCardSearch(searchParams);
             CardViewModel[] mappedSearchResults = searchResults.Select(c => new CardViewModel()
             {
-                
+                CardID = c.CardID.Value,
+                ManaCost = c.ManaCost,
+                Name = c.Name,
+                Text = c.Text,
             }).ToArray();
 
             return mappedSearchResults;
