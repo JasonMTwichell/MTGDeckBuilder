@@ -69,7 +69,8 @@ namespace MTGDeckBuilder.EF
             List<CardSuperTypeData> cardSuperTypes = new List<CardSuperTypeData>();
             List<CardSubTypeData> cardSubTypes = new List<CardSubTypeData>();
             List<CardKeywordData> cardKeywords = new List<CardKeywordData>();
-            
+            List<CardFormatData> cardFormats = new List<CardFormatData>();            
+            List<PurchaseInformationData> purchaseInformation = new List<PurchaseInformationData>();            
 
             using (var transaction = _ctx.Database.BeginTransaction())
             {
@@ -80,56 +81,70 @@ namespace MTGDeckBuilder.EF
                 await _ctx.BulkInsertAsync(fileData.SubTypes.ToList(), new BulkConfig { SetOutputIdentity = true });
                 await _ctx.BulkInsertAsync(fileData.Keywords.ToList(), new BulkConfig { SetOutputIdentity = true });
                 await _ctx.BulkInsertAsync(fileData.Sets.ToList(), new BulkConfig { SetOutputIdentity = true });
-
-                foreach (CardData cd in fileData.Cards) cd.fkSet = cd.Set.pkSet;
+                await _ctx.BulkInsertAsync(fileData.Formats.ToList(), new BulkConfig { SetOutputIdentity = true });
+                
+                foreach(CardData cd in fileData.Cards) cd.fkSet = cd.Set.pkSet;
                 
                 await _ctx.BulkInsertAsync(fileData.Cards.ToList(), new BulkConfig { SetOutputIdentity = true });
 
-                foreach (var card in fileData.Cards)
+                foreach(var card in fileData.Cards)
                 {
                     card.fkSet = card.Set.pkSet;
 
-                    foreach (var color in card.CardColors)
+                    foreach(var color in card.CardColors)
                     {
                         color.fkCard = card.pkCard;
                         color.fkColor = color.Color.pkColor;
                     }
                     cardColors.AddRange(card.CardColors);
 
-                    foreach (var colorIdentity in card.CardColorIdentities)
+                    foreach(var colorIdentity in card.CardColorIdentities)
                     {
                         colorIdentity.fkCard = card.pkCard;
                         colorIdentity.fkColorIdentity = colorIdentity.ColorIdentity.pkColorIdentity;
                     }
                     cardColorIdentities.AddRange(card.CardColorIdentities);
 
-                    foreach (var type in card.CardTypes)
+                    foreach(var type in card.CardTypes)
                     {
                         type.fkCard = card.pkCard;
                         type.fkType = type.Type.pkType;
                     }
                     cardTypes.AddRange(card.CardTypes);
 
-                    foreach (var superType in card.CardSuperTypes)
+                    foreach(var superType in card.CardSuperTypes)
                     {
                         superType.fkCard = card.pkCard;
                         superType.fkSuperType = superType.SuperType.pkSuperType;
                     }
                     cardSuperTypes.AddRange(card.CardSuperTypes);
 
-                    foreach (var subType in card.CardSubTypes)
+                    foreach(var subType in card.CardSubTypes)
                     {
                         subType.fkCard = card.pkCard;
                         subType.fkSubType = subType.SubType.pkSubType;
                     }
                     cardSubTypes.AddRange(card.CardSubTypes);
 
-                    foreach (var keyword in card.CardKeywords)
+                    foreach(var keyword in card.CardKeywords)
                     {
                         keyword.fkCard = card.pkCard;
                         keyword.fkKeyword = keyword.Keyword.pkKeyword;
                     }
                     cardKeywords.AddRange(card.CardKeywords);
+
+                    foreach(var format in card.CardFormats)
+                    {
+                        format.fkCard = card.pkCard;
+                        format.fkFormat = format.Format.pkFormat;
+                    }
+                    cardFormats.AddRange(card.CardFormats);
+
+                    foreach(var pi in card.PurchaseInformation)
+                    {
+                        pi.fkCard = card.pkCard;
+                    }
+                    purchaseInformation.AddRange(card.PurchaseInformation);
                 }
 
                 _ctx.BulkInsert(cardColors);
@@ -138,6 +153,8 @@ namespace MTGDeckBuilder.EF
                 _ctx.BulkInsert(cardSuperTypes);
                 _ctx.BulkInsert(cardSubTypes);
                 _ctx.BulkInsert(cardKeywords);
+                _ctx.BulkInsert(cardFormats);
+                _ctx.BulkInsert(purchaseInformation);
                 transaction.Commit();
             }
 

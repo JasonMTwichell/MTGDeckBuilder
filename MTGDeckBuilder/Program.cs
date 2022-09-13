@@ -8,6 +8,7 @@ using MTGDeckBuilder.Services;
 using MTGDeckBuilder.Services.JSONParser;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,6 +28,8 @@ namespace MTGDeckBuilder
             
             IMTGParser parser = new MTGJsonParser();
             DataFile dataFile = await parser.ParseMTGFile(mtgJsonFilePath);
+
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
 
             // get all reference data
             Card[] allCards = dataFile.Sets.SelectMany(s => s.SetCards).ToArray();
@@ -134,6 +137,12 @@ namespace MTGDeckBuilder
                     CardURI = pi.CardURI,
                 }).ToArray(),
             }).ToArray();
+
+            // convert formats to title case
+            foreach(FormatData fd in distinctLegalities)
+            {
+                fd.Format = textInfo.ToTitleCase(fd.Format);
+            }
 
             BootstrapDBData bootstrapData = new BootstrapDBData()
             {
