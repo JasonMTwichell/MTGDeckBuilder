@@ -55,8 +55,8 @@ namespace MTGDeckBuilder.API.Controllers
             };
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<CardViewModel>> Search(CardSearchViewModel searchVM)
+        [HttpPost]
+        public async Task<IEnumerable<CardViewModel>> Search([FromBody] CardSearchViewModel searchVM)
         {
             CardSearchParameters searchParams = new CardSearchParameters()
             {

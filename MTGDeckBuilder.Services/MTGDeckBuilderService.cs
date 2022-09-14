@@ -95,7 +95,7 @@ namespace MTGDeckBuilder.Services
                 cards = cards.Where(c => c.Keywords.Any(k => k.pkKeyword == searchParams.KeywordID.Value));
             }
 
-            if(searchParams.SelectedColorFilters.Length > 0)
+            if(searchParams.SelectedColorFilters != null && searchParams.SelectedColorFilters.Length > 0)
             {
                 if(searchParams.MatchColorsExactly)
                 {
@@ -123,12 +123,13 @@ namespace MTGDeckBuilder.Services
             
             if(!string.IsNullOrEmpty(searchParams.SearchTerm))
             {
-                cards = _repo.GetCards().Where(c => c.Name.Contains(searchParams.SearchTerm) || c.Text.Contains(searchParams.SearchTerm)).AsQueryable();
+                cards = _repo.GetCards().Where(c => c.Name.Contains(searchParams.SearchTerm) || (c.Text?.Contains(searchParams.SearchTerm) ?? false)).AsQueryable();
             }
 
             Card[] matchingCards = cards.Select(c => new Card()
             {
                 CardID = c.pkCard,
+                Name = c.Name,
                 AsciiName = c.AsciiName,
                 FaceName = c.FaceName,
                 FlavorText = c.FlavorText,
