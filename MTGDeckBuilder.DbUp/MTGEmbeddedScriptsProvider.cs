@@ -16,10 +16,10 @@ namespace MTGDeckBuilder.DbUp
             var upgradeEngine = DeployChanges.To
                 .SQLiteDatabase(dbPath)                   
                 .WithScriptsEmbeddedInAssembly(typeof(MTGDBUpScripts).Assembly)
-                .LogToConsole()
+                .LogToConsole()                
                 .Build();
 
-            upgradeEngine.PerformUpgrade();
+            upgradeEngine.PerformUpgrade();            
         }
     }
 }

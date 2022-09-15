@@ -13,6 +13,7 @@ namespace MTGDeckBuilder.EF
         IEnumerable<SetData> GetSets();
         IEnumerable<CardData> GetCards();
         IEnumerable<ColorData> GetColors();
+        IEnumerable<ColorIdentityData> GetColorIdentities();
         IEnumerable<TypeData> GetTypes();
         IEnumerable<SuperTypeData> GetSuperTypes();
         IEnumerable<SubTypeData> GetSubTypes();

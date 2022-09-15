@@ -63,7 +63,7 @@ namespace MTGDeckBuilder.Services
 
         public async Task<IEnumerable<Card>> PerformCardSearch(CardSearchParameters searchParams)
         {
-            IQueryable<CardData> cards = Array.Empty<CardData>().AsQueryable();
+            IQueryable<CardData> cards = _repo.GetCards().AsQueryable();
             
             if(searchParams.SetID != null)
             {
@@ -72,7 +72,7 @@ namespace MTGDeckBuilder.Services
 
             if(searchParams.FormatID != null)
             {
-                cards = cards.Where(c => c.Formats.Any(f => f.pkFormat == searchParams.FormatID.Value));
+                cards = cards.Where(c => c.CardFormats.Any(f => (f.fkFormat == searchParams.FormatID.Value) && (f.IsLegal == true)));
             }
             
             if(searchParams.TypeID != null)
@@ -101,11 +101,11 @@ namespace MTGDeckBuilder.Services
                 {
                     if(searchParams.MatchColorIdentity)
                     {
-                        cards = cards.Where(c => c.ColorIdentities.All(color => searchParams.SelectedColorFilters.Contains(color.pkColorIdentity)));
+                        cards = cards.Where(c => c.ColorIdentities.Count() == searchParams.SelectedColorFilters.Length && c.ColorIdentities.All(color => searchParams.SelectedColorFilters.Contains(color.pkColorIdentity)));
                     }
                     else
                     {
-                        cards = cards.Where(c => c.Colors.All(color => searchParams.SelectedColorFilters.Contains(color.pkColor)));
+                        cards = cards.Where(c => c.Colors.Count() == searchParams.SelectedColorFilters.Length && c.Colors.All(color => searchParams.SelectedColorFilters.Contains(color.pkColor)));
                     }
                 }
                 else
@@ -123,7 +123,8 @@ namespace MTGDeckBuilder.Services
             
             if(!string.IsNullOrEmpty(searchParams.SearchTerm))
             {
-                cards = _repo.GetCards().Where(c => c.Name.Contains(searchParams.SearchTerm) || (c.Text?.Contains(searchParams.SearchTerm) ?? false)).AsQueryable();
+                cards = cards.Where(c => c.Name.ToUpper().Contains(searchParams.SearchTerm.ToUpper()) 
+                || (!string.IsNullOrEmpty(c.Text) && (c.Text.ToUpper().Contains(searchParams.SearchTerm.ToUpper()))));
             }
 
             Card[] matchingCards = cards.Select(c => new Card()

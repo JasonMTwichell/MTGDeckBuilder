@@ -23,7 +23,7 @@ namespace MTGDeckBuilder.EF
 
         public IEnumerable<CardData> GetCards()
         {
-            return _ctx.Cards.ToArray();
+            return _ctx.Cards;
         }
 
         public IEnumerable<ColorData> GetColors()
@@ -74,8 +74,6 @@ namespace MTGDeckBuilder.EF
 
             using (var transaction = _ctx.Database.BeginTransaction())
             {
-                await _ctx.BulkInsertAsync(fileData.Colors.ToList(), new BulkConfig { SetOutputIdentity = true });
-                await _ctx.BulkInsertAsync(fileData.ColorIdentities.ToList(), new BulkConfig { SetOutputIdentity = true });
                 await _ctx.BulkInsertAsync(fileData.Types.ToList(), new BulkConfig { SetOutputIdentity = true });
                 await _ctx.BulkInsertAsync(fileData.SuperTypes.ToList(), new BulkConfig { SetOutputIdentity = true });
                 await _ctx.BulkInsertAsync(fileData.SubTypes.ToList(), new BulkConfig { SetOutputIdentity = true });

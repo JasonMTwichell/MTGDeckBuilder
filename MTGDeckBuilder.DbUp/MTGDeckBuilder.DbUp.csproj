@@ -8,9 +8,13 @@
 
   <ItemGroup>
     <None Remove="Scripts\MTG.000.sql" />
+    <None Remove="Scripts\MTG.001.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\MTG.001.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Scripts\MTG.000.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

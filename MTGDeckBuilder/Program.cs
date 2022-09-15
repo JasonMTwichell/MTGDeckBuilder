@@ -12,37 +12,36 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Unity;
 
 namespace MTGDeckBuilder
 {
     class Program
     {
+        private static IUnityContainer _container;
+        private static IMTGDeckBuilderRepository _repo;
+        private static IMTGConfiguration _cfg;        
         static async Task Main(string[] args)
         {
-
-            IMTGConfiguration cfg = new MTGDeckBuilderConfiguration();
-            string mtgJsonFilePath = cfg.GetConfigurationValue("MTG_JSON_FILE_PATH");
-            string dbPath = cfg.GetConfigurationValue("MTG_DB_PATH");
-
-            MTGEmbeddedScriptsProvider.ExecuteDbUpScripts(dbPath);
+            _container = IoCBootstrapper.BootstrapIoC();
+            _repo = _container.Resolve<IMTGDeckBuilderRepository>();
+            _cfg = _container.Resolve<IMTGConfiguration>();
+            
+            string dbPath = _cfg.GetConfigurationValue("MTG_DB_PATH");
+            MTGEmbeddedScriptsProvider.ExecuteDbUpScripts(dbPath);            
             
             IMTGParser parser = new MTGJsonParser();
+            string mtgJsonFilePath = _cfg.GetConfigurationValue("MTG_JSON_FILE_PATH");
             DataFile dataFile = await parser.ParseMTGFile(mtgJsonFilePath);
 
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
 
             // get all reference data
+            ColorData[] distinctColors = _repo.GetColors().ToArray();
+            ColorIdentityData[] distinctColorIdentities = _repo.GetColorIdentities().ToArray();
+
+            // build out db based on whats here
             Card[] allCards = dataFile.Sets.SelectMany(s => s.SetCards).ToArray();
-            ColorData[] distinctColors = allCards.SelectMany(c => c.Colors).Distinct().Select(c => new ColorData()
-            {
-                Color = c
-            }).ToArray();
-
-            ColorIdentityData[] distinctColorIdentities = allCards.SelectMany(c => c.ColorIdentities).Distinct().Select(c => new ColorIdentityData()
-            {
-                ColorIdentity = c
-            }).ToArray();
-
             TypeData[] distinctTypes = allCards.SelectMany(c => c.Types).Distinct().Select(t => new TypeData()
             {
                 Type = t
@@ -148,8 +147,6 @@ namespace MTGDeckBuilder
             {
                 VersionNumber = dataFile.VersionNumber,
                 VersionDate = dataFile.VersionDate,
-                Colors = distinctColors,
-                ColorIdentities = distinctColorIdentities,
                 Types = distinctTypes,
                 SuperTypes = distinctSuperTypes,
                 SubTypes = distinctSubTypes,
@@ -159,11 +156,7 @@ namespace MTGDeckBuilder
                 Cards = cards,
             };
 
-            using (MTGDeckBuilderContext ctx = new MTGDeckBuilderContext(dbPath))
-            {
-                IMTGDeckBuilderRepository repo = new MTGDeckBuilderRepository(ctx);
-                await repo.BootstrapDB(bootstrapData);
-            }
+            await _repo.BootstrapDB(bootstrapData);
         }
     }
 }

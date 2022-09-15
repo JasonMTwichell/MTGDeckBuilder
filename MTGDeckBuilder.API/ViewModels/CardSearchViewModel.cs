@@ -2,7 +2,7 @@
 {
     public class CardSearchViewModel
     {
-        public string SearchTerm { get; set; }
+        public string?  SearchTerm { get; set; }
         public int[]? Colors { get; set; }
         public bool? MatchColorsExactly { get; set; }
         public bool? MatchColorIdentity { get; set; }
