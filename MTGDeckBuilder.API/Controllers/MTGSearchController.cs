@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MTGDeckBuilder.API.ViewModels;
 using MTGDeckBuilder.Core.Domain;
-using MTGDeckBuilder.Core.DTO;
 using MTGDeckBuilder.Core.Service;
 
 namespace MTGDeckBuilder.API.Controllers

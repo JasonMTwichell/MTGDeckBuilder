@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MTGDeckBuilder.Core.DTO
+namespace MTGDeckBuilder.Core.Domain
 {
     public class CardSearchParameters
     {
@@ -20,5 +20,5 @@ namespace MTGDeckBuilder.Core.DTO
         public int[] SelectedColorFilters { get; set; }
         public bool MatchColorsExactly { get; set; }
         public bool MatchColorIdentity { get; set; }
-    }   
+    }
 }

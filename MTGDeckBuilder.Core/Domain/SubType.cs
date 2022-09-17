@@ -1,4 +1,8 @@
-﻿namespace MTGDeckBuilder.Core.Domain
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace MTGDeckBuilder.Core.Domain
 {
     public class SubType
     {

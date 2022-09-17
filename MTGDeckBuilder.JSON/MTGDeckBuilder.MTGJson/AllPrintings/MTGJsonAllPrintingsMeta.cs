@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace MTGDeckBuilder.Services.JSONParser
+namespace MTGDeckBuilder.MTGJson.Parse
 {
-    public class MTGJsonMeta
+    public class MTGJsonAllPrintingsMeta
     {
         [JsonProperty("date")]
         public DateTime Date { get; set; }

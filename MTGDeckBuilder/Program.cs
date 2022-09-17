@@ -1,15 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
-using MTGDeckBuilder.Core.Domain;
+﻿using MTGDeckBuilder.Core.Domain;
 using MTGDeckBuilder.Core.Service;
 using MTGDeckBuilder.DbUp;
 using MTGDeckBuilder.EF;
 using MTGDeckBuilder.EF.Entities;
-using MTGDeckBuilder.Services;
-using MTGDeckBuilder.Services.JSONParser;
+using MTGDeckBuilder.MTGJson;
+using MTGDeckBuilder.MTGJson.DTO;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Unity;
@@ -30,9 +28,9 @@ namespace MTGDeckBuilder
             string dbPath = _cfg.GetConfigurationValue("MTG_DB_PATH");
             MTGEmbeddedScriptsProvider.ExecuteDbUpScripts(dbPath);            
             
-            IMTGParser parser = new MTGJsonParser();
+            IMTGJsonParser parser = new MTGJsonParser();
             string mtgJsonFilePath = _cfg.GetConfigurationValue("MTG_JSON_FILE_PATH");
-            DataFile dataFile = await parser.ParseMTGFile(mtgJsonFilePath);
+            ParsedAllPrintingsFile allPrintingsFile = await parser.ParseAllPrintingsFile(mtgJsonFilePath);
 
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
 
@@ -41,7 +39,7 @@ namespace MTGDeckBuilder
             ColorIdentityData[] distinctColorIdentities = _repo.GetColorIdentities().ToArray();
 
             // build out db based on whats here
-            Card[] allCards = dataFile.Sets.SelectMany(s => s.SetCards).ToArray();
+            ParsedCard[] allCards = allPrintingsFile.Sets.SelectMany(s => s.SetCards).ToArray();
             TypeData[] distinctTypes = allCards.SelectMany(c => c.Types).Distinct().Select(t => new TypeData()
             {
                 Type = t
@@ -67,7 +65,7 @@ namespace MTGDeckBuilder
                 Format = p,
             }).ToArray();
 
-            SetData[] distinctSets = dataFile.Sets.Select(set => new SetData()
+            SetData[] distinctSets = allPrintingsFile.Sets.Select(set => new SetData()
             {
                 SetName = set.SetName,
                 SetCode = set.SetCode,
@@ -145,8 +143,8 @@ namespace MTGDeckBuilder
 
             BootstrapDBData bootstrapData = new BootstrapDBData()
             {
-                VersionNumber = dataFile.VersionNumber,
-                VersionDate = dataFile.VersionDate,
+                VersionNumber = allPrintingsFile.VersionNumber,
+                VersionDate = allPrintingsFile.VersionDate,
                 Types = distinctTypes,
                 SuperTypes = distinctSuperTypes,
                 SubTypes = distinctSubTypes,
@@ -157,6 +155,6 @@ namespace MTGDeckBuilder
             };
 
             await _repo.BootstrapDB(bootstrapData);
-        }
+        }        
     }
 }

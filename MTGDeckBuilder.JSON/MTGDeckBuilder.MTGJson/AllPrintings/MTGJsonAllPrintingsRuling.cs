@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace MTGDeckBuilder.Services.JSONParser
+namespace MTGDeckBuilder.MTGJson.Parse
 {
-    public class MTGJsonRuling
+    public class MTGJsonAllPrintingsRuling
     {
         [JsonProperty("date")]
         public string RulingDate { get; set; }

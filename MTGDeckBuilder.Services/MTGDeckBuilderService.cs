@@ -1,5 +1,4 @@
 ﻿using MTGDeckBuilder.Core.Domain;
-using MTGDeckBuilder.Core.DTO;
 using MTGDeckBuilder.Core.Service;
 using MTGDeckBuilder.EF;
 using MTGDeckBuilder.EF.Entities;

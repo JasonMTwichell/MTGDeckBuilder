@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MTGDeckBuilder.Core.Domain
+namespace MTGDeckBuilder.MTGJson.DTO
 {
-    public class DataFile
+    public record ParsedAllPrintingsFile
     {        
         public string VersionNumber { get; set; }
         public DateTime VersionDate { get; set; }
-        public IEnumerable<Set> Sets { get; set; }
+        public IEnumerable<ParsedSet> Sets { get; set; }
     }
 }

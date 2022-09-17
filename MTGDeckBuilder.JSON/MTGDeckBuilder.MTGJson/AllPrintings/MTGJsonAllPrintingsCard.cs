@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MTGDeckBuilder.Services.JSONParser
+namespace MTGDeckBuilder.MTGJson.Parse
 {
-    public class MTGJsonCard
+    public class MTGJsonAllPrintingsCard
     {
 
         [JsonProperty("uuid")]
@@ -81,7 +81,7 @@ namespace MTGDeckBuilder.Services.JSONParser
         public string[] ColorIndicators { get; set; }
 
         [JsonProperty("rulings")]
-        public List<MTGJsonRuling> Rulings { get; set; }
+        public List<MTGJsonAllPrintingsRuling> Rulings { get; set; }
 
         [JsonProperty("isFunny")]
         public bool IsFunny { get; set; }

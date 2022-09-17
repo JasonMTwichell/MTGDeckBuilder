@@ -28,6 +28,7 @@
     <ProjectReference Include="..\MTGDeckBuilder.Core\MTGDeckBuilder.Core.csproj" />
     <ProjectReference Include="..\MTGDeckBuilder.DbUp\MTGDeckBuilder.DbUp.csproj" />
     <ProjectReference Include="..\MTGDeckBuilder.EF\MTGDeckBuilder.EF.csproj" />
+    <ProjectReference Include="..\MTGDeckBuilder.JSON\MTGDeckBuilder.MTGJson\MTGDeckBuilder.MTGJson.csproj" />
     <ProjectReference Include="..\MTGDeckBuilder.Services\MTGDeckBuilder.Services.csproj" />
   </ItemGroup>
 

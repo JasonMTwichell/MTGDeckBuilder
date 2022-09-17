@@ -1,6 +1,4 @@
-﻿using MTGDeckBuilder.Core.Domain;
-
-namespace MTGDeckBuilder.Core.DTO
+﻿namespace MTGDeckBuilder.Core.Domain
 {
     public class CardSearchCriteria
     {

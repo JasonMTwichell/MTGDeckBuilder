@@ -1,6 +1,6 @@
-﻿namespace MTGDeckBuilder.Core.Domain
+﻿namespace MTGDeckBuilder.MTGJson.DTO
 {
-    public class Ruling
+    public record ParsedRuling
     {
         public int? RulingID { get; set; }
         public string RulingDate { get; set; }

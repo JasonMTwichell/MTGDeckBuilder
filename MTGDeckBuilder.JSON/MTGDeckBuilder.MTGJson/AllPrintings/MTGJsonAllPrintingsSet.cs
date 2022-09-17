@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MTGDeckBuilder.Services.JSONParser
+namespace MTGDeckBuilder.MTGJson.Parse
 {
-    public class MTGJsonSet
+    public class MTGJsonAllPrintingsSet
     {
         [JsonProperty("name")]
         public string SetName { get; set; }
@@ -28,6 +28,6 @@ namespace MTGDeckBuilder.Services.JSONParser
         public string SetType { get; set; }
 
         [JsonProperty("cards")]
-        public MTGJsonCard[] SetCards { get; set; }
+        public MTGJsonAllPrintingsCard[] SetCards { get; set; }
     }
 }

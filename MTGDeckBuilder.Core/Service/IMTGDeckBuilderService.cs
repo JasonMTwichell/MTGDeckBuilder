@@ -1,5 +1,4 @@
 ﻿using MTGDeckBuilder.Core.Domain;
-using MTGDeckBuilder.Core.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
