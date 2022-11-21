@@ -16,10 +16,10 @@ namespace MTGDeckBuilder.API.Controllers
         }
 
         [HttpGet]
-        public async Task<SearchCriteriaViewModel> GetSearchCriteria()
+        public async Task<CardSearchCriteriaViewModel> GetSearchCriteria()
         {
             CardSearchCriteria cardSearchCriteria = await _mtgSvc.GetSearchCriteria();
-            return new SearchCriteriaViewModel()
+            return new CardSearchCriteriaViewModel()
             {
                 Colors = cardSearchCriteria.Colors.Select(c => new ListItemViewModel<int>()
                 {
@@ -55,7 +55,7 @@ namespace MTGDeckBuilder.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IEnumerable<CardViewModel>> Search([FromBody] CardSearchViewModel searchVM)
+        public async Task<IEnumerable<CardViewModel>> Search([FromBody] CardSearchParametersViewModel searchVM)
         {
             CardSearchParameters searchParams = new CardSearchParameters()
             {

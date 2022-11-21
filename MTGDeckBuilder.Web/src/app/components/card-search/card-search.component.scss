@@ -1,0 +1,39 @@
+#card-search-form, #search-term, #card-search-filters, #card-search-params {
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+#checkbox-options {
+  display: flex;
+  justify-content: start;
+}
+
+#search-card-text {
+  margin-bottom: 15px;
+}
+
+#search-card-color {
+  margin-bottom: 10px;
+}
+
+mat-checkbox {
+  margin-right: 15px;
+}
+
+button {
+    margin: 10px 0 10px 10px;
+}
+
+.flex-col {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.flex-row {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+h3 {
+  margin-bottom: 5px;
+}

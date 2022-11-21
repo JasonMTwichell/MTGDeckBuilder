@@ -1,10 +1,10 @@
 const PROXY_CONFIG = [
   {
     context: [
-      "/weatherforecast",
+      "/mtgsearch/*",
     ],
     target: "https://localhost:5001",
-    secure: false
+    secure: false    
   }
 ]
 

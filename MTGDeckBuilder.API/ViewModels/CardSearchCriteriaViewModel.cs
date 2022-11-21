@@ -1,6 +1,6 @@
 ﻿namespace MTGDeckBuilder.API.ViewModels
 {
-    public class SearchCriteriaViewModel
+    public class CardSearchCriteriaViewModel
     {
         public IEnumerable<ListItemViewModel<int>> Colors { get; set; }
         public IEnumerable<ListItemViewModel<int>> Sets { get; set; }

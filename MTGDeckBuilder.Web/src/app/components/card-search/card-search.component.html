@@ -1,0 +1,72 @@
+<form id="card-search-form" *ngIf="searchParams">
+  <div class="flex-row">
+    <mat-form-field id="search-term">
+      <mat-label>Search Terms</mat-label>
+      <input matInput>
+    </mat-form-field>
+    <button mat-flat-button color="primary" (click)="submit()">
+      Search
+    </button>
+  </div>
+  <div class="flex-row" id="card-search-params">
+    <div class="flex-col">
+      <div class="flex-col" id="search-card-text">
+        <h3>Search Card:</h3>
+        <div class="flex-row" id="search-card-text-options">
+          <mat-checkbox>Name</mat-checkbox>
+          <mat-checkbox>Types</mat-checkbox>
+          <mat-checkbox>Text</mat-checkbox>
+        </div>
+      </div>
+      <div class="flex-col">
+        <h3>Search by Color:</h3>
+        <div class="flex-row" id="search-card-color">
+          <mat-checkbox *ngFor="let color of searchParams.colors">
+            {{color.name}}
+          </mat-checkbox>
+        </div>
+        <div class="flex-col">
+          <mat-checkbox>Match Colors Exactly (use 'and' instead of 'or')</mat-checkbox>
+          <mat-checkbox>Exclude Unselected Colors (limit by selection)</mat-checkbox>
+          <mat-checkbox>Match Multicolor Cards Only (2+ colors)</mat-checkbox>
+          <mat-checkbox>Match Color Identity (match any symbol that appears on card)</mat-checkbox>
+        </div>
+      </div>
+    </div>
+    <div class="flex-col" id="card-search-filters">
+      <h3>Filter By:</h3>
+      <mat-form-field appearance="fill">
+        <mat-label>Card Format:</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let format of searchParams.formats" [value]="format.value">
+            {{format.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Card Set:</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let set of searchParams.sets" [value]="set.value">
+            {{set.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Card Type:</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let type of searchParams.types" [value]="type.value">
+            {{type.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Card Subtype:</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let subtype of searchParams.subTypes" [value]="subtype.value">
+            {{subtype.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</form>

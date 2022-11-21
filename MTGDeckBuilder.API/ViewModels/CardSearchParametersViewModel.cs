@@ -1,6 +1,6 @@
 ﻿namespace MTGDeckBuilder.API.ViewModels
 {
-    public class CardSearchViewModel
+    public class CardSearchParametersViewModel
     {
         public string?  SearchTerm { get; set; }
         public int[]? Colors { get; set; }
