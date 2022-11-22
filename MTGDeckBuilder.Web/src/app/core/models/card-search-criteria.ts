@@ -7,4 +7,5 @@ export interface CardSearchCriteria {
   types: ListItemViewModel<number>[];
   superTypes: ListItemViewModel<number>[];
   subTypes: ListItemViewModel<number>[];
+  keywords: ListItemViewModel<number>[];
 }

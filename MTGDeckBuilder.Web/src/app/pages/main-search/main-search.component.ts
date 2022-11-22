@@ -22,7 +22,7 @@ export class MainSearchComponent implements OnInit {
 
   submitCardSearchParameters(params: CardSearchParameters): void {
     console.log(params);
-    this.cardSearchSvc.searchCards(params).subscribe(searchResults => console.log(searchResults));
+    //this.cardSearchSvc.searchCards(params).subscribe(searchResults => console.log(searchResults));
   }
 
 }

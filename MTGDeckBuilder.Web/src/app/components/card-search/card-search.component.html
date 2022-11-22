@@ -1,10 +1,10 @@
-<form id="card-search-form" *ngIf="searchParams">
+<form [formGroup]="cardSearchForm" id="card-search-form" *ngIf="searchCriteria" (ngSubmit)="submit()">
   <div class="flex-row">
     <mat-form-field id="search-term">
       <mat-label>Search Terms</mat-label>
-      <input matInput>
+      <input matInput formControlName="searchTerm">
     </mat-form-field>
-    <button mat-flat-button color="primary" (click)="submit()">
+    <button mat-flat-button color="primary" type="submit">
       Search
     </button>
   </div>
@@ -13,23 +13,25 @@
       <div class="flex-col" id="search-card-text">
         <h3>Search Card:</h3>
         <div class="flex-row" id="search-card-text-options">
-          <mat-checkbox>Name</mat-checkbox>
-          <mat-checkbox>Types</mat-checkbox>
-          <mat-checkbox>Text</mat-checkbox>
+          <mat-checkbox formControlName="searchNameText">Name</mat-checkbox>
+          <mat-checkbox formControlName="searchTypesText">Types</mat-checkbox>
+          <mat-checkbox formControlName="searchRulesText">Text</mat-checkbox>
         </div>
       </div>
       <div class="flex-col">
         <h3>Search by Color:</h3>
         <div class="flex-row" id="search-card-color">
-          <mat-checkbox *ngFor="let color of searchParams.colors">
-            {{color.name}}
-          </mat-checkbox>
+          <mat-checkbox formControlName="searchWhite">White</mat-checkbox>
+          <mat-checkbox formControlName="searchBlue">Blue</mat-checkbox>
+          <mat-checkbox formControlName="searchRed">Red</mat-checkbox>
+          <mat-checkbox formControlName="searchBlack">Black</mat-checkbox>
+          <mat-checkbox formControlName="searchGreen">Green</mat-checkbox>
         </div>
         <div class="flex-col">
-          <mat-checkbox>Match Colors Exactly (use 'and' instead of 'or')</mat-checkbox>
-          <mat-checkbox>Exclude Unselected Colors (limit by selection)</mat-checkbox>
-          <mat-checkbox>Match Multicolor Cards Only (2+ colors)</mat-checkbox>
-          <mat-checkbox>Match Color Identity (match any symbol that appears on card)</mat-checkbox>
+          <mat-checkbox formControlName="matchColorsExactly">Match Colors Exactly (use 'and' instead of 'or')</mat-checkbox>
+          <mat-checkbox formControlName="excludeUnselectedColors">Exclude Unselected Colors (limit by selection)</mat-checkbox>
+          <mat-checkbox formControlName="matchMulticolorOnly">Match Multicolor Cards Only (2+ colors)</mat-checkbox>
+          <mat-checkbox formControlName="matchColorIdentity">Match Color Identity (match any symbol that appears on card)</mat-checkbox>
         </div>
       </div>
     </div>
@@ -37,33 +39,41 @@
       <h3>Filter By:</h3>
       <mat-form-field appearance="fill">
         <mat-label>Card Format:</mat-label>
-        <mat-select>
-          <mat-option *ngFor="let format of searchParams.formats" [value]="format.value">
+        <mat-select formControlName="formatFilter">
+          <mat-option *ngFor="let format of searchCriteria.formats" [value]="format.value">
             {{format.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Card Set:</mat-label>
-        <mat-select>
-          <mat-option *ngFor="let set of searchParams.sets" [value]="set.value">
+        <mat-select formControlName="setFilter">
+          <mat-option *ngFor="let set of searchCriteria.sets" [value]="set.value">
             {{set.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Card Type:</mat-label>
-        <mat-select>
-          <mat-option *ngFor="let type of searchParams.types" [value]="type.value">
+        <mat-select formControlName="typeFilter">
+          <mat-option *ngFor="let type of searchCriteria.types" [value]="type.value">
             {{type.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Card Subtype:</mat-label>
-        <mat-select>
-          <mat-option *ngFor="let subtype of searchParams.subTypes" [value]="subtype.value">
+        <mat-select formControlName="subTypeFilter">
+          <mat-option *ngFor="let subtype of searchCriteria.subTypes" [value]="subtype.value">
             {{subtype.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Keyword:</mat-label>
+        <mat-select formControlName="keywordFilter">
+          <mat-option *ngFor="let keyword of searchCriteria.keywords" [value]="keyword.value">
+            {{keyword.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
