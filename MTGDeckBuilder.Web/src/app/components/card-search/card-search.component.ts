@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { throwError } from 'rxjs';
 import { CardSearchCriteria } from '../../core/models/card-search-criteria';
 import { CardSearchParameters } from '../../core/models/card-search-parameters';
 import { ListItemViewModel } from '../../core/models/list-item-viewmodel';
@@ -43,19 +44,31 @@ export class CardSearchComponent implements OnInit {
 
   submit() {
     console.log(this.cardSearchForm.value);
-
-    // TODO: just make sure that theres at least one value
     let searchFormValue = this.cardSearchForm.value;
+
+    let selectedColorFilters: number[] = [];
+    if (searchFormValue.searchWhite) {
+      selectedColorFilters.push(this.getColor('W'));
+    }
+    if (searchFormValue.searchBlue) {
+      selectedColorFilters.push(this.getColor('U'));
+    }
+    if (searchFormValue.searchRed) {
+      selectedColorFilters.push(this.getColor('R'));
+    }
+    if (searchFormValue.searchBlack) {
+      selectedColorFilters.push(this.getColor('B'));
+    }
+    if (searchFormValue.searchGreen) {
+      selectedColorFilters.push(this.getColor('G'));
+    }    
+
+    // TODO: make sure we have at least one text to search if we have a keyword
     this.submitEvent.emit({
       searchTerm: searchFormValue.searchTerm,
-      searchNameText: searchFormValue.searchNameText,
-      searchTypesText: searchFormValue.searchTypesText,
+      searchNameText: searchFormValue.searchNameText,      
       searchRulesText: searchFormValue.searchRulesText,
-      searchWhite: searchFormValue.searchWhite,
-      searchBlue: searchFormValue.searchBlue,
-      searchRed: searchFormValue.searchRed,
-      searchBlack: searchFormValue.searchBlack,
-      searchGreen: searchFormValue.searchGreen,
+      searchColors: selectedColorFilters,
       matchColorsExactly: searchFormValue.matchColorsExactly,
       excludeUnselectedColors: searchFormValue.excludeUnselectedColors,
       matchMulticolorOnly: searchFormValue.matchMulticolorOnly,
@@ -66,5 +79,14 @@ export class CardSearchComponent implements OnInit {
       subTypeID: searchFormValue.subTypeFilter,
       keywordID: searchFormValue.keywordFilter,
     });
+  }
+
+  getColor(colorName: string): number {
+    let colorValue = this.searchCriteria?.colors.find(c => c.name == colorName)?.value;
+    if (colorValue == null) {
+      throw new Error("Color not found in colors array.");
+    } else {
+      return colorValue;
+    }
   }
 }

@@ -106,7 +106,7 @@ namespace MTGDeckBuilder.Services
                     {
                         cards = cards.Where(c => c.Colors.Count() == searchParams.SelectedColorFilters.Length && c.Colors.All(color => searchParams.SelectedColorFilters.Contains(color.pkColor)));
                     }
-                }
+                }                
                 else
                 {
                     if (searchParams.MatchColorIdentity)
@@ -117,13 +117,48 @@ namespace MTGDeckBuilder.Services
                     {
                         cards = cards.Where(c => c.Colors.Any(color => searchParams.SelectedColorFilters.Contains(color.pkColor)));
                     }
+                }   
+                
+                if(searchParams.MatchMulticolorCardsOnly)
+                {                
+                    if(searchParams.MatchColorIdentity)
+                    {
+                        cards = cards.Where(c => c.ColorIdentities.Count() > 1);
+                    }
+                    else
+                    {
+                        cards = cards.Where(c => c.Colors.Count() > 1);
+                    }
+                }
+
+                if(searchParams.ExcludeUnselectedColors)
+                {
+                    if(searchParams.MatchColorIdentity)
+                    {
+                        cards = cards.Where(c => !c.ColorIdentities.Any(color => !searchParams.SelectedColorFilters.Contains(color.pkColorIdentity)));
+                    }
+                    else
+                    {
+                        cards = cards.Where(c => !c.Colors.Any(color => !searchParams.SelectedColorFilters.Contains(color.pkColor)));
+                    }
                 }
             }
             
             if(!string.IsNullOrEmpty(searchParams.SearchTerm))
             {
-                cards = cards.Where(c => c.Name.ToUpper().Contains(searchParams.SearchTerm.ToUpper()) 
-                || (!string.IsNullOrEmpty(c.Text) && (c.Text.ToUpper().Contains(searchParams.SearchTerm.ToUpper()))));
+                if(searchParams.SearchRulesText && searchParams.SearchNameText)
+                {
+                    cards = cards.Where(c => c.Name.ToUpper().Contains(searchParams.SearchTerm.ToUpper())
+                            || (!string.IsNullOrEmpty(c.Text) && (c.Text.ToUpper().Contains(searchParams.SearchTerm.ToUpper()))));
+                }
+                else if(searchParams.SearchRulesText)
+                {
+                    cards = cards.Where(c => (!string.IsNullOrEmpty(c.Text) && (c.Text.ToUpper().Contains(searchParams.SearchTerm.ToUpper()))));
+                }
+                else if(searchParams.SearchNameText)
+                {
+                    cards = cards.Where(c => c.Name.ToUpper().Contains(searchParams.SearchTerm.ToUpper()));
+                }
             }
 
             Card[] matchingCards = cards.Select(c => new Card()

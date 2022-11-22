@@ -8,5 +8,6 @@
         public IEnumerable<ListItemViewModel<int>> Types { get; set; }
         public IEnumerable<ListItemViewModel<int>> SuperTypes { get; set; }
         public IEnumerable<ListItemViewModel<int>> SubTypes { get; set; }
+        public IEnumerable<ListItemViewModel<int>> Keywords { get; set; }
     }
 }

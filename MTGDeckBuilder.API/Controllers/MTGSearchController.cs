@@ -21,10 +21,10 @@ namespace MTGDeckBuilder.API.Controllers
             CardSearchCriteria cardSearchCriteria = await _mtgSvc.GetSearchCriteria();
             return new CardSearchCriteriaViewModel()
             {
-                Colors = cardSearchCriteria.Colors.Select(c => new ListItemViewModel<int>()
+                Colors = cardSearchCriteria.Colors.Select(f => new ListItemViewModel<int>()
                 {
-                    Value = c.ColorID.Value,
-                    Name = c.ColorName
+                    Value = f.ColorID.Value,
+                    Name = f.ColorName
                 }).ToArray(),
                 Formats = cardSearchCriteria.Formats.Select(f => new ListItemViewModel<int>()
                 {
@@ -50,7 +50,12 @@ namespace MTGDeckBuilder.API.Controllers
                 {
                     Value = t.SubTypeID.Value,
                     Name = t.SubTypeName
-                }).ToArray()
+                }).ToArray(),
+                Keywords = cardSearchCriteria.Keywords.Select(k => new ListItemViewModel<int>()
+                {
+                    Value = k.KeywordID.Value,
+                    Name = k.KeywordName
+                })
             };
         }
 
@@ -66,13 +71,17 @@ namespace MTGDeckBuilder.API.Controllers
                 TypeID = searchVM.TypeID,
                 SuperTypeID = searchVM.SuperTypeID,
                 SubTypeID = searchVM.SubTypeID,
-                SelectedColorFilters = searchVM.Colors,
+                SelectedColorFilters = searchVM.SearchColors ?? Array.Empty<int>(),
+                SearchNameText = searchVM.SearchNameText ?? false,
+                SearchRulesText = searchVM.SearchRulesText ?? false,
+                MatchMulticolorCardsOnly = searchVM.MatchMulticolorOnly ?? false,
                 MatchColorIdentity = searchVM.MatchColorIdentity ?? false,
                 MatchColorsExactly = searchVM.MatchColorsExactly ?? false,
+                ExcludeUnselectedColors = searchVM.ExcludeUnselectedColors ?? false,
             };
 
             IEnumerable<Card> searchResults = await _mtgSvc.PerformCardSearch(searchParams);
-            CardViewModel[] mappedSearchResults = searchResults.Select(c => new CardViewModel()
+            CardViewModel[] mappedSearchResults = searchResults.DistinctBy(c => c.Name).Select(c => new CardViewModel()
             {
                 CardID = c.CardID.Value,
                 ManaCost = c.ManaCost,

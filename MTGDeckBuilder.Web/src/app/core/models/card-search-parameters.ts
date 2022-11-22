@@ -1,13 +1,8 @@
 export interface CardSearchParameters {
   searchTerm?: string;
-  searchNameText?: boolean;
-  searchTypesText?: boolean;
+  searchNameText?: boolean;  
   searchRulesText?: boolean;
-  searchWhite?: boolean;
-  searchBlue?: boolean;
-  searchRed?: boolean;
-  searchBlack?: boolean;
-  searchGreen?: boolean;  
+  searchColors?: number[];
   matchColorsExactly?: boolean;
   excludeUnselectedColors?: boolean;
   matchMulticolorOnly?: boolean;

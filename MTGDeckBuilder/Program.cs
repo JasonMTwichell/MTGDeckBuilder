@@ -50,7 +50,7 @@ namespace MTGDeckBuilder
                 SuperType = t
             }).ToArray();
 
-            SubTypeData[] distinctSubTypes = allCards.SelectMany(c => c.Types).Distinct().Select(t => new SubTypeData()
+            SubTypeData[] distinctSubTypes = allCards.SelectMany(c => c.SubTypes).Distinct().Select(t => new SubTypeData()
             {
                 SubType = t
             }).ToArray();

@@ -10,6 +10,6 @@ namespace MTGDeckBuilder.Core.Service
     public interface IMTGDeckBuilderService
     {
         Task<CardSearchCriteria> GetSearchCriteria();
-        Task<IEnumerable<Card>> PerformCardSearch(CardSearchParameters searchParams); 
+        Task<IEnumerable<Card>> PerformCardSearch(CardSearchParameters searchParams);        
     }
 }
