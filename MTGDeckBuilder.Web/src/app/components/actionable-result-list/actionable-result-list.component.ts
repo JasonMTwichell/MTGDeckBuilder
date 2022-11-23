@@ -35,7 +35,7 @@ export class ActionableResultListComponent implements OnInit, AfterViewInit {
         case 'text':
           return card.text;
         default:
-          return '';
+          return ''
       }
         
     }
