@@ -171,6 +171,7 @@ namespace MTGDeckBuilder.Services
                 ManaCost = c.ManaCost,
                 ManaValue = c.ManaValue ?? 0,
                 Text = c.Text,
+                Type = c.Type,
             }).ToArray();
 
             return matchingCards;

@@ -4,4 +4,5 @@ export interface Card {
   convertedManaCost: number;
   name: string;
   text: string;
+  type: string;
 }

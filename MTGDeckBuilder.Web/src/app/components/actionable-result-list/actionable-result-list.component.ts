@@ -34,12 +34,14 @@ export class ActionableResultListComponent implements OnInit, AfterViewInit {
           return card.name;
         case 'text':
           return card.text;
+        case 'type':
+          return card.type;
         default:
           return ''
       }
         
     }
-    this.headers = ['name', 'manaCost', 'text'];
+    this.headers = ['name', 'manaCost', 'type', 'text' ];
   }
     ngAfterViewInit(): void {
       this.cardDataSource.paginator = this.paginator;

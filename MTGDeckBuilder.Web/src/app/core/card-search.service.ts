@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { Card } from './models/card';
 import { CardSearchCriteria } from './models/card-search-criteria';
 import { CardSearchParameters } from './models/card-search-parameters';
-import { MTGCard } from './models/mtg-card';
 
 @Injectable({
   providedIn: 'root'

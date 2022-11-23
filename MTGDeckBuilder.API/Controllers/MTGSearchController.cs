@@ -88,6 +88,7 @@ namespace MTGDeckBuilder.API.Controllers
                 ManaCost = c.ManaCost,
                 Name = c.Name,
                 Text = c.Text,
+                Type = c.Type,                 
             }).OrderBy(c => c.ConvertedManaCost).ToArray();
 
             return mappedSearchResults;

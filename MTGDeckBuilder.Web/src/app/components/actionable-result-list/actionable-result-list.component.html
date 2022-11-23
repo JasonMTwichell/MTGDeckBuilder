@@ -9,6 +9,11 @@
     <mat-cell *matCellDef="let card"> {{card.manaCost}} </mat-cell>
   </ng-container>
 
+  <ng-container matColumnDef="type">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+    <mat-cell *matCellDef="let card"> {{card.type}} </mat-cell>
+  </ng-container>
+
   <ng-container matColumnDef="text">
     <mat-header-cell *matHeaderCellDef mat-sort-header>Text</mat-header-cell>
     <mat-cell *matCellDef="let card"> {{card.text}} </mat-cell>
