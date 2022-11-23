@@ -25,37 +25,37 @@ namespace MTGDeckBuilder.API.Controllers
                 {
                     Value = f.ColorID.Value,
                     Name = f.ColorName
-                }).ToArray(),
+                }).OrderBy(f => f.Name).ToArray(),
                 Formats = cardSearchCriteria.Formats.Select(f => new ListItemViewModel<int>()
                 {
                     Value = f.FormatID.Value,
                     Name = f.FormatName
-                }).ToArray(),
+                }).OrderBy(f => f.Name).ToArray(),
                 Sets = cardSearchCriteria.Sets.Select(s => new ListItemViewModel<int>()
                 {
                     Value = s.SetID.Value,
                     Name = s.SetName,
-                }).ToArray(),
+                }).OrderBy(f => f.Name).ToArray(),
                 Types = cardSearchCriteria.Types.Select(t => new ListItemViewModel<int>()
                 {
                     Value = t.CardTypeID.Value,
                     Name = t.TypeName
-                }).ToArray(),
+                }).OrderBy(f => f.Name).ToArray(),
                 SuperTypes = cardSearchCriteria.SuperTypes.Select(t => new ListItemViewModel<int>()
                 {
                     Value = t.SuperTypeID.Value,
                     Name = t.SuperTypeName
-                }).ToArray(),
+                }).OrderBy(f => f.Name).ToArray(),
                 SubTypes = cardSearchCriteria.SubTypes.Select(t => new ListItemViewModel<int>()
                 {
                     Value = t.SubTypeID.Value,
                     Name = t.SubTypeName
-                }).ToArray(),
+                }).OrderBy(f => f.Name).ToArray(),
                 Keywords = cardSearchCriteria.Keywords.Select(k => new ListItemViewModel<int>()
                 {
                     Value = k.KeywordID.Value,
                     Name = k.KeywordName
-                })
+                }).OrderBy(f => f.Name)
             };
         }
 
@@ -84,10 +84,11 @@ namespace MTGDeckBuilder.API.Controllers
             CardViewModel[] mappedSearchResults = searchResults.DistinctBy(c => c.Name).Select(c => new CardViewModel()
             {
                 CardID = c.CardID.Value,
+                ConvertedManaCost = c.ManaValue ?? 0,
                 ManaCost = c.ManaCost,
                 Name = c.Name,
                 Text = c.Text,
-            }).ToArray();
+            }).OrderBy(c => c.ConvertedManaCost).ToArray();
 
             return mappedSearchResults;
         }
