@@ -28,7 +28,7 @@ export class CardSearchComponent implements OnInit {
 
     this.cardSearchForm = new FormGroup({
       searchTerm: new FormControl(''),
-      searchNameText: new FormControl(false),
+      searchNameText: new FormControl(true),
       searchTypesText: new FormControl(false),
       searchRulesText: new FormControl(false),
       searchWhite: new FormControl(false),

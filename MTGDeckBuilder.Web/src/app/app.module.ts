@@ -15,6 +15,8 @@ import { CardSearchComponent } from './components/card-search/card-search.compon
 import { MainSearchComponent } from './pages/main-search/main-search.component';
 import { ActionableResultListComponent } from './components/actionable-result-list/actionable-result-list.component'
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { MatTableModule } from '@angular/material/table';
     MatCheckboxModule,
     MatSelectModule,
     MatButtonModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]

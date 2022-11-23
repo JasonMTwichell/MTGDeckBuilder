@@ -1,20 +1,24 @@
-<mat-table [dataSource]="cards" class="mat-elevation-z8">
+<mat-table matSort [dataSource]="cardDataSource" class="mat-elevation-z2">
   <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
     <mat-cell *matCellDef="let card"> {{card.name}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="manaCost">
-    <mat-header-cell *matHeaderCellDef>Mana Cost</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Mana Cost</mat-header-cell>
     <mat-cell *matCellDef="let card"> {{card.manaCost}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="text">
-    <mat-header-cell *matHeaderCellDef>Text</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Text</mat-header-cell>
     <mat-cell *matCellDef="let card"> {{card.text}} </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="headers"></mat-header-row>
   <mat-row *matRowDef="let row; columns: headers;"></mat-row>
 </mat-table>
+<mat-paginator [pageSizeOptions]="[25, 50, 100]"
+               showFirstLastButtons
+               aria-label="Select page..." class="mat-elevation-z2">
+</mat-paginator>
 
