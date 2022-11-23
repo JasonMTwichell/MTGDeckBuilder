@@ -51,9 +51,10 @@ namespace MTGDeckBuilder.EF
 
             var card = modelBuilder.Entity<CardData>();
             card.ToTable("tblCard");
-            card.HasKey(e => e.pkCard);
+            card.HasKey(e => e.pkCard);            
             card.Property(e => e.pkCard)
                 .ValueGeneratedOnAdd();
+            card.HasAlternateKey(e => e.UUID);
             card.HasOne(e => e.Set)
                 .WithMany(e => e.SetCards)
                 .HasForeignKey(e => e.fkSet);
@@ -220,6 +221,7 @@ namespace MTGDeckBuilder.EF
             format.HasKey(e => e.pkFormat);
             format.Property(e => e.pkFormat)
                 .ValueGeneratedOnAdd();
+            format.HasAlternateKey(e => e.Format);
             format.HasIndex(e => e.Format)
                 .IsUnique();
             format.HasMany(e => e.Cards)
@@ -245,6 +247,24 @@ namespace MTGDeckBuilder.EF
                 .WithMany(e => e.PurchaseInformation)
                 .HasForeignKey(e => e.fkCard);
 
+            var cardList = modelBuilder.Entity<CardListData>();
+            cardList.ToTable("tblCardList");
+            cardList.HasKey(p => p.pkCardList);
+            cardList.HasMany(e => e.ListCards)
+                .WithOne(e => e.List)
+                .HasForeignKey(e => e.fkCardList);
+
+            var cardListCardData = modelBuilder.Entity<CardListCardData>();
+            cardListCardData.ToTable("tblCardListCardData");
+            cardListCardData.HasKey(p => new { p.fkCardList, p.CardUUID});
+            cardListCardData.HasOne(e => e.CardData)
+                .WithMany()
+                .HasForeignKey(p => p.CardUUID)
+                .HasPrincipalKey(p => p.UUID);
+            cardListCardData.HasOne(e => e.List)
+                .WithMany(e => e.ListCards)
+                .HasForeignKey(p => p.fkCardList);
+
             var userDeck = modelBuilder.Entity<UserDeckData>();
             userDeck.ToTable("tblUserDeck");
             userDeck.HasKey(e => e.pkUserDeck);
@@ -268,6 +288,10 @@ namespace MTGDeckBuilder.EF
             userDeckFormat.HasOne(e => e.Deck)
                 .WithMany(e => e.Formats)
                 .HasForeignKey(e => e.fkUserDeck);
+            userDeckFormat.HasOne(e => e.DeckFormat)
+                .WithMany()
+                .HasForeignKey(p => p.Format)
+                .HasPrincipalKey(p => p.Format);
 
             var userDeckCard = modelBuilder.Entity<UserDeckCardData>();
             userDeckCard.ToTable("tblUserDeckCard");
@@ -275,10 +299,16 @@ namespace MTGDeckBuilder.EF
             userDeckCard.HasOne(e => e.UserDeck)
                 .WithMany(e => e.Cards)
                 .HasForeignKey(e => e.fkUserDeck);
+            userDeckCard.HasOne(e => e.CardData)
+                .WithMany()
+                .HasForeignKey(e => e.CardUUID)
+                .HasPrincipalKey(p => p.UUID); 
 
             var userDeckSideboard = modelBuilder.Entity<UserDeckSideboardData>();
             userDeckSideboard.ToTable("tblUserDeckSideboard");
-            userDeckSideboard.HasKey(e => e.fkUserDeck);
+            userDeckSideboard.HasKey(e => e.pkUserDeckSideBoard);
+            userDeckSideboard.Property(e => e.pkUserDeckSideBoard)
+                .ValueGeneratedOnAdd();
             userDeckSideboard.HasOne(e => e.UserDeck)
                 .WithOne(e => e.SideBoard)
                 .HasForeignKey<UserDeckSideboardData>(e => e.fkUserDeck);
@@ -292,6 +322,10 @@ namespace MTGDeckBuilder.EF
             userDeckSideboardCard.HasOne(e => e.UserDeckSideboard)
                 .WithMany(e => e.Cards)
                 .HasForeignKey(e => e.fkUserDeckSideboard);
+            userDeckSideboardCard.HasOne(e => e.Card)
+                .WithMany()
+                .HasForeignKey(e => e.CardUUID)
+                .HasPrincipalKey(p => p.UUID); 
             #endregion
 
             base.OnModelCreating(modelBuilder);
@@ -307,7 +341,6 @@ namespace MTGDeckBuilder.EF
         public DbSet<SubTypeData> SubTypes { get; set; }
         public DbSet<KeywordData> Keywords { get; set; }        
         public DbSet<UserDeckData> UserDecks { get; set; }
-        public DbSet<FormatData> Formats { get; set; }
-        public DbSet<UserDeckSideboardData> UserDeckSideboards { get; set; }
+        public DbSet<FormatData> Formats { get; set; }        
     }
 }

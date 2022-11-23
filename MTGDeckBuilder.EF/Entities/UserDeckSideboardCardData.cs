@@ -7,5 +7,6 @@
         public int NumCopies { get; set; }
         
         public virtual UserDeckSideboardData UserDeckSideboard { get; set; }
+        public virtual CardData Card { get; set; }
     }
 }

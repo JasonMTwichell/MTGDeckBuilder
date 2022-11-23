@@ -1,5 +1,11 @@
 ﻿BEGIN TRANSACTION;
 
+CREATE TABLE "tblCardList" (
+    "pkCardList" INTEGER NOT NULL CONSTRAINT "PK_tblCardList" PRIMARY KEY AUTOINCREMENT,
+    "CardListName" TEXT NOT NULL,
+    "CardListDescription" TEXT NULL
+);
+
 CREATE TABLE "tblColor" (
     "pkColor" INTEGER NOT NULL CONSTRAINT "PK_tblColor" PRIMARY KEY AUTOINCREMENT,
     "Color" TEXT NOT NULL
@@ -18,7 +24,8 @@ CREATE TABLE "tblFileVersion" (
 
 CREATE TABLE "tblFormat" (
     "pkFormat" INTEGER NOT NULL CONSTRAINT "PK_tblFormat" PRIMARY KEY AUTOINCREMENT,
-    "Format" TEXT NOT NULL
+    "Format" TEXT NOT NULL,
+    CONSTRAINT "AK_tblFormat_Format" UNIQUE ("Format")
 );
 
 CREATE TABLE "tblKeyword" (
@@ -63,7 +70,7 @@ CREATE TABLE "tblCard" (
     "Side" TEXT NULL,
     "ManaCost" TEXT NULL,
     "ManaValue" REAL NULL,
-    "Loyalty" TEXT NULL,
+    "Loyalty" INTEGER NULL,
     "HandModifier" INTEGER NULL,
     "LifeModifier" INTEGER NULL,
     "Power" TEXT NULL,
@@ -74,7 +81,8 @@ CREATE TABLE "tblCard" (
     "FlavorText" TEXT NULL,
     "Rarity" TEXT NULL,
     "FaceName" TEXT NULL,
-    "NumberInSet" TEXT NULL,
+    "NumberInSet" TEXT NULL,    
+    CONSTRAINT "AK_tblCard_UUID" UNIQUE ("UUID"),    
     CONSTRAINT "FK_tblCard_tblSet_fkSet" FOREIGN KEY ("fkSet") REFERENCES "tblSet" ("pkSet") ON DELETE CASCADE
 );
 
@@ -109,6 +117,14 @@ CREATE TABLE "tblCardKeywordData" (
     CONSTRAINT "PK_tblCardKeywordData" PRIMARY KEY ("fkCard", "fkKeyword"),
     CONSTRAINT "FK_tblCardKeywordData_tblCard_fkCard" FOREIGN KEY ("fkCard") REFERENCES "tblCard" ("pkCard") ON DELETE CASCADE,
     CONSTRAINT "FK_tblCardKeywordData_tblKeyword_fkKeyword" FOREIGN KEY ("fkKeyword") REFERENCES "tblKeyword" ("pkKeyword") ON DELETE CASCADE
+);
+
+CREATE TABLE "tblCardListCardData" (
+    "fkCardList" INTEGER NOT NULL,
+    "CardUUID" TEXT NOT NULL,
+    CONSTRAINT "PK_tblCardListCardData" PRIMARY KEY ("fkCardList", "CardUUID"),
+    CONSTRAINT "FK_tblCardListCardData_tblCard_CardUUID" FOREIGN KEY ("CardUUID") REFERENCES "tblCard" ("UUID") ON DELETE CASCADE,
+    CONSTRAINT "FK_tblCardListCardData_tblCardList_fkCardList" FOREIGN KEY ("fkCardList") REFERENCES "tblCardList" ("pkCardList") ON DELETE CASCADE
 );
 
 CREATE TABLE "tblCardSubType" (
@@ -147,20 +163,16 @@ CREATE TABLE "tblUserDeck" (
     "pkUserDeck" INTEGER NOT NULL CONSTRAINT "PK_tblUserDeck" PRIMARY KEY AUTOINCREMENT,
     "DeckName" TEXT NOT NULL,
     "DeckDescription" TEXT NOT NULL,
-    "DateCreated" TEXT NOT NULL,
-    "CardDatapkCard" INTEGER NULL,
-    "FormatDatapkFormat" INTEGER NULL,
-    CONSTRAINT "FK_tblUserDeck_tblCard_CardDatapkCard" FOREIGN KEY ("CardDatapkCard") REFERENCES "tblCard" ("pkCard"),
-    CONSTRAINT "FK_tblUserDeck_tblFormat_FormatDatapkFormat" FOREIGN KEY ("FormatDatapkFormat") REFERENCES "tblFormat" ("pkFormat")
+    "DateCreated" TEXT NOT NULL
 );
 
 CREATE TABLE "tblUserDeckCard" (
     "fkUserDeck" INTEGER NOT NULL,
     "CardUUID" TEXT NOT NULL,
+    "pkUserDeckCard" INTEGER NOT NULL,
     "NumCopies" INTEGER NOT NULL,
-    "CardDatapkCard" INTEGER NULL,
-    CONSTRAINT "PK_tblUserDeckCard" PRIMARY KEY ("fkUserDeck", "CardUUID"),
-    CONSTRAINT "FK_tblUserDeckCard_tblCard_CardDatapkCard" FOREIGN KEY ("CardDatapkCard") REFERENCES "tblCard" ("pkCard"),
+    CONSTRAINT "PK_tblUserDeckCard" PRIMARY KEY ("fkUserDeck", "CardUUID"),    
+    CONSTRAINT "FK_tblUserDeckCard_tblCard_CardUUID" FOREIGN KEY ("CardUUID") REFERENCES "tblCard" ("UUID") ON DELETE CASCADE,
     CONSTRAINT "FK_tblUserDeckCard_tblUserDeck_fkUserDeck" FOREIGN KEY ("fkUserDeck") REFERENCES "tblUserDeck" ("pkUserDeck") ON DELETE CASCADE
 );
 
@@ -168,25 +180,23 @@ CREATE TABLE "tblUserDeckFormat" (
     "fkUserDeck" INTEGER NOT NULL,
     "Format" TEXT NOT NULL,
     CONSTRAINT "PK_tblUserDeckFormat" PRIMARY KEY ("fkUserDeck", "Format"),
+    CONSTRAINT "FK_tblUserDeckFormat_tblFormat_Format" FOREIGN KEY ("Format") REFERENCES "tblFormat" ("Format") ON DELETE CASCADE,
     CONSTRAINT "FK_tblUserDeckFormat_tblUserDeck_fkUserDeck" FOREIGN KEY ("fkUserDeck") REFERENCES "tblUserDeck" ("pkUserDeck") ON DELETE CASCADE
 );
 
 CREATE TABLE "tblUserDeckSideboard" (
-    "fkUserDeck" INTEGER NOT NULL CONSTRAINT "PK_tblUserDeckSideboard" PRIMARY KEY,
-    "pkSideBoardData" INTEGER NOT NULL,
-    "CardDatapkCard" INTEGER NULL,
-    CONSTRAINT "FK_tblUserDeckSideboard_tblCard_CardDatapkCard" FOREIGN KEY ("CardDatapkCard") REFERENCES "tblCard" ("pkCard"),
+    "pkUserDeckSideBoard" INTEGER NOT NULL CONSTRAINT "PK_tblUserDeckSideboard" PRIMARY KEY AUTOINCREMENT,
+    "fkUserDeck" INTEGER NOT NULL,        
     CONSTRAINT "FK_tblUserDeckSideboard_tblUserDeck_fkUserDeck" FOREIGN KEY ("fkUserDeck") REFERENCES "tblUserDeck" ("pkUserDeck") ON DELETE CASCADE
 );
 
 CREATE TABLE "tblUserDeckSideboardCard" (
     "fkUserDeckSideboard" INTEGER NOT NULL,
     "CardUUID" TEXT NOT NULL,
-    "NumCopies" INTEGER NOT NULL,
-    "CardDatapkCard" INTEGER NULL,
-    CONSTRAINT "PK_tblUserDeckSideboardCard" PRIMARY KEY ("fkUserDeckSideboard", "CardUUID"),
-    CONSTRAINT "FK_tblUserDeckSideboardCard_tblCard_CardDatapkCard" FOREIGN KEY ("CardDatapkCard") REFERENCES "tblCard" ("pkCard"),
-    CONSTRAINT "FK_tblUserDeckSideboardCard_tblUserDeckSideboard_fkUserDeckSideboard" FOREIGN KEY ("fkUserDeckSideboard") REFERENCES "tblUserDeckSideboard" ("fkUserDeck") ON DELETE CASCADE
+    "NumCopies" INTEGER NOT NULL,    
+    CONSTRAINT "PK_tblUserDeckSideboardCard" PRIMARY KEY ("fkUserDeckSideboard", "CardUUID"),    
+    CONSTRAINT "FK_tblUserDeckSideboardCard_tblCard_CardUUID" FOREIGN KEY ("CardUUID") REFERENCES "tblCard" ("UUID") ON DELETE CASCADE,
+    CONSTRAINT "FK_tblUserDeckSideboardCard_tblUserDeckSideboard_fkUserDeckSideboard" FOREIGN KEY ("fkUserDeckSideboard") REFERENCES "tblUserDeckSideboard" ("pkUserDeckSideBoard") ON DELETE CASCADE
 );
 
 CREATE INDEX "IX_tblCard_fkSet" ON "tblCard" ("fkSet");
@@ -206,6 +216,8 @@ CREATE INDEX "IX_tblCardColorIdentity_fkColorIdentity" ON "tblCardColorIdentity"
 CREATE INDEX "IX_tblCardFormat_fkFormat" ON "tblCardFormat" ("fkFormat");
 
 CREATE INDEX "IX_tblCardKeywordData_fkKeyword" ON "tblCardKeywordData" ("fkKeyword");
+
+CREATE INDEX "IX_tblCardListCardData_CardUUID" ON "tblCardListCardData" ("CardUUID");
 
 CREATE INDEX "IX_tblCardSubType_fkSubType" ON "tblCardSubType" ("fkSubType");
 
@@ -233,18 +245,16 @@ CREATE UNIQUE INDEX "IX_tblSuperType_SuperType" ON "tblSuperType" ("SuperType");
 
 CREATE UNIQUE INDEX "IX_tblType_Type" ON "tblType" ("Type");
 
-CREATE INDEX "IX_tblUserDeck_CardDatapkCard" ON "tblUserDeck" ("CardDatapkCard");
-
 CREATE INDEX "IX_tblUserDeck_DateCreated" ON "tblUserDeck" ("DateCreated");
 
 CREATE INDEX "IX_tblUserDeck_DeckName" ON "tblUserDeck" ("DeckName");
 
-CREATE INDEX "IX_tblUserDeck_FormatDatapkFormat" ON "tblUserDeck" ("FormatDatapkFormat");
+CREATE INDEX "IX_tblUserDeckCard_CardUUID" ON "tblUserDeckCard" ("CardUUID");
 
-CREATE INDEX "IX_tblUserDeckCard_CardDatapkCard" ON "tblUserDeckCard" ("CardDatapkCard");
+CREATE INDEX "IX_tblUserDeckFormat_Format" ON "tblUserDeckFormat" ("Format");
 
-CREATE INDEX "IX_tblUserDeckSideboard_CardDatapkCard" ON "tblUserDeckSideboard" ("CardDatapkCard");
+CREATE UNIQUE INDEX "IX_tblUserDeckSideboard_fkUserDeck" ON "tblUserDeckSideboard" ("fkUserDeck");
 
-CREATE INDEX "IX_tblUserDeckSideboardCard_CardDatapkCard" ON "tblUserDeckSideboardCard" ("CardDatapkCard");
+CREATE INDEX "IX_tblUserDeckSideboardCard_CardUUID" ON "tblUserDeckSideboardCard" ("CardUUID");
 
 COMMIT;

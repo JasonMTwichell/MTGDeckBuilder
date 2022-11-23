@@ -64,5 +64,8 @@ namespace MTGDeckBuilder.EF.Entities
 
         public virtual ICollection<PurchaseInformationData> PurchaseInformation { get; set; }
 
+        public virtual ICollection<CardListCardData> CardLists { get; set; }
+        public virtual ICollection<CardListData> Lists { get; set; }
+
     }
 }
