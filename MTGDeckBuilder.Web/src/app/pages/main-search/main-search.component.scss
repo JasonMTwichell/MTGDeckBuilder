@@ -1,0 +1,14 @@
+#main-container {
+    display: flex;
+    flex-flow: column nowrap;    
+    justify-content: center;
+    width: 66%;
+    padding: 15px;
+}
+
+#main-row {
+    display: flex;
+    flex-flow: row nowrap;
+    flex: 0 0 50%;    
+    justify-content: center;
+}

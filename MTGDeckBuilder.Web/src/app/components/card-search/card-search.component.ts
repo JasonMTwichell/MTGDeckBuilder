@@ -10,10 +10,20 @@ import { ListItemViewModel } from '../../core/models/list-item-viewmodel';
   styleUrls: ['./card-search.component.scss']
 })
 export class CardSearchComponent implements OnInit {
-  @Input() searchCriteria: CardSearchCriteria|null = null;
+  @Input() searchCriteria: CardSearchCriteria;
   @Output() submitEvent: EventEmitter<CardSearchParameters>;
   cardSearchForm: FormGroup;
   constructor(private _formBuilder: FormBuilder) {
+    this.searchCriteria = {
+      colors: [],
+      sets: [],
+      formats: [],
+      types: [],
+      superTypes: [],
+      subTypes: [],
+      keywords: [],
+    };
+
     this.submitEvent = new EventEmitter<CardSearchParameters>();    
 
     this.cardSearchForm = new FormGroup({

@@ -12,13 +12,16 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
 import { AppComponent } from './app.component';
 import { CardSearchComponent } from './components/card-search/card-search.component';
-import { MainSearchComponent } from './pages/main-search/main-search.component'
+import { MainSearchComponent } from './pages/main-search/main-search.component';
+import { ActionableResultListComponent } from './components/actionable-result-list/actionable-result-list.component'
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
     AppComponent,
     CardSearchComponent,
-    MainSearchComponent
+    MainSearchComponent,
+    ActionableResultListComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,8 @@ import { MainSearchComponent } from './pages/main-search/main-search.component'
     MatSlideToggleModule,
     MatCheckboxModule,
     MatSelectModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
