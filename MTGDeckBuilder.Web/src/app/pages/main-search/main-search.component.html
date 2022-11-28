@@ -1,7 +1,7 @@
 <div id="main-row">
   <div id="main-container">
     <app-card-search [searchCriteria]="searchCriteria" (submitEvent)="submitCardSearchParameters($event)"></app-card-search>
-    <app-actionable-result-list [cards]="searchResults"></app-actionable-result-list>
+    <app-actionable-result-list [cards]="searchResults" [lists]="cardLists" (addToListEventEmitter)="addCardToList($event)"></app-actionable-result-list>
   </div>
 </div>
 

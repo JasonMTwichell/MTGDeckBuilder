@@ -11,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddTransient<IMTGConfiguration, MTGDeckBuilderApiConfiguration>();
 builder.Services.AddTransient<MTGDeckBuilderContext, MTGDeckBuilderContext>();
 builder.Services.AddTransient<IMTGDeckBuilderRepository, MTGDeckBuilderRepository>();
+builder.Services.AddTransient<IMTGCardService, MTGCardService>();
 builder.Services.AddTransient<IMTGDeckBuilderService, MTGDeckBuilderService>();
 
 var app = builder.Build();

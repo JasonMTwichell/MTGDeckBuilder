@@ -1,3 +1,11 @@
 mat-row {
     padding: 10px 0;
 }
+
+.center-cell {
+    justify-content: center;
+}
+
+mat-cell {
+    white-space: pre-line;
+}

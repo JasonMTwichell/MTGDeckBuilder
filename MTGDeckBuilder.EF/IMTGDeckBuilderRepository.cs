@@ -19,5 +19,10 @@ namespace MTGDeckBuilder.EF
         IEnumerable<SubTypeData> GetSubTypes();
         IEnumerable<KeywordData> GetKeywords();
         IEnumerable<FormatData> GetFormats();
+
+        Task CreateCardList(CardListData cardListData);
+        IEnumerable<CardListData> GetCardLists();
+        CardListData GetCardList(int cardListID);
+        Task AddListCard(CardListCardData listCard);
     }
 }

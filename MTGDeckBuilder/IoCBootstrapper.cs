@@ -18,7 +18,7 @@ namespace MTGDeckBuilder
             container.RegisterType<IMTGConfiguration, MTGDeckBuilderConfiguration>(TypeLifetime.Hierarchical);
             container.RegisterType<MTGDeckBuilderContext>(TypeLifetime.Hierarchical);
             container.RegisterType<IMTGDeckBuilderRepository, MTGDeckBuilderRepository>(TypeLifetime.Hierarchical);
-            container.RegisterType<IMTGDeckBuilderService, MTGDeckBuilderService>(TypeLifetime.Hierarchical);
+            container.RegisterType<MTGCardService, MTGCardService>(TypeLifetime.Hierarchical);
             return container;
         }
     }

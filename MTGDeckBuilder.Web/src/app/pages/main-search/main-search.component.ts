@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CardSearchService } from '../../core/card-search.service';
+import { AddCardToListEvent } from '../../core/models/add-card-to-list-event';
 import { Card } from '../../core/models/card';
 import { CardSearchCriteria } from '../../core/models/card-search-criteria';
 import { CardSearchParameters } from '../../core/models/card-search-parameters';
+import { ListItemViewModel } from '../../core/models/list-item-viewmodel';
 
 @Component({
   selector: 'app-main-search',
@@ -13,6 +15,7 @@ import { CardSearchParameters } from '../../core/models/card-search-parameters';
 export class MainSearchComponent implements OnInit {
   searchCriteria: CardSearchCriteria;
   searchResults: Card[];
+  cardLists: ListItemViewModel<number>[];
   constructor(private cardSearchSvc: CardSearchService) {
     this.searchCriteria = {
       colors: [],
@@ -23,14 +26,15 @@ export class MainSearchComponent implements OnInit {
       subTypes: [],
       keywords: [],
     };
-
     this.searchResults = [];
+
+    this.cardLists = [];
   }
 
   ngOnInit(): void {
     this.cardSearchSvc.getCardSearchParameters().subscribe(val => this.searchCriteria = val);
+    this.cardSearchSvc.getCardListReferences().subscribe(val => this.cardLists = val);
   }
-
 
   submitCardSearchParameters(params: CardSearchParameters): void {
     console.log(params);
@@ -38,6 +42,11 @@ export class MainSearchComponent implements OnInit {
       console.log(searchResults);
       this.searchResults = searchResults;
     });
+  }
+
+  addCardToList(event: AddCardToListEvent) {
+    console.log(event);
+    this.cardSearchSvc.addCardToList({ cardUUID: event.cardUUID, cardListID: event.listID }).subscribe(e => console.log("Added card to list."));
   }
 
 }

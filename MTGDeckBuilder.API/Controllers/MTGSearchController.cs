@@ -9,8 +9,8 @@ namespace MTGDeckBuilder.API.Controllers
     [Route("[controller]/[action]")]
     public class MTGSearchController: ControllerBase
     {
-        private readonly IMTGDeckBuilderService _mtgSvc;
-        public MTGSearchController(IMTGDeckBuilderService mtgSvc)
+        private readonly IMTGCardService _mtgSvc;
+        public MTGSearchController(IMTGCardService mtgSvc)
         {
             _mtgSvc = mtgSvc;
         }
@@ -84,11 +84,17 @@ namespace MTGDeckBuilder.API.Controllers
             CardViewModel[] mappedSearchResults = searchResults.DistinctBy(c => c.Name).Select(c => new CardViewModel()
             {
                 CardID = c.CardID.Value,
+                CardUUID = c.UUID,
                 ConvertedManaCost = c.ManaValue ?? 0,
                 ManaCost = c.ManaCost,
                 Name = c.Name,
                 Text = c.Text,
-                Type = c.Type,                 
+                Type = c.Type, 
+                Power = c.Power, 
+                Toughness = c.Toughness,
+                Loyalty = c.Loyalty,
+                HasLoyalty = c.Loyalty.HasValue,
+                HasPowerToughness = (!string.IsNullOrEmpty(c.Power) || !string.IsNullOrEmpty(c.Toughness))
             }).OrderBy(c => c.ConvertedManaCost).ToArray();
 
             return mappedSearchResults;

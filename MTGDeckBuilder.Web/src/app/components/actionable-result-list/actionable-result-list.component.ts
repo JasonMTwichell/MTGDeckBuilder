@@ -1,8 +1,10 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Card } from '../../core/models/card';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { AddCardToListEvent } from '../../core/models/add-card-to-list-event';
+import { ListItemViewModel } from '../../core/models/list-item-viewmodel';
 
 @Component({
   selector: 'app-actionable-result-list',
@@ -21,6 +23,9 @@ export class ActionableResultListComponent implements OnInit, AfterViewInit {
   cardDataSource: MatTableDataSource<Card>;
   headers: string[];
 
+  @Input() lists: ListItemViewModel<number>[];
+  @Output() addToListEventEmitter: EventEmitter<AddCardToListEvent>;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor() {
@@ -35,13 +40,15 @@ export class ActionableResultListComponent implements OnInit, AfterViewInit {
         case 'text':
           return card.text;
         case 'type':
-          return card.type;
+          return card.type;        
         default:
           return ''
-      }
-        
+      }     
     }
-    this.headers = ['name', 'manaCost', 'type', 'text' ];
+    this.headers = ['name', 'manaCost', 'type', 'text', 'powerToughnessLoyalty', 'actions'];
+
+    this.lists = [];  
+    this.addToListEventEmitter = new EventEmitter<AddCardToListEvent>();
   }
     ngAfterViewInit(): void {
       this.cardDataSource.paginator = this.paginator;
@@ -49,5 +56,12 @@ export class ActionableResultListComponent implements OnInit, AfterViewInit {
     }
 
   ngOnInit(): void {
+  }
+
+  addCardToList(cardUUID: string, listID: number) {
+    this.addToListEventEmitter.emit({
+      cardUUID: cardUUID,
+      listID: listID
+    });
   }
 }

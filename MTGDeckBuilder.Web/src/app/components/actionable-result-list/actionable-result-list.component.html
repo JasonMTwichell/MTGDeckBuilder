@@ -16,7 +16,29 @@
 
   <ng-container matColumnDef="text">
     <mat-header-cell *matHeaderCellDef mat-sort-header>Text</mat-header-cell>
-    <mat-cell *matCellDef="let card"> {{card.text}} </mat-cell>
+    <mat-cell *matCellDef="let card" [innerHtml]="card.text"></mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="powerToughnessLoyalty">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Power/Toughness/Loyalty</mat-header-cell>
+    <mat-cell *matCellDef="let card" class="center-cell">
+      <ng-container *ngIf="card.hasPowerToughness">{{card.power}}/{{card.toughness}}</ng-container>
+      <ng-container *ngIf="card.hasLoyalty">{{card.loyalty}}</ng-container>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+    <mat-cell *matCellDef="let card">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>bookmark_add</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="addCardToList(card.cardUUID, list.value)" *ngFor="let list of lists">          
+          <span>{{list.name}}</span>
+        </button>        
+      </mat-menu>
+    </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="headers"></mat-header-row>

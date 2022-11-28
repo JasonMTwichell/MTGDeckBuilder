@@ -6,6 +6,6 @@
         public string CardUUID { get; set; }
 
         public virtual CardListData List { get; set; }
-        public virtual CardData CardData { get; set; }
+        public virtual CardData Card { get; set; }
     }
 }

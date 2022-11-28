@@ -82,12 +82,15 @@ namespace MTGDeckBuilder.EF
             card.HasMany(e => e.Keywords)
                 .WithMany(e => e.Cards)
                 .UsingEntity<CardKeywordData>();
+            card.HasMany(e => e.CardListListCards)
+                .WithOne(e => e.Card)
+                .HasForeignKey(p => p.CardUUID)
+                .HasPrincipalKey(p => p.UUID);
             card.HasIndex(e => e.Name);
             card.HasIndex(e => e.Type);            
             card.HasIndex(e => e.ManaValue);
             card.HasIndex(e => e.UUID)
-                .IsUnique();
-                
+                .IsUnique();                
 
             var color = modelBuilder.Entity<ColorData>();
             color.ToTable("tblColor");
@@ -257,8 +260,8 @@ namespace MTGDeckBuilder.EF
             var cardListCardData = modelBuilder.Entity<CardListCardData>();
             cardListCardData.ToTable("tblCardListCardData");
             cardListCardData.HasKey(p => new { p.fkCardList, p.CardUUID});
-            cardListCardData.HasOne(e => e.CardData)
-                .WithMany()
+            cardListCardData.HasOne(e => e.Card)
+                .WithMany(e => e.CardListListCards)
                 .HasForeignKey(p => p.CardUUID)
                 .HasPrincipalKey(p => p.UUID);
             cardListCardData.HasOne(e => e.List)
@@ -341,6 +344,8 @@ namespace MTGDeckBuilder.EF
         public DbSet<SubTypeData> SubTypes { get; set; }
         public DbSet<KeywordData> Keywords { get; set; }        
         public DbSet<UserDeckData> UserDecks { get; set; }
-        public DbSet<FormatData> Formats { get; set; }        
+        public DbSet<FormatData> Formats { get; set; }       
+        public DbSet<CardListData> CardLists { get; set; }
+        public DbSet<CardListCardData> CardListCardData { get; set; }
     }
 }

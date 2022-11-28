@@ -1,4 +1,5 @@
 ﻿using EFCore.BulkExtensions;
+using Microsoft.EntityFrameworkCore;
 using MTGDeckBuilder.EF.Entities;
 using System;
 using System.Collections.Generic;
@@ -157,6 +158,28 @@ namespace MTGDeckBuilder.EF
             }
 
             await _ctx.BulkSaveChangesAsync();
+        }
+
+        public async Task CreateCardList(CardListData cardListData)
+        {
+            _ctx.CardLists.Add(cardListData);
+            await _ctx.SaveChangesAsync();
+        }
+
+        public IEnumerable<CardListData> GetCardLists()
+        {
+            return _ctx.CardLists.Include(p => p.ListCards).ThenInclude(p => p.Card).ToArray();
+        }
+
+        public CardListData GetCardList(int cardListID)
+        {
+            return _ctx.CardLists.Include(p => p.ListCards).ThenInclude(p => p.Card).FirstOrDefault(cl => cl.pkCardList == cardListID);
+        }
+
+        public async Task AddListCard(CardListCardData listCard)
+        {
+            _ctx.CardListCardData.Add(listCard);
+            await _ctx.SaveChangesAsync();
         }
 
         //public async Task BootstrapDB(BootstrapDBData fileData)
