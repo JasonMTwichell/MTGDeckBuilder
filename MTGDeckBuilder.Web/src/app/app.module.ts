@@ -19,13 +19,16 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { EditListDialogComponent } from './components/edit-list-dialog/edit-list-dialog.component';
+import { ListManagerComponent } from './components/list-manager/list-manager.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CardSearchComponent,
     MainSearchComponent,
-    ActionableResultListComponent
+    ActionableResultListComponent,    
+    EditListDialogComponent, ListManagerComponent
   ],
   imports: [
     BrowserModule,
