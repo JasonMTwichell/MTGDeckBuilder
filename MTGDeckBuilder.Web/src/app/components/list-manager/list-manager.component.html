@@ -1,12 +1,39 @@
-<mat-form-field appearance="fill">
-  <mat-label>List</mat-label>
-  <mat-select (selectionChange)="emitListSelectionChange($event)">
-    <mat-option>
-      None
-    </mat-option>
-    <mat-option *ngFor="let list of lists" [value]="list.value">
-      {{list.name}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+<div class="flex-col">
+  <div id="select-row" class="flex-row">
+    <mat-form-field appearance="fill">
+      <mat-label>List</mat-label>
+      <mat-select (selectionChange)="emitListSelectionChange($event)">
+        <mat-option>
+          None
+        </mat-option>
+        <mat-option *ngFor="let list of lists" [value]="list.value">
+          {{list.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-icon-button (click)="addList()">
+      <mat-icon>add</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="this.cardList.cardListID != null" (click)="editList(this.cardList)">
+      <mat-icon>edit_square</mat-icon>
+    </button>
+    <button mat-icon-button>
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
 
+  <mat-selection-list [(ngModel)]="selectedListItems">
+    <mat-list-option *ngFor="let card of cardList.cards" [value]="card.cardUUID">
+      <h3 matLine>{{card.manaCost}}</h3>
+      <p matLine>{{card.name}}</p>
+      <p matLine>{{card.text}}</p>
+    </mat-list-option>
+  </mat-selection-list>
+
+  <div class="flex-col">    
+    <button mat-flat-button color="primary" [disabled]="selectedListItems.length == 0" (click)="removeFromList()">
+      <mat-icon>delete</mat-icon>
+      Remove from List
+    </button>
+  </div>
+</div>

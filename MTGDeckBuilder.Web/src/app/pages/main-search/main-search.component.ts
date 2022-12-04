@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CardSearchService } from '../../core/card-search.service';
+import { ListActionEvent } from '../../core/events/list-action-event';
 import { AddCardToListEvent } from '../../core/models/add-card-to-list-event';
 import { Card } from '../../core/models/card';
 import { CardList } from '../../core/models/card-list';
@@ -41,6 +42,10 @@ export class MainSearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.cardSearchSvc.getCardSearchParameters().subscribe(val => this.searchCriteria = val);
+    this.getCardLists();
+  }
+
+  getCardLists() {
     this.cardSearchSvc.getCardListReferences().subscribe(val => this.cardLists = val);
   }
 
@@ -59,7 +64,21 @@ export class MainSearchComponent implements OnInit {
 
   getListCards(event: ListSelectedEvent) {
     console.log(event);
-    this.cardSearchSvc.getCardList(event.listID).subscribe(val => this.cardList = val);
+    this.cardSearchSvc.getCardList(event.listID).subscribe(val => {
+      console.log(val);
+      this.cardList = val;
+    });
   }
 
+  handleListEvent(event: ListActionEvent) {
+    if (event.actionType == "ADD") {
+      if (event.cardList.cardListName != null) {
+        this.cardSearchSvc.addCardList(event.cardList).subscribe(onDone => this.getCardLists());
+      }
+    } else if (event.actionType == "UPDATE") {
+      if (event.cardList.cardListName != null && event.cardList.cardListID != null) {
+        this.cardSearchSvc.updateCardList(event.cardList).subscribe(onDone => this.getCardLists());
+      }
+    }
+  }
 }

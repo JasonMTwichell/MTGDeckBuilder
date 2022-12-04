@@ -21,6 +21,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { EditListDialogComponent } from './components/edit-list-dialog/edit-list-dialog.component';
 import { ListManagerComponent } from './components/list-manager/list-manager.component';
+import { MatListModule } from '@angular/material/list'
+import { MatDialogModule } from '@angular/material/dialog'
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { ListManagerComponent } from './components/list-manager/list-manager.com
     MatPaginatorModule,
     MatSortModule,
     MatMenuModule,
-    MatIconModule
+    MatIconModule,
+    MatListModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

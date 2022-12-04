@@ -1,20 +1,18 @@
 #main-container {
   display: flex;
-  flex-flow: row nowrap;
-  flex: 1 1 auto;
+  flex-flow: row nowrap;  
   justify-content: center;
-  padding: 15px;
+  padding: 15px;  
 }
 
-#search-column {
-    display: flex;
-    flex: 1 1 66%;
-    flex-flow: column nowrap;    
-    justify-content: center;    
-    margin: 15px;
+#search-column {   
+    flex: 0 0 66%;    
+    padding: 15px;    
 }
 
-app-list-manager {
-    display: flex;
-    flex: 1 1 33%;
+#list-column {
+  flex: 0 0 33%;
+  padding: 15px;  
 }
+
+

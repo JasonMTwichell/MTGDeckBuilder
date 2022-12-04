@@ -182,6 +182,12 @@ namespace MTGDeckBuilder.EF
             await _ctx.SaveChangesAsync();
         }
 
+        public async Task UpdateCardList(CardListData cardListData)
+        {
+            _ctx.Update(cardListData);
+            await _ctx.SaveChangesAsync();
+        }
+
         //public async Task BootstrapDB(BootstrapDBData fileData)
         //{
         //    // while I dont love using strings for primary keys, it provides one huge benefit

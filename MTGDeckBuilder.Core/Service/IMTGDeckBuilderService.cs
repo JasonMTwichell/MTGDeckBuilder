@@ -10,6 +10,7 @@ namespace MTGDeckBuilder.Core.Service
     public interface IMTGDeckBuilderService
     {
         Task CreateCardList(CardList cardList);
+        Task UpdateCardList(CardList cardList);
         IEnumerable<CardList> GetCardLists();
         CardList GetCardList(int cardListID);
         Task AddCardToList(int cardListID, string cardUUID);

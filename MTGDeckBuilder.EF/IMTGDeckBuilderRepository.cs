@@ -21,6 +21,7 @@ namespace MTGDeckBuilder.EF
         IEnumerable<FormatData> GetFormats();
 
         Task CreateCardList(CardListData cardListData);
+        Task UpdateCardList(CardListData cardListData);
         IEnumerable<CardListData> GetCardLists();
         CardListData GetCardList(int cardListID);
         Task AddListCard(CardListCardData listCard);

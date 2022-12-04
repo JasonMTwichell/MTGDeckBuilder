@@ -1,11 +1,15 @@
-<!--<h1 mat-dialog-title>Edit List</h1>
-<div mat-dialog-content>  
+<h1 mat-dialog-title>Edit List</h1>
+<div class="flex-col" mat-dialog-content>
   <mat-form-field appearance="fill">
     <mat-label>List Name</mat-label>
-    <input matInput [(ngModel)]="data.animal">
+    <input matInput [(ngModel)]="data.cardListName">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>List Description</mat-label>
+    <textarea matInput [(ngModel)]="data.cardListDescription"></textarea>
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Close</button>
-  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
-</div>-->
+  <button mat-button (click)="onClose()">Close</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</div>

@@ -1,3 +1,20 @@
-mat-form-field {
-  width: 100%;
+#select-row mat-form-field {
+    flex: 1 0 auto;
+}
+
+.mat-line {
+    white-space: pre-line !important;
+}
+
+.mat-selection-list > .mat-list-item {
+  height: auto;
+  margin-bottom: 5px;
+}
+
+.flex-row {
+    justify-content: end;
+}
+
+.flex-col > button:first-child {
+    margin: 5px 0;
 }

@@ -51,6 +51,7 @@ namespace MTGDeckBuilder.Services
                 Cards = cardList.ListCards.Select(lc => lc.Card).Select(c => new Card()
                 {
                     CardID = c.pkCard,
+                    UUID = c.UUID,
                     Name = c.Name,
                     AsciiName = c.AsciiName,
                     FaceName = c.FaceName,
@@ -84,6 +85,14 @@ namespace MTGDeckBuilder.Services
                     Type = c.Type,
                 }).ToArray(),
             });
+        }
+
+        public async Task UpdateCardList(CardList cardList)
+        {
+            CardListData existing = _repo.GetCardList(cardList.CardListID.Value);
+            existing.CardListName = cardList.CardListName;
+            existing.CardListDescription = cardList.CardListDescription;
+            await _repo.UpdateCardList(existing);
         }
     }
 }

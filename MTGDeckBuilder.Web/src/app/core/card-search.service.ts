@@ -40,4 +40,14 @@ export class CardSearchService {
     let params = new HttpParams().append("cardListID", listID);    
     return this._http.get<CardList>(getListURL, {params: params});
   }
+
+  addCardList(cardList: CardList) {
+    const addCardListUrl = '/deckbuilder/createList';
+    return this._http.post(addCardListUrl, cardList);
+  }
+
+  updateCardList(cardList: CardList) {
+    const updateCardList = '/deckbuilder/updateCardList';
+    return this._http.post(updateCardList, cardList);
+  }
 }

@@ -1,8 +1,14 @@
 <div id="main-container">
-  <div id="search-column">
+  <div class="flex-col" id="search-column">
     <app-card-search [searchCriteria]="searchCriteria" (submitEvent)="submitCardSearchParameters($event)"></app-card-search>
     <app-actionable-result-list [cards]="searchResults" [lists]="cardLists" (addToListEventEmitter)="addCardToList($event)"></app-actionable-result-list>
   </div>
-  <app-list-manager [lists]="cardLists" [cardList]="cardList" (listSelectedEventEmitter)="getListCards($event)"></app-list-manager>
+  <div class="flex-col" id="list-column">
+    <app-list-manager
+        [lists]="cardLists"
+        [cardList]="cardList"
+        (listSelectedEventEmitter)="getListCards($event)"
+        (listActionEventEmitter)="handleListEvent($event)"></app-list-manager>
+  </div>
 </div>
 

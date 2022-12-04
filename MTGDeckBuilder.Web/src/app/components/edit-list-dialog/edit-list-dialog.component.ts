@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { CardList } from '../../core/models/card-list';
 
 @Component({
   selector: 'app-edit-list-dialog',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditListDialogComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialogRef: MatDialogRef<EditListDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: CardList) { }
 
   ngOnInit(): void {
   }
 
+  onClose() {
+    console.log("On no close firing");
+    this.dialogRef.close();
+  }
 }

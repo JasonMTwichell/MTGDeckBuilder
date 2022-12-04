@@ -9,3 +9,13 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif; 
 }
+
+.flex-col {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.flex-row {
+  display: flex;
+  flex-flow: row nowrap;
+}
