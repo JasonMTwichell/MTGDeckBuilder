@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { map } from 'rxjs';
 import { CardSearchService } from '../../core/card-search.service';
 import { ListActionEvent } from '../../core/events/list-action-event';
-import { AddCardToListEvent } from '../../core/models/add-card-to-list-event';
+import { AddCardToListEvent } from '../../core/events/add-card-to-list-event';
 import { Card } from '../../core/models/card';
 import { CardList } from '../../core/models/card-list';
 import { CardSearchCriteria } from '../../core/models/card-search-criteria';
 import { CardSearchParameters } from '../../core/models/card-search-parameters';
 import { ListItemViewModel } from '../../core/models/list-item-viewmodel';
-import { ListSelectedEvent } from '../../core/models/list-selected-event';
+import { ListSelectedEvent } from '../../core/events/list-selected-event';
 
 @Component({
   selector: 'app-main-search',
@@ -18,8 +19,8 @@ import { ListSelectedEvent } from '../../core/models/list-selected-event';
 export class MainSearchComponent implements OnInit {
   searchCriteria: CardSearchCriteria;
   searchResults: Card[];
-  cardLists: ListItemViewModel<number>[];
-  cardList: CardList;
+  cardLists: CardList[];
+  listCards: Card[];
   constructor(private cardSearchSvc: CardSearchService) {
     this.searchCriteria = {
       colors: [],
@@ -33,20 +34,16 @@ export class MainSearchComponent implements OnInit {
     this.searchResults = [];
 
     this.cardLists = [];
-    this.cardList = {
-      cardListName: "",
-      cardListDescription: "",
-      cards: [],
-    };
+    this.listCards = [];
   }
 
   ngOnInit(): void {
-    this.cardSearchSvc.getCardSearchParameters().subscribe(val => this.searchCriteria = val);
+    this.cardSearchSvc.getCardSearchCriteria().subscribe(val => this.searchCriteria = val);
     this.getCardLists();
   }
 
   getCardLists() {
-    this.cardSearchSvc.getCardListReferences().subscribe(val => this.cardLists = val);
+    this.cardSearchSvc.getCardLists().subscribe(val => this.cardLists = val);
   }
 
   submitCardSearchParameters(params: CardSearchParameters): void {
@@ -64,19 +61,19 @@ export class MainSearchComponent implements OnInit {
 
   getListCards(event: ListSelectedEvent) {
     console.log(event);
-    this.cardSearchSvc.getCardList(event.listID).subscribe(val => {
-      console.log(val);
-      this.cardList = val;
+    this.cardSearchSvc.getCardListCards(event.cardList.cardListID).subscribe(listCards => {
+      console.log(listCards);
+      this.listCards = listCards;
     });
   }
 
   handleListEvent(event: ListActionEvent) {
     if (event.actionType == "ADD") {
-      if (event.cardList.cardListName != null) {
-        this.cardSearchSvc.addCardList(event.cardList).subscribe(onDone => this.getCardLists());
+      if (event.cardList.name != null) {
+        this.cardSearchSvc.createCardList(event.cardList).subscribe(onDone => this.getCardLists());
       }
     } else if (event.actionType == "UPDATE") {
-      if (event.cardList.cardListName != null && event.cardList.cardListID != null) {
+      if (event.cardList.name != null && event.cardList.cardListID != null) {
         this.cardSearchSvc.updateCardList(event.cardList).subscribe(onDone => this.getCardLists());
       }
     }

@@ -18,7 +18,7 @@ namespace MTGDeckBuilder.Services
             _repo = repo;
         }
 
-        public async Task AddCardToList(int cardListID, string cardUUID)
+        public async Task AddCardListCard(int cardListID, string cardUUID)
         {
             CardListCardData cardListCardData = new CardListCardData()
             {
@@ -38,6 +38,11 @@ namespace MTGDeckBuilder.Services
             };
 
             await _repo.CreateCardList(cardListData);
+        }
+
+        public async Task DeleteCardList(int cardListID)
+        {
+            await _repo.DeleteCardList(cardListID);
         }
 
         public CardList GetCardList(int cardListID)

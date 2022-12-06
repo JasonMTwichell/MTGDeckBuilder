@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AddCardToList } from './models/add-card-to-list';
 import { Card } from './models/card';
 import { CardList } from './models/card-list';
+import { CardListCard } from './models/card-list-card';
 import { CardSearchCriteria } from './models/card-search-criteria';
 import { CardSearchParameters } from './models/card-search-parameters';
 import { ListItemViewModel } from './models/list-item-viewmodel';
@@ -12,42 +13,55 @@ import { ListItemViewModel } from './models/list-item-viewmodel';
   providedIn: 'root'
 })
 export class CardSearchService {
+  private cardListUrl: string = '/api/cardList';
+  private searchUrl: string = '/api/cardSearch';
 
-  constructor(private _http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  getCardSearchParameters(): Observable<CardSearchCriteria> {
-    const cardSearchParametersUrl = '/mtgsearch/GetSearchCriteria';
-    return this._http.get<CardSearchCriteria>(cardSearchParametersUrl);
+  //#region Card Search
+  getCardSearchCriteria(): Observable<CardSearchCriteria> {    
+    return this.http.get<CardSearchCriteria>(this.searchUrl);
   }
 
-  searchCards(params: CardSearchParameters): Observable<Card[]> {
-    const cardSearchParametersUrl = '/mtgsearch/Search';
-    return this._http.post<Card[]>(cardSearchParametersUrl, params);
+  searchCards(params: CardSearchParameters): Observable<Card[]> {    
+    return this.http.post<Card[]>(this.searchUrl, params);
+  }
+  //#endregion
+
+  //#region Card List
+  createCardList(cardList: CardList) {    
+    return this.http.post(this.cardListUrl, cardList);
   }
 
-  getCardListReferences(): Observable<ListItemViewModel<number>[]> {
-    const cardListsUrl = '/deckbuilder/GetListReferences';
-    return this._http.get<ListItemViewModel<number>[]>(cardListsUrl);
+  getCardLists(): Observable<CardList[]> {    
+    return this.http.get<CardList[]>(this.cardListUrl);
   }
 
-  addCardToList(params: AddCardToList) {
-    const addToListURL = '/deckbuilder/addCardToList';
-    return this._http.post(addToListURL, params);
-  }
-
-  getCardList(listID: number): Observable<CardList> {
-    const getListURL = '/deckbuilder/getList';    
-    let params = new HttpParams().append("cardListID", listID);    
-    return this._http.get<CardList>(getListURL, {params: params});
-  }
-
-  addCardList(cardList: CardList) {
-    const addCardListUrl = '/deckbuilder/createList';
-    return this._http.post(addCardListUrl, cardList);
+  getCardList(cardListID: number): Observable<CardList> {
+    const getCardListUrl = `${this.cardListUrl}/${cardListID}`;
+    return this.http.get<CardList>(getCardListUrl);    
   }
 
   updateCardList(cardList: CardList) {
-    const updateCardList = '/deckbuilder/updateCardList';
-    return this._http.post(updateCardList, cardList);
+    const putCardListUrl = `${this.cardListUrl}/${cardList.cardListID}`;
+    return this.http.put(putCardListUrl, cardList);
   }
+
+  deleteCardList(cardListID: number) {
+    const deleteCardListUrl = `${this.cardListUrl}/${cardListID}`;
+    return this.http.delete(deleteCardListUrl);
+  }
+  //#endregion 
+
+  //#region Card List Card
+  addCardToList(params: AddCardToList) {
+    const addToListURL = '/deckbuilder/addCardToList';
+    return this.http.post(addToListURL, params);
+  }
+
+  getCardListCards(cardListID: number): Observable<CardListCard[]> {
+    const getCardListCardsUrl = `/api/cardList/${cardListID}/cardlistcards`;
+    return this.http.get<CardListCard[]>(getCardListCardsUrl);
+  }
+  //#endregion
 }

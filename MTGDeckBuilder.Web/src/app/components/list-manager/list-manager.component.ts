@@ -8,8 +8,7 @@ import { ListActionEvent } from '../../core/events/list-action-event';
 import { ListItemActionEvent } from '../../core/events/list-item-action-event';
 import { Card } from '../../core/models/card';
 import { CardList } from '../../core/models/card-list';
-import { ListItemViewModel } from '../../core/models/list-item-viewmodel';
-import { ListSelectedEvent } from '../../core/models/list-selected-event';
+import { ListSelectedEvent } from '../../core/events/list-selected-event';
 import { EditListDialogComponent } from '../edit-list-dialog/edit-list-dialog.component';
 
 @Component({
@@ -18,22 +17,19 @@ import { EditListDialogComponent } from '../edit-list-dialog/edit-list-dialog.co
   styleUrls: ['./list-manager.component.scss']
 })
 export class ListManagerComponent implements OnInit {
-  @Input() lists: ListItemViewModel<number>[];
+  @Input() cardLists: CardList[];
+  @Input() listCards: Card[];
   @Output() listSelectedEventEmitter: EventEmitter<ListSelectedEvent>;
   @Output() listActionEventEmitter: EventEmitter<ListActionEvent>;
   @Output() listItemActionEventEmitter: EventEmitter<ListItemActionEvent>;
-  @Input() cardList: CardList;
   selectedListItems: string[];
+    selectedCardList: any;
   constructor(public dialog: MatDialog) {
-    this.lists = [];
+    this.cardLists = [];
     this.listSelectedEventEmitter = new EventEmitter<ListSelectedEvent>();
     this.listActionEventEmitter = new EventEmitter<ListActionEvent>();
     this.listItemActionEventEmitter = new EventEmitter<ListItemActionEvent>();
-    this.cardList = {
-      cardListName: "",
-      cardListDescription: "",
-      cards: [],
-    }
+    this.listCards = [];
     this.selectedListItems = [];
   }
 
@@ -42,28 +38,25 @@ export class ListManagerComponent implements OnInit {
 
   emitListSelectionChange(event: any) {
     console.log(event);
-    if (event.value && event.value != 0) {      
-      this.listSelectedEventEmitter.emit({ listID: event.value });
+    if (event.value && event.value != 0) {
+      this.selectedCardList = event.value;
+      this.listSelectedEventEmitter.emit({ cardList: event.value });
     } else {
-      this.cardList = {
-        cardListName: "",
-        cardListDescription: "",
-        cards: [],
-      };
+      this.listCards = [];
     }
   }
 
   addList() {
     const dialogRef = this.dialog.open(EditListDialogComponent, {      
       data: {        
-        cardListName: "",
-        cardListDescription: "",
+        name: "",
+        description: "",
       },
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      if (result.cardListName != null) {
+      if (result.name != null) {
         this.listActionEventEmitter.emit({
           actionType: "ADD",
           cardList: result,
@@ -79,7 +72,7 @@ export class ListManagerComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
-      if (result.cardListName != null && result.cardListID != null) {
+      if (result.name != null && result.cardListID != null) {
         this.listActionEventEmitter.emit({
           actionType: "UPDATE",
           cardList: result,

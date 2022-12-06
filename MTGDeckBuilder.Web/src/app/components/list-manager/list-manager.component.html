@@ -6,15 +6,15 @@
         <mat-option>
           None
         </mat-option>
-        <mat-option *ngFor="let list of lists" [value]="list.value">
-          {{list.name}}
+        <mat-option *ngFor="let cardList of cardLists" [value]="cardList">
+          {{cardList.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <button mat-icon-button (click)="addList()">
       <mat-icon>add</mat-icon>
     </button>
-    <button mat-icon-button *ngIf="this.cardList.cardListID != null" (click)="editList(this.cardList)">
+    <button mat-icon-button *ngIf="this.selectedCardList != null" (click)="editList(this.selectedCardList)">
       <mat-icon>edit_square</mat-icon>
     </button>
     <button mat-icon-button>
@@ -23,7 +23,7 @@
   </div>
 
   <mat-selection-list [(ngModel)]="selectedListItems">
-    <mat-list-option *ngFor="let card of cardList.cards" [value]="card.cardUUID">
+    <mat-list-option *ngFor="let card of listCards" [value]="card.cardUUID">
       <h3 matLine>{{card.manaCost}}</h3>
       <p matLine>{{card.name}}</p>
       <p matLine>{{card.text}}</p>

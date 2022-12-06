@@ -24,6 +24,7 @@ namespace MTGDeckBuilder.EF
         Task UpdateCardList(CardListData cardListData);
         IEnumerable<CardListData> GetCardLists();
         CardListData GetCardList(int cardListID);
+        Task DeleteCardList(int cardListID);
         Task AddListCard(CardListCardData listCard);
     }
 }

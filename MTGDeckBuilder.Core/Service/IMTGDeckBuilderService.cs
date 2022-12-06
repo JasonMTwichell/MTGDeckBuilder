@@ -13,6 +13,7 @@ namespace MTGDeckBuilder.Core.Service
         Task UpdateCardList(CardList cardList);
         IEnumerable<CardList> GetCardLists();
         CardList GetCardList(int cardListID);
-        Task AddCardToList(int cardListID, string cardUUID);
+        Task DeleteCardList(int cardListID);
+        Task AddCardListCard(int cardListID, string cardUUID);
     }
 }

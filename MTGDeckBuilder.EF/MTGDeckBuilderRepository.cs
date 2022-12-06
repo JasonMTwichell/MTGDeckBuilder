@@ -188,6 +188,16 @@ namespace MTGDeckBuilder.EF
             await _ctx.SaveChangesAsync();
         }
 
+        public async Task DeleteCardList(int cardListID)
+        {
+            CardListData? cardListData = _ctx.CardLists.FirstOrDefault(cl => cl.pkCardList == cardListID);
+            if(cardListData != null)
+            {
+                _ctx.Remove(cardListData);
+                await _ctx.SaveChangesAsync();
+            }
+        }
+
         //public async Task BootstrapDB(BootstrapDBData fileData)
         //{
         //    // while I dont love using strings for primary keys, it provides one huge benefit

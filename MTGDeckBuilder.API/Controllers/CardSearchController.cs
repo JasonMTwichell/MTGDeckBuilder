@@ -6,11 +6,11 @@ using MTGDeckBuilder.Core.Service;
 namespace MTGDeckBuilder.API.Controllers
 {
     [ApiController]
-    [Route("[controller]/[action]")]
-    public class MTGSearchController: ControllerBase
+    [Route("/api/[controller]")]
+    public class CardSearchController: ControllerBase
     {
         private readonly IMTGCardService _mtgSvc;
-        public MTGSearchController(IMTGCardService mtgSvc)
+        public CardSearchController(IMTGCardService mtgSvc)
         {
             _mtgSvc = mtgSvc;
         }

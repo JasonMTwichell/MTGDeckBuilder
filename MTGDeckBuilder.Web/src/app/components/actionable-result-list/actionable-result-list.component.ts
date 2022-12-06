@@ -3,8 +3,9 @@ import { Card } from '../../core/models/card';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { AddCardToListEvent } from '../../core/models/add-card-to-list-event';
+import { AddCardToListEvent } from '../../core/events/add-card-to-list-event';
 import { ListItemViewModel } from '../../core/models/list-item-viewmodel';
+import { CardList } from '../../core/models/card-list';
 
 @Component({
   selector: 'app-actionable-result-list',
@@ -23,7 +24,7 @@ export class ActionableResultListComponent implements OnInit, AfterViewInit {
   cardDataSource: MatTableDataSource<Card>;
   headers: string[];
 
-  @Input() lists: ListItemViewModel<number>[];
+  @Input() cardLists: CardList[];
   @Output() addToListEventEmitter: EventEmitter<AddCardToListEvent>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -47,7 +48,7 @@ export class ActionableResultListComponent implements OnInit, AfterViewInit {
     }
     this.headers = ['name', 'manaCost', 'type', 'text', 'powerToughnessLoyalty', 'actions'];
 
-    this.lists = [];  
+    this.cardLists = [];  
     this.addToListEventEmitter = new EventEmitter<AddCardToListEvent>();
   }
     ngAfterViewInit(): void {

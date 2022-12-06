@@ -34,7 +34,7 @@
         <mat-icon>bookmark_add</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="addCardToList(card.cardUUID, list.value)" *ngFor="let list of lists">          
+        <button mat-menu-item (click)="addCardToList(card.cardUUID, list.cardListID)" *ngFor="let list of cardLists">          
           <span>{{list.name}}</span>
         </button>        
       </mat-menu>

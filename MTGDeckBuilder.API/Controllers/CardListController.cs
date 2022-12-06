@@ -1,118 +1,82 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MTGDeckBuilder.API.ViewModels;
 using MTGDeckBuilder.Core.Domain;
 using MTGDeckBuilder.Core.Service;
-using System.Security.Cryptography.X509Certificates;
+using MTGDeckBuilder.EF.Entities;
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MTGDeckBuilder.API.Controllers
 {
-    [Route("[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class CardListController : ControllerBase
     {
-        public IMTGDeckBuilderService _deckBuilderSvc;
+        private IMTGDeckBuilderService _deckBuilderSvc;
         public CardListController(IMTGDeckBuilderService deckBuilderSvc)
         {
             _deckBuilderSvc = deckBuilderSvc;
         }
-
-        [HttpPost]
-        public async Task CreateCardList([FromBody] CardListViewModel vm)
+        // GET: api/<CardListController>
+        [HttpGet]
+        public IEnumerable<CardListViewModel> Get()
         {
-            CardList cardList = new CardList()
+            CardList[] cardLists = _deckBuilderSvc.GetCardLists().ToArray();
+            CardListViewModel[] viewModels = cardLists.Select(cardList => new CardListViewModel()
             {
-                CardListName = vm.CardListName,
-                CardListDescription = vm.CardListDescription,
+                CardListID = cardList.CardListID.Value,
+                Name = cardList.CardListName,
+                Description = cardList.CardListDescription,
+            }).ToArray();
+            return viewModels;
+        }
+
+        // GET api/<CardListController>/5
+        [HttpGet("{id}")]
+        public CardListViewModel Get(int id)
+        {
+            CardList cardList = _deckBuilderSvc.GetCardList(id);
+            CardListViewModel viewModel = new CardListViewModel()
+            {
+                CardListID = cardList.CardListID.Value,
+                Name = cardList.CardListName,
+                Description = cardList.CardListDescription,
+            };
+            return viewModel;
+        }
+
+        // POST api/<CardListController>
+        [HttpPost]
+        public async Task Post([FromBody] CreateCardListViewModel viewModel)
+        {
+            CardList cardList = new CardList
+            {
+                CardListName = viewModel.Name,
+                CardListDescription = viewModel.Description,
             };
 
             await _deckBuilderSvc.CreateCardList(cardList);
         }
 
-        [HttpGet]
-        public IEnumerable<CardListViewModel> GetAllCardLists()
-        {
-            CardList[] lists = _deckBuilderSvc.GetCardLists().ToArray();
-            return lists.Select(cl => new CardListViewModel()
-            {
-                CardListID = cl.CardListID,
-                CardListName = cl.CardListName,
-                CardListDescription = cl.CardListDescription,
-                Cards = cl.Cards.Select(c => new CardViewModel()
-                {
-                    CardID = c.CardID.Value,
-                    CardUUID = c.UUID,
-                    ConvertedManaCost = c.ManaValue ?? 0,
-                    ManaCost = c.ManaCost,
-                    Name = c.Name,
-                    Text = c.Text,
-                    Type = c.Type,
-                    Power = c.Power,
-                    Toughness = c.Toughness,
-                    Loyalty = c.Loyalty,
-                    HasLoyalty = c.Loyalty.HasValue,
-                    HasPowerToughness = (!string.IsNullOrEmpty(c.Power) || !string.IsNullOrEmpty(c.Toughness))
-                })
-            }).ToArray();
-        }
-
-        [HttpGet]
-        public IEnumerable<ListItemViewModel<int>> GetAllCardListReferences()
-        {
-            CardList[] lists = _deckBuilderSvc.GetCardLists().ToArray();
-            return lists.Select(l => new ListItemViewModel<int>()
-            {
-                Name = l.CardListName,
-                Value = l.CardListID.Value,
-            }).ToArray();
-        }
-
-        [HttpGet("{cardListID}")]
-        public CardListViewModel Get(int cardListID)
-        {
-            CardList list = _deckBuilderSvc.GetCardList(cardListID);
-            return new CardListViewModel()
-            {
-                CardListID = list.CardListID,
-                CardListName = list.CardListName,
-                CardListDescription = list.CardListDescription,
-                Cards = list.Cards.Select(c => new CardViewModel()
-                {
-                    CardID = c.CardID.Value,
-                    CardUUID = c.UUID,
-                    ConvertedManaCost = c.ManaValue ?? 0,
-                    ManaCost = c.ManaCost,
-                    Name = c.Name,
-                    Text = c.Text,
-                    Type = c.Type,
-                    Power = c.Power,
-                    Toughness = c.Toughness,
-                    Loyalty = c.Loyalty,
-                    HasLoyalty = c.Loyalty.HasValue,
-                    HasPowerToughness = (!string.IsNullOrEmpty(c.Power) || !string.IsNullOrEmpty(c.Toughness))
-                })
-            };
-        }
-
-        [HttpPost]
-        public async Task UpdateCardList([FromBody] CardListViewModel vm)
+        // PUT api/<CardListController>/5
+        [HttpPut("{id}")]
+        public async Task Put(int id, [FromBody] UpdateCardListViewModel viewModel)
         {
             CardList cardList = new CardList()
             {
-                CardListID = vm.CardListID,
-                CardListName = vm.CardListName,
-                CardListDescription = vm.CardListDescription,
+                CardListID = viewModel.CardListID,
+                CardListName = viewModel.Name,
+                CardListDescription = viewModel.Description,
             };
 
             await _deckBuilderSvc.UpdateCardList(cardList);
         }
 
-        [HttpPost]
-        public async Task AddCardToList([FromBody] AddListCardViewModel vm)
+        // DELETE api/<CardListController>/5
+        [HttpDelete("{id}")]
+        public async Task Delete(int id)
         {
-            await _deckBuilderSvc.AddCardToList(vm.CardListID, vm.CardUUID);
+            await _deckBuilderSvc.DeleteCardList(id);
         }
-
-        
     }
 }
