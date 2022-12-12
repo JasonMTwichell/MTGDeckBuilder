@@ -10,6 +10,7 @@ import { Card } from '../../core/models/card';
 import { CardList } from '../../core/models/card-list';
 import { ListSelectedEvent } from '../../core/events/list-selected-event';
 import { EditListDialogComponent } from '../edit-list-dialog/edit-list-dialog.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-list-manager',
@@ -21,7 +22,7 @@ export class ListManagerComponent implements OnInit {
   @Input() listCards: Card[];
   @Output() listSelectedEventEmitter: EventEmitter<ListSelectedEvent>;
   @Output() listActionEventEmitter: EventEmitter<ListActionEvent>;
-  @Output() listItemActionEventEmitter: EventEmitter<ListItemActionEvent>;
+  @Output() listItemActionEventEmitter: EventEmitter<ListItemActionEvent>;  
   selectedListItems: string[];
     selectedCardList: any;
   constructor(public dialog: MatDialog) {
@@ -36,11 +37,11 @@ export class ListManagerComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  emitListSelectionChange(event: any) {
+  onListSelected(event: any) {
     console.log(event);
     if (event.value && event.value != 0) {
       this.selectedCardList = event.value;
-      this.listSelectedEventEmitter.emit({ cardList: event.value });
+      this.listSelectedEventEmitter.emit({ cardListID: event.value.cardListID });
     } else {
       this.listCards = [];
     }
@@ -59,7 +60,9 @@ export class ListManagerComponent implements OnInit {
       if (result.name != null) {
         this.listActionEventEmitter.emit({
           actionType: "ADD",
-          cardList: result,
+          cardListID: result.cardListID,
+          name: result.name,
+          description: result.description,
         });
       }
     });
@@ -75,14 +78,42 @@ export class ListManagerComponent implements OnInit {
       if (result.name != null && result.cardListID != null) {
         this.listActionEventEmitter.emit({
           actionType: "UPDATE",
-          cardList: result,
+          cardListID: result.cardListID,
+          name: result.name,
+          description: result.description,
         });
+      }
+    });
+  }
+
+  deleteList(cardListID: number) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        dialogTitle: "Delete Cards from List?",
+        dialogMessage: "Click confirm to delete the selected cards from the list.",
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      if (result == true) {
+        this.listActionEventEmitter.emit({
+          actionType: "DELETE",
+          cardListID: cardListID,
+        });
+
+        this.selectedCardList = {};
+        this.listCards = [];
       }
     });
   }
 
   removeFromList() {
     console.log(`Removing ${this.selectedListItems} from this list`);
-
+    this.listItemActionEventEmitter.emit({
+      actionType: "DELETE",
+      cardListID: this.selectedCardList.cardListID,
+      cardUUIDs: this.selectedListItems,
+    });
   }
 }

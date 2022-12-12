@@ -2,7 +2,7 @@
   <div id="select-row" class="flex-row">
     <mat-form-field appearance="fill">
       <mat-label>List</mat-label>
-      <mat-select (selectionChange)="emitListSelectionChange($event)">
+      <mat-select (selectionChange)="onListSelected($event)">
         <mat-option>
           None
         </mat-option>
@@ -17,7 +17,7 @@
     <button mat-icon-button *ngIf="this.selectedCardList != null" (click)="editList(this.selectedCardList)">
       <mat-icon>edit_square</mat-icon>
     </button>
-    <button mat-icon-button>
+    <button mat-icon-button (click)="deleteList(this.selectedCardList.cardListID)">
       <mat-icon>delete</mat-icon>
     </button>
   </div>

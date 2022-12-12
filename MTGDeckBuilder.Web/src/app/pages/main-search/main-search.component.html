@@ -6,9 +6,10 @@
   <div class="flex-col" id="list-column">
     <app-list-manager
         [cardLists]="cardLists"
-        [listCards]="listCards"
+        [listCards]="cardListCards"
         (listSelectedEventEmitter)="getListCards($event)"
-        (listActionEventEmitter)="handleListEvent($event)"></app-list-manager>
+        (listActionEventEmitter)="handleListEvent($event)"
+        (listItemActionEventEmitter)="handleListItemEvent($event)"></app-list-manager>
   </div>
 </div>
 

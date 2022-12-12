@@ -7,14 +7,15 @@ import { CardList } from './models/card-list';
 import { CardListCard } from './models/card-list-card';
 import { CardSearchCriteria } from './models/card-search-criteria';
 import { CardSearchParameters } from './models/card-search-parameters';
+import { DeleteCardListCards } from './models/delete-card-list-cards';
 import { ListItemViewModel } from './models/list-item-viewmodel';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CardSearchService {
-  private cardListUrl: string = '/api/cardList';
   private searchUrl: string = '/api/cardSearch';
+  private cardListUrl: string = '/api/cardList';  
 
   constructor(private http: HttpClient) { }
 
@@ -55,13 +56,18 @@ export class CardSearchService {
 
   //#region Card List Card
   addCardToList(params: AddCardToList) {
-    const addToListURL = '/deckbuilder/addCardToList';
+    const addToListURL = `${this.cardListUrl}/${params.cardListID}/cardListCards`;
     return this.http.post(addToListURL, params);
   }
 
   getCardListCards(cardListID: number): Observable<CardListCard[]> {
     const getCardListCardsUrl = `/api/cardList/${cardListID}/cardlistcards`;
     return this.http.get<CardListCard[]>(getCardListCardsUrl);
+  }
+
+  deleteCardListCards(params: DeleteCardListCards) {
+    const deleteCardListUrl = `${this.cardListUrl}/${params.cardListID}/cardListCards`;
+    return this.http.delete(deleteCardListUrl, { body: params });
   }
   //#endregion
 }

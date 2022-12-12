@@ -1,5 +1,6 @@
 ﻿using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
+using MTGDeckBuilder.Core.Domain;
 using MTGDeckBuilder.EF.Entities;
 using System;
 using System.Collections.Generic;
@@ -196,6 +197,13 @@ namespace MTGDeckBuilder.EF
                 _ctx.Remove(cardListData);
                 await _ctx.SaveChangesAsync();
             }
+        }
+
+        public async Task DeleteCardListCards(DeleteCardListCards deleteCmd)
+        {
+            IEnumerable<CardListCardData> cardListCardsToDelete = _ctx.CardListCardData.Where(clc => clc.fkCardList == deleteCmd.CardListID && deleteCmd.CardUUIDsToDelete.Contains(clc.CardUUID));
+            _ctx.RemoveRange(cardListCardsToDelete);
+            await _ctx.SaveChangesAsync();
         }
 
         //public async Task BootstrapDB(BootstrapDBData fileData)

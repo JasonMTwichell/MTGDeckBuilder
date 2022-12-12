@@ -55,5 +55,17 @@ namespace MTGDeckBuilder.API.Controllers
         {
 
         }
+
+        [HttpDelete()]
+        public async Task Delete([FromBody] DeleteCardListCardsViewModel viewModel)
+        {
+            DeleteCardListCards deleteListCardCmd = new DeleteCardListCards
+            {
+                CardListID = viewModel.CardListID,
+                CardUUIDsToDelete = viewModel.CardUUIDsToDelete,
+            };
+
+            await _deckBuilderSvc.DeleteCardListCards(deleteListCardCmd);
+        }
     }
 }

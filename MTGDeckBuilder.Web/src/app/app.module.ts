@@ -22,7 +22,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { EditListDialogComponent } from './components/edit-list-dialog/edit-list-dialog.component';
 import { ListManagerComponent } from './components/list-manager/list-manager.component';
 import { MatListModule } from '@angular/material/list'
-import { MatDialogModule } from '@angular/material/dialog'
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component'
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { MatDialogModule } from '@angular/material/dialog'
     CardSearchComponent,
     MainSearchComponent,
     ActionableResultListComponent,    
-    EditListDialogComponent, ListManagerComponent
+    EditListDialogComponent, ListManagerComponent, ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,

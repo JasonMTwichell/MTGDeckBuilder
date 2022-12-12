@@ -1,4 +1,5 @@
-﻿using MTGDeckBuilder.EF.Entities;
+﻿using MTGDeckBuilder.Core.Domain;
+using MTGDeckBuilder.EF.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,5 +27,6 @@ namespace MTGDeckBuilder.EF
         CardListData GetCardList(int cardListID);
         Task DeleteCardList(int cardListID);
         Task AddListCard(CardListCardData listCard);
+        Task DeleteCardListCards(DeleteCardListCards deleteCmd);
     }
 }

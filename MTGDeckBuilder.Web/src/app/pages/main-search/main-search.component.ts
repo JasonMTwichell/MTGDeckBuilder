@@ -9,6 +9,7 @@ import { CardSearchCriteria } from '../../core/models/card-search-criteria';
 import { CardSearchParameters } from '../../core/models/card-search-parameters';
 import { ListItemViewModel } from '../../core/models/list-item-viewmodel';
 import { ListSelectedEvent } from '../../core/events/list-selected-event';
+import { ListItemActionEvent } from '../../core/events/list-item-action-event';
 
 @Component({
   selector: 'app-main-search',
@@ -20,7 +21,8 @@ export class MainSearchComponent implements OnInit {
   searchCriteria: CardSearchCriteria;
   searchResults: Card[];
   cardLists: CardList[];
-  listCards: Card[];
+  selectedCardListID?: number;
+  cardListCards: Card[];
   constructor(private cardSearchSvc: CardSearchService) {
     this.searchCriteria = {
       colors: [],
@@ -32,9 +34,9 @@ export class MainSearchComponent implements OnInit {
       keywords: [],
     };
     this.searchResults = [];
-
-    this.cardLists = [];
-    this.listCards = [];
+    
+    this.cardLists = [];    
+    this.cardListCards = [];
   }
 
   ngOnInit(): void {
@@ -56,26 +58,56 @@ export class MainSearchComponent implements OnInit {
 
   addCardToList(event: AddCardToListEvent) {
     console.log(event);
-    this.cardSearchSvc.addCardToList({ cardUUID: event.cardUUID, cardListID: event.listID }).subscribe(e => console.log("Added card to list."));
+    this.cardSearchSvc.addCardToList({ cardUUID: event.cardUUID, cardListID: event.listID }).subscribe(_ => {
+      if (event.listID == this.selectedCardListID) {
+        this.getListCards({ cardListID: event.listID });
+      }
+    });
   }
 
   getListCards(event: ListSelectedEvent) {
     console.log(event);
-    this.cardSearchSvc.getCardListCards(event.cardList.cardListID).subscribe(listCards => {
+    this.cardSearchSvc.getCardListCards(event.cardListID).subscribe(listCards => {
       console.log(listCards);
-      this.listCards = listCards;
+      this.selectedCardListID = event.cardListID;
+      this.cardListCards = listCards;
     });
   }
 
   handleListEvent(event: ListActionEvent) {
     if (event.actionType == "ADD") {
-      if (event.cardList.name != null) {
-        this.cardSearchSvc.createCardList(event.cardList).subscribe(onDone => this.getCardLists());
+      if (event.name != null) {
+        const cardList: CardList = {
+          cardListID: event.cardListID,
+          name: event.name,
+          description: event.description,
+        };
+
+        this.cardSearchSvc.createCardList(cardList).subscribe(_ => this.getCardLists());
       }
     } else if (event.actionType == "UPDATE") {
-      if (event.cardList.name != null && event.cardList.cardListID != null) {
-        this.cardSearchSvc.updateCardList(event.cardList).subscribe(onDone => this.getCardLists());
+      if (event.name != null && event.cardListID != null) {
+        const cardList: CardList = {
+          cardListID: event.cardListID,
+          name: event.name,
+          description: event.description,
+        };
+
+        this.cardSearchSvc.updateCardList(cardList).subscribe(_ => this.getCardLists());
       }
+    } else if (event.actionType == "DELETE") {
+      if (event.cardListID != null) {
+        this.cardSearchSvc.deleteCardList(event.cardListID).subscribe(_ => this.getCardLists());
+      }
+    }
+  }
+
+  handleListItemEvent(event: ListItemActionEvent) {
+    if (event.actionType == "DELETE" && event.cardUUIDs.length > 0) {
+      this.cardSearchSvc.deleteCardListCards({
+        cardListID: event.cardListID,
+        cardUUIDsToDelete: event.cardUUIDs,
+      }).subscribe(_ => this.getListCards({ cardListID: event.cardListID }));
     }
   }
 }

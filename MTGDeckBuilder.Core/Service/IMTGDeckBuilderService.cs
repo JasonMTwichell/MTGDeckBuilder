@@ -15,5 +15,6 @@ namespace MTGDeckBuilder.Core.Service
         CardList GetCardList(int cardListID);
         Task DeleteCardList(int cardListID);
         Task AddCardListCard(int cardListID, string cardUUID);
+        Task DeleteCardListCards(DeleteCardListCards deleteCmd);
     }
 }

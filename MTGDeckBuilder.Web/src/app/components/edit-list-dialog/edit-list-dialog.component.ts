@@ -15,8 +15,7 @@ export class EditListDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onClose() {
-    console.log("On no close firing");
+  onDismiss() {
     this.dialogRef.close();
   }
 }

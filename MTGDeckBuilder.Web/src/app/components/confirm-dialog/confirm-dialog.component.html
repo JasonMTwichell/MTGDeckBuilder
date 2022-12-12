@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{data.dialogTitle}}</h1>
+<div mat-dialog-content>
+  <p>{{data.dialogMessage}}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onDismiss()">Dismiss</button>
+  <button mat-button [mat-dialog-close]="data" (click)="onConfirm()">Confirm</button>
+</div>

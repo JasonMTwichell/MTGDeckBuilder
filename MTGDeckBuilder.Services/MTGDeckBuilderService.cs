@@ -45,6 +45,11 @@ namespace MTGDeckBuilder.Services
             await _repo.DeleteCardList(cardListID);
         }
 
+        public async Task DeleteCardListCards(DeleteCardListCards deleteCmd)
+        {
+            await _repo.DeleteCardListCards(deleteCmd with { });
+        }
+
         public CardList GetCardList(int cardListID)
         {
             CardListData cardList = _repo.GetCardList(cardListID);
