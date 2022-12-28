@@ -199,12 +199,49 @@ namespace MTGDeckBuilder.EF
             }
         }
 
-        public async Task DeleteCardListCards(DeleteCardListCards deleteCmd)
+        public async Task DeleteCardListCards(CardListCardsDelete deleteCmd)
         {
             IEnumerable<CardListCardData> cardListCardsToDelete = _ctx.CardListCardData.Where(clc => clc.fkCardList == deleteCmd.CardListID && deleteCmd.CardUUIDsToDelete.Contains(clc.CardUUID));
             _ctx.RemoveRange(cardListCardsToDelete);
             await _ctx.SaveChangesAsync();
         }
+
+        #region User Deck
+        public IEnumerable<UserDeckData> GetUserDecks()
+        {
+            throw new NotImplementedException();
+        }
+
+        public UserDeckData GetUserDeck(int userDeckID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task CreateUserDeck(UserDeckData deckData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateUserDeck(UserDeckData deckData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteUserDeck(int userDeckID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task AddDeckCard(UserDeckCardData deckCard)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteUserDeckCards(UserDeckCardsDelete deleteCmd)
+        {
+            throw new NotImplementedException();
+        } 
+        #endregion
 
         //public async Task BootstrapDB(BootstrapDBData fileData)
         //{

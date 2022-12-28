@@ -9,12 +9,28 @@ namespace MTGDeckBuilder.Core.Service
 {
     public interface IMTGDeckBuilderService
     {
-        Task CreateCardList(CardList cardList);
-        Task UpdateCardList(CardList cardList);
+        #region Card List
+        Task CreateCardList(CardListCreate cardList); 
+        Task UpdateCardList(CardListUpdate cardList);
         IEnumerable<CardList> GetCardLists();
         CardList GetCardList(int cardListID);
         Task DeleteCardList(int cardListID);
-        Task AddCardListCard(int cardListID, string cardUUID);
-        Task DeleteCardListCards(DeleteCardListCards deleteCmd);
+        Task AddCardListCard(CardListCardCreate create);
+        Task DeleteCardListCards(CardListCardsDelete deleteCmd);
+        #endregion
+
+        #region User Decks
+        IEnumerable<UserDeck> GetUserDecks();
+        UserDeck GetUserDeck(int userDeckID);
+        Task CreateUserDeck(UserDeckCreate createUserDeck);
+        Task UpdateUserDeck(UserDeckUpdate createUserDeck);
+        Task DeleteUserDeck(int userDeckID);
+        Task AddUserDeckCard(UserDeckCardCreate createCmd);
+        Task UpdateUserDeckCard(UserDeckCardUpdate updateCmd);
+        Task DeleteUserDeckCards(UserDeckCardsDelete deleteCmd);
+        Task AddUserSideboardCard(UserDeckSideboardCardsCreate createCmd);
+        Task UpdateUserSideboardCard(UserDeckSideboardCardsCreate createCmd);
+        Task DeleteUserSideboardCards(UserDeckSideboardCardDelete createCmd);
+        #endregion
     }
 }

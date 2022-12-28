@@ -1,15 +1,19 @@
 <div id="main-container">
-  <div class="flex-col" id="search-column">
-    <app-card-search [searchCriteria]="searchCriteria" (submitEvent)="submitCardSearchParameters($event)"></app-card-search>
-    <app-actionable-result-list [cards]="searchResults" [cardLists]="cardLists" (addToListEventEmitter)="addCardToList($event)"></app-actionable-result-list>
+  <div class="flex-row" id="deck-row">
+    <app-deck-manager></app-deck-manager>
   </div>
-  <div class="flex-col" id="list-column">
-    <app-list-manager
-        [cardLists]="cardLists"
-        [listCards]="cardListCards"
-        (listSelectedEventEmitter)="getListCards($event)"
-        (listActionEventEmitter)="handleListEvent($event)"
-        (listItemActionEventEmitter)="handleListItemEvent($event)"></app-list-manager>
+  <div class="flex-row">
+    <div class="flex-col" id="search-column">
+      <app-card-search [searchCriteria]="searchCriteria" (submitEvent)="submitCardSearchParameters($event)"></app-card-search>
+      <app-actionable-result-list [cards]="searchResults" [cardLists]="cardLists" (addToListEventEmitter)="addCardToList($event)"></app-actionable-result-list>
+    </div>
+    <div class="flex-col" id="list-column">
+      <app-list-manager [cardLists]="cardLists"
+                        [listCards]="cardListCards"
+                        (listSelectedEventEmitter)="getListCards($event)"
+                        (listActionEventEmitter)="handleListEvent($event)"
+                        (listItemActionEventEmitter)="handleListItemEvent($event)"></app-list-manager>
+    </div>
   </div>
 </div>
 

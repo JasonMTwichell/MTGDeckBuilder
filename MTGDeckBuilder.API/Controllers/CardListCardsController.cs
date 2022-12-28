@@ -46,7 +46,11 @@ namespace MTGDeckBuilder.API.Controllers
         [HttpPost()]
         public void Post([FromBody] AddCardListCardViewModel viewModel)
         {
-            _deckBuilderSvc.AddCardListCard(viewModel.CardListID, viewModel.CardUUID);
+            _deckBuilderSvc.AddCardListCard(new CardListCardCreate()
+            {
+                CardListID = viewModel.CardListID,
+                CardUUID = viewModel.CardUUID,
+            });
         }
 
         // DELETE api/<CardListCardsController>/5
@@ -59,7 +63,7 @@ namespace MTGDeckBuilder.API.Controllers
         [HttpDelete()]
         public async Task Delete([FromBody] DeleteCardListCardsViewModel viewModel)
         {
-            DeleteCardListCards deleteListCardCmd = new DeleteCardListCards
+            CardListCardsDelete deleteListCardCmd = new CardListCardsDelete
             {
                 CardListID = viewModel.CardListID,
                 CardUUIDsToDelete = viewModel.CardUUIDsToDelete,

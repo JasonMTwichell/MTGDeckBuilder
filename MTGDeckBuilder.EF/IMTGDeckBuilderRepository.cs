@@ -21,12 +21,24 @@ namespace MTGDeckBuilder.EF
         IEnumerable<KeywordData> GetKeywords();
         IEnumerable<FormatData> GetFormats();
 
+        #region Card List
         Task CreateCardList(CardListData cardListData);
         Task UpdateCardList(CardListData cardListData);
         IEnumerable<CardListData> GetCardLists();
         CardListData GetCardList(int cardListID);
         Task DeleteCardList(int cardListID);
         Task AddListCard(CardListCardData listCard);
-        Task DeleteCardListCards(DeleteCardListCards deleteCmd);
+        Task DeleteCardListCards(CardListCardsDelete deleteCmd);
+        #endregion
+
+        #region User Deck
+        IEnumerable<UserDeckData> GetUserDecks();
+        UserDeckData GetUserDeck(int userDeckID);
+        Task CreateUserDeck(UserDeckData deckData);
+        Task UpdateUserDeck(UserDeckData deckData);
+        Task DeleteUserDeck(int userDeckID);
+        Task AddDeckCard(UserDeckCardData deckCard);
+        Task DeleteUserDeckCards(UserDeckCardsDelete deleteCmd);
+        #endregion
     }
 }

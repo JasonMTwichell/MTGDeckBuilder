@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MTGDeckBuilder.Core.Domain
 {
-    public struct DeleteCardListCards
+    public record struct UserDeckCardsDelete
     {
-        public int CardListID { get; init; }
+        public int UserDeckID { get; init; }
         public string[] CardUUIDsToDelete { get; init; }
     }
 }

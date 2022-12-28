@@ -23,7 +23,8 @@ import { EditListDialogComponent } from './components/edit-list-dialog/edit-list
 import { ListManagerComponent } from './components/list-manager/list-manager.component';
 import { MatListModule } from '@angular/material/list'
 import { MatDialogModule } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component'
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { DeckManagerComponent } from './components/deck-manager/deck-manager.component'
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
     CardSearchComponent,
     MainSearchComponent,
     ActionableResultListComponent,    
-    EditListDialogComponent, ListManagerComponent, ConfirmDialogComponent
+    EditListDialogComponent, ListManagerComponent, ConfirmDialogComponent, DeckManagerComponent
   ],
   imports: [
     BrowserModule,

@@ -1,17 +1,22 @@
 #main-container {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   justify-content: center;
   padding: 15px;  
 }
 
 #search-column {   
-    flex: 0 0 66%;    
+    flex: 1 1 33%;    
     padding: 15px;    
 }
 
+#deck-row {
+  flex: 1 1 33%;
+  padding: 15px;
+}
+
 #list-column {
-  flex: 0 0 33%;
+  flex: 1 1 33%;
   padding: 15px;
   position: sticky;
   align-self: flex-start;

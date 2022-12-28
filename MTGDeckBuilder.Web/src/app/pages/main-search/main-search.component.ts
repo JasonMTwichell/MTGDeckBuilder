@@ -97,7 +97,9 @@ export class MainSearchComponent implements OnInit {
       }
     } else if (event.actionType == "DELETE") {
       if (event.cardListID != null) {
-        this.cardSearchSvc.deleteCardList(event.cardListID).subscribe(_ => this.getCardLists());
+        this.cardSearchSvc.deleteCardList(event.cardListID).subscribe(_ => {          
+          this.getCardLists();
+        });
       }
     }
   }
