@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32408.312
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTGDeckBuilder", "MTGDeckBuilder\MTGDeckBuilder.csproj", "{D3D578AC-2BB3-4592-B823-6764DDF4B9E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTGDeckBuilder.Patcher", "MTGDeckBuilder.Patcher\MTGDeckBuilder.Patcher.csproj", "{D3D578AC-2BB3-4592-B823-6764DDF4B9E2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTGDeckBuilder.Core", "MTGDeckBuilder.Core\MTGDeckBuilder.Core.csproj", "{CB0B1AB2-37FA-4B15-AAC7-9DC91FF43A86}"
 EndProject
@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTGDeckBuilder.DbUp", "MTGD
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{1EA27922-C80E-4B9B-A541-042742FA2ED6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTGDeckBuilder.MTGJson", "MTGDeckBuilder.JSON\MTGDeckBuilder.MTGJson\MTGDeckBuilder.MTGJson.csproj", "{844DF266-A4E7-4836-AD7F-3CC4FC03F903}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTGDeckBuilder.MTGJson", "MTGDeckBuilder.MTGJson\MTGDeckBuilder.MTGJson\MTGDeckBuilder.MTGJson.csproj", "{844DF266-A4E7-4836-AD7F-3CC4FC03F903}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
