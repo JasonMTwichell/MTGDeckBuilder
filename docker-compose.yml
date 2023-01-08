@@ -8,6 +8,8 @@ services:
       dockerfile: MTGDeckBuilder/Dockerfile
     environment:
       - MTG_DB_PATH=/MTG_APP/MTGDeckBuilder.db
-      - MTG_JSON_FILE_PATH=/MTG_APP/AllPrintings.json
+      - MTG_JSON_META_FILEPATH=/MTG_APP/Meta.json
+      - MTG_JSON_ENUMVALUES_FILEPATH=/MTG_APP/EnumValues.json
+      - MTG_JSON_SETS_DIRECTORY=/MTG_APP/Sets
     volumes:
       - C:\MTG_DECK_BUILDER:/MTG_APP

@@ -4,6 +4,7 @@ using MTGDeckBuilder.DbUp;
 using MTGDeckBuilder.EF;
 using MTGDeckBuilder.EF.Entities;
 using MTGDeckBuilder.MTGJson;
+using MTGDeckBuilder.MTGJson.DTO;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -24,16 +25,16 @@ namespace MTGDeckBuilder
             _repo = _container.Resolve<IMTGDeckBuilderRepository>();
             _cfg = _container.Resolve<IMTGConfiguration>();
             
+            // run dbup scripts
             string dbPath = _cfg.GetConfigurationValue("MTG_DB_PATH");
             MTGEmbeddedScriptsProvider.ExecuteDbUpScripts(dbPath);            
             
+            // patch reference data
             IMTGJsonParser parser = new MTGJsonParser();
-            string mtgJsonFilePath = _cfg.GetConfigurationValue("MTG_JSON_FILE_PATH");
-            ParsedAllPrintingsFile allPrintingsFile = await parser.ParseAllPrintingsFile(mtgJsonFilePath);
+            string mtgJsonEnumValuesPath = _cfg.GetConfigurationValue("MTG_JSON_ENUMVALUES_FILEPATH");
+            ParsedEnumValues parsedEnumValues = await parser.ParseEnumValues(mtgJsonEnumValuesPath);
 
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
-
-            
         }        
     }
 }

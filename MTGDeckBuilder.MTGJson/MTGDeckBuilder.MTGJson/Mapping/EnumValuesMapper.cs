@@ -14,58 +14,61 @@ namespace MTGDeckBuilder.MTGJson.Mapping
         {
             return new ParsedEnumValues
             {
-                MetaData = deserializedJson.MetaData != null ? new ParsedEnumValuesMeta
+                Meta = deserializedJson.Meta != null ? new ParsedEnumValuesMeta
                 {
-                    Date = deserializedJson.MetaData.Date,
-                    Version = deserializedJson.MetaData.Version
+                    Date = deserializedJson.Meta.Date,
+                    Version = deserializedJson.Meta.Version
                 } : null,
-                CardEnumValues = deserializedJson.CardEnumValues != null ? new ParsedEnumValuesCard
+                Data = deserializedJson.Data != null ? new ParsedEnumValuesData
                 {
-                    Availabilities = deserializedJson.CardEnumValues.Availabilities,
-                    BoosterTypes = deserializedJson.CardEnumValues.BoosterTypes,
-                    BorderColors = deserializedJson.CardEnumValues.BorderColors,
-                    ColorIdentities = deserializedJson.CardEnumValues.ColorIdentities,
-                    ColorIndicators = deserializedJson.CardEnumValues.ColorIndicators,
-                    Colors = deserializedJson.CardEnumValues.Colors,
-                    DuelDecks = deserializedJson.CardEnumValues.DuelDecks,
-                    Finishes = deserializedJson.CardEnumValues.Finishes,
-                    FrameEffects = deserializedJson.CardEnumValues.FrameEffects,
-                    FrameVersions = deserializedJson.CardEnumValues.FrameVersions,
-                    Languages = deserializedJson.CardEnumValues.Languages,
-                    Layouts = deserializedJson.CardEnumValues.Layouts,
-                    PromoTypes = deserializedJson.CardEnumValues.PromoTypes,
-                    Rarities = deserializedJson.CardEnumValues.Rarities,
-                    SecurityStamps = deserializedJson.CardEnumValues.SecurityStamps,
-                    Sides = deserializedJson.CardEnumValues.Sides,
-                    Subtypes = deserializedJson.CardEnumValues.Subtypes,
-                    Supertypes = deserializedJson.CardEnumValues.Supertypes,
-                    Types = deserializedJson.CardEnumValues.Types,
-                    Watermarks = deserializedJson.CardEnumValues.Watermarks
-                } : null,
-                DeckEnumValues = deserializedJson.DeckEnumValues != null ? new ParsedEnumValuesDeck
-                {
-                    Types = deserializedJson.DeckEnumValues.Types
-                } : null,
-                ForeignDataEnumValues = deserializedJson.ForeignDataEnumValues != null ? new ParsedEnumValuesForeignData
-                {
-                    Languages = deserializedJson.ForeignDataEnumValues.Languages
-                } : null,
-                KeywordEnumValues = deserializedJson.KeywordEnumValues != null ? new ParsedEnumValuesKeywords
-                {
-                    AbilityWords = deserializedJson.KeywordEnumValues.AbilityWords,
-                    KeywordAbilities = deserializedJson.KeywordEnumValues.KeywordAbilities,
-                    KeywordActions = deserializedJson.KeywordEnumValues.KeywordActions
-                } : null,
-                SetEnumValues = deserializedJson.SetEnumValues != null ? new ParsedEnumValuesSetValues
-                {
-                    Types = deserializedJson.SetEnumValues.Types
-                } : null,
-                TcgPlayerSkuValues = deserializedJson.TcgPlayerSkuValues != null ? new ParsedEnumValuesTcgPlayerSkus
-                {
-                    Conditions = deserializedJson.TcgPlayerSkuValues.Conditions,
-                    Finishes = deserializedJson.TcgPlayerSkuValues.Finishes,
-                    Languages = deserializedJson.TcgPlayerSkuValues.Languages,
-                    Printings = deserializedJson.TcgPlayerSkuValues.Printings
+                    CardEnumValues = deserializedJson.Data.CardEnumValues != null ? new ParsedEnumValuesCard
+                    {
+                        Availabilities = deserializedJson.Data.CardEnumValues.Availabilities,
+                        BoosterTypes = deserializedJson.Data.CardEnumValues.BoosterTypes,
+                        BorderColors = deserializedJson.Data.CardEnumValues.BorderColors,
+                        ColorIdentities = deserializedJson.Data.CardEnumValues.ColorIdentities,
+                        ColorIndicators = deserializedJson.Data.CardEnumValues.ColorIndicators,
+                        Colors = deserializedJson.Data.CardEnumValues.Colors,
+                        DuelDecks = deserializedJson.Data.CardEnumValues.DuelDecks,
+                        Finishes = deserializedJson.Data.CardEnumValues.Finishes,
+                        FrameEffects = deserializedJson.Data.CardEnumValues.FrameEffects,
+                        FrameVersions = deserializedJson.Data.CardEnumValues.FrameVersions,
+                        Languages = deserializedJson.Data.CardEnumValues.Languages,
+                        Layouts = deserializedJson.Data.CardEnumValues.Layouts,
+                        PromoTypes = deserializedJson.Data.CardEnumValues.PromoTypes,
+                        Rarities = deserializedJson.Data.CardEnumValues.Rarities,
+                        SecurityStamps = deserializedJson.Data.CardEnumValues.SecurityStamps,
+                        Sides = deserializedJson.Data.CardEnumValues.Sides,
+                        Subtypes = deserializedJson.Data.CardEnumValues.Subtypes,
+                        Supertypes = deserializedJson.Data.CardEnumValues.Supertypes,
+                        Types = deserializedJson.Data.CardEnumValues.Types,
+                        Watermarks = deserializedJson.Data.CardEnumValues.Watermarks
+                    } : null,
+                    DeckEnumValues = deserializedJson.Data.DeckEnumValues != null ? new ParsedEnumValuesDeck
+                    {
+                        Types = deserializedJson.Data.DeckEnumValues.Types
+                    } : null,
+                    ForeignDataEnumValues = deserializedJson.Data.ForeignDataEnumValues != null ? new ParsedEnumValuesForeignData
+                    {
+                        Languages = deserializedJson.Data.ForeignDataEnumValues.Languages
+                    } : null,
+                    KeywordEnumValues = deserializedJson.Data.KeywordEnumValues != null ? new ParsedEnumValuesKeywords
+                    {
+                        AbilityWords = deserializedJson.Data.KeywordEnumValues.AbilityWords,
+                        KeywordAbilities = deserializedJson.Data.KeywordEnumValues.KeywordAbilities,
+                        KeywordActions = deserializedJson.Data.KeywordEnumValues.KeywordActions
+                    } : null,
+                    SetEnumValues = deserializedJson.Data.SetEnumValues != null ? new ParsedEnumValuesSetValues
+                    {
+                        Types = deserializedJson.Data.SetEnumValues.Types
+                    } : null,
+                    TcgPlayerSkuValues = deserializedJson.Data.TcgPlayerSkuValues != null ? new ParsedEnumValuesTcgPlayerSkus
+                    {
+                        Conditions = deserializedJson.Data.TcgPlayerSkuValues.Conditions,
+                        Finishes = deserializedJson.Data.TcgPlayerSkuValues.Finishes,
+                        Languages = deserializedJson.Data.TcgPlayerSkuValues.Languages,
+                        Printings = deserializedJson.Data.TcgPlayerSkuValues.Printings
+                    } : null
                 } : null
             };
         }

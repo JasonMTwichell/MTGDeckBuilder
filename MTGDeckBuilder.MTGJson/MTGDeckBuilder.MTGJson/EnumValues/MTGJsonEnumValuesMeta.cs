@@ -4,10 +4,10 @@ namespace MTGDeckBuilder.MTGJson.EnumValues
 {
     internal class MTGJsonEnumValuesMeta
     {
-        [JsonProperty("data.date")]
+        [JsonProperty("date")]
         public DateTime Date { get; set; }
 
-        [JsonProperty("data.version")]
+        [JsonProperty("version")]
         public string Version { get; set; }
     }
 
