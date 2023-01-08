@@ -4,8 +4,8 @@ namespace MTGDeckBuilder.MTGJson
 {
     public interface IMTGJsonParser
     {
-        Task<IEnumerable<ParsedSet>> ParseSets(string setsDirectoryPath);
-        Task<ParsedEnums> ParseEnums(string enumFilePath);
-        Task<ParsedMetaData> ParseMetaData(string metaDataFilePath);
+        Task<ParsedAllPrintingsSet> ParseSets(string setsDirectoryPath);
+        Task<ParsedEnumValues> ParseEnumValues(string enumFilePath);
+        Task<ParsedMeta> ParseMetaData(string metaDataFilePath);
     }
 }

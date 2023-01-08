@@ -92,7 +92,7 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         public string Rarity { get; set; }
 
         [JsonProperty("rulings")]
-        public List<MTGJsonAllPrintingsRuling> Rulings { get; set; }
+        public MTGJsonAllPrintingsRuling[] Rulings { get; set; }
 
         [JsonProperty("setCode")]
         public string SetCode { get; set; }
