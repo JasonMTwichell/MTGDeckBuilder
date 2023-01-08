@@ -28,7 +28,7 @@ namespace MTGDeckBuilder
             string dbPath = _cfg.GetConfigurationValue("MTG_DB_PATH");
             MTGEmbeddedScriptsProvider.ExecuteDbUpScripts(dbPath);            
             
-            IMTGJsonParser parser = new MTGJsonParser();
+            IMTGJsonParser parser = new MTGJsonParser2();
             string mtgJsonFilePath = _cfg.GetConfigurationValue("MTG_JSON_FILE_PATH");
             ParsedAllPrintingsFile allPrintingsFile = await parser.ParseAllPrintingsFile(mtgJsonFilePath);
 
