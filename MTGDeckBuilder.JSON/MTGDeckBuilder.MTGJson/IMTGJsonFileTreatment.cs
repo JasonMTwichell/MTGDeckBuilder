@@ -1,4 +1,4 @@
-﻿using MTGDeckBuilder.MTGJson.Parse;
+﻿using MTGDeckBuilder.MTGJson.AllPrintings;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

@@ -1,13 +1,15 @@
 ﻿using Newtonsoft.Json;
 
-namespace MTGDeckBuilder.MTGJson.Parse
+namespace MTGDeckBuilder.MTGJson.AllPrintings
 {
-    public class MTGJsonAllPrintingsRuling
+    internal class MTGJsonAllPrintingsRuling
     {
         [JsonProperty("date")]
-        public string RulingDate { get; set; }
+        public string Date { get; set; }
 
         [JsonProperty("text")]
-        public string RulingText { get; set; }
+        public string Text { get; set; }
     }
+
+
 }

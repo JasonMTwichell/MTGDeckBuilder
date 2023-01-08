@@ -5,29 +5,53 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MTGDeckBuilder.MTGJson.Parse
+namespace MTGDeckBuilder.MTGJson.AllPrintings
 {
-    public class MTGJsonAllPrintingsSet
+    internal class MTGJsonAllPrintingsSet
     {
-        [JsonProperty("name")]
-        public string SetName { get; set; }
-
-        [JsonProperty("code")]
-        public string SetCode { get; set; }
-
         [JsonProperty("baseSetSize")]
-        public int BaseSetSize { get; set; }
+        public int? BaseSetSize { get; set; }
 
-        [JsonProperty("totalSetSize")]
-        public int TotalSetSize { get; set; }
-
-        [JsonProperty("releaseDate")]
-        public string ReleaseDate { get; set; }
-
-        [JsonProperty("type")]
-        public string SetType { get; set; }
+        [JsonProperty("block")]
+        public string? Block { get; set; }
 
         [JsonProperty("cards")]
-        public MTGJsonAllPrintingsCard[] SetCards { get; set; }
+        public MTGJsonAllPrintingsCard[]? Cards { get; set; }
+        
+        [JsonProperty("cardsphereSetId")]
+        public int? CardsphereSetId { get; set; }
+
+        [JsonProperty("code")]
+        public string? Code { get; set; }
+
+        [JsonProperty("isNonFoilOnly")]
+        public bool? IsFoilOnly { get; set; }
+
+        [JsonProperty("isNonFoilOnly")]
+        public bool? IsNonFoilOnly { get; set; }
+
+        [JsonProperty("isOnlineOnly")]
+        public bool? IsOnlineOnly { get; set; }
+
+        [JsonProperty("keyruneCode")]
+        public string? KeyruneCode { get; set; }
+
+        [JsonProperty("languages")]
+        public string[]? Languages { get; set; }
+
+        [JsonProperty("name")]
+        public string? Name { get; set; }
+        
+        [JsonProperty("releaseDate")]
+        public DateTime? ReleaseDate { get; set; }
+
+        [JsonProperty("tcgplayerGroupId")]
+        public int? TcgplayerGroupId { get; set; }
+        
+        [JsonProperty("totalSetSize")]
+        public int? TotalSetSize { get; set; }
+
+        [JsonProperty("type")]
+        public string? Type { get; set; }
     }
 }

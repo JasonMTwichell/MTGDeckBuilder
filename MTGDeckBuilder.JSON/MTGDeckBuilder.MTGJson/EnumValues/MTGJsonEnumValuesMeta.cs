@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
 
-namespace MTGDeckBuilder.MTGJson.Parse
+namespace MTGDeckBuilder.MTGJson.EnumValues
 {
-    public class MTGJsonAllPrintingsMeta
+    internal class MTGJsonEnumValuesMeta
     {
         [JsonProperty("date")]
         public DateTime Date { get; set; }
@@ -11,4 +10,6 @@ namespace MTGDeckBuilder.MTGJson.Parse
         [JsonProperty("version")]
         public string Version { get; set; }
     }
+
 }
+
