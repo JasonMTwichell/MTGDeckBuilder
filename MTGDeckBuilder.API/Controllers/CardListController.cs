@@ -49,7 +49,7 @@ namespace MTGDeckBuilder.API.Controllers
         [HttpPost]
         public async Task Post([FromBody] CreateCardListViewModel viewModel)
         {
-            CardList cardList = new CardList
+            CardListCreate cardList = new CardListCreate
             {
                 CardListName = viewModel.Name,
                 CardListDescription = viewModel.Description,
@@ -62,7 +62,7 @@ namespace MTGDeckBuilder.API.Controllers
         [HttpPut("{id}")]
         public async Task Put(int id, [FromBody] UpdateCardListViewModel viewModel)
         {
-            CardList cardList = new CardList()
+            CardListUpdate cardList = new CardListUpdate()
             {
                 CardListID = viewModel.CardListID,
                 CardListName = viewModel.Name,

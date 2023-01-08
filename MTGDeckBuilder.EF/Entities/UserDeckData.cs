@@ -10,7 +10,7 @@ namespace MTGDeckBuilder.EF.Entities
     {
         public int pkUserDeck { get; set; }
         public string DeckName { get; set; }
-        public string DeckDescription { get; set; }
+        public string? DeckDescription { get; set; }
         public DateTime DateCreated { get; set; }
 
         public virtual UserDeckSideboardData SideBoard { get; set; }

@@ -279,6 +279,9 @@ namespace MTGDeckBuilder.EF
             userDeck.HasOne(e => e.SideBoard)
                 .WithOne(e => e.UserDeck)
                 .HasForeignKey<UserDeckSideboardData>(e => e.fkUserDeck);
+            userDeck.HasMany(e => e.Cards)
+                .WithOne(e => e.UserDeck)
+                .HasForeignKey(e => e.fkUserDeck);
             userDeck.HasMany(e => e.Formats)
                 .WithOne(e => e.Deck)
                 .HasForeignKey(e => e.fkUserDeck);

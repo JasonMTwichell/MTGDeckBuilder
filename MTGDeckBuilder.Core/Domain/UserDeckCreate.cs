@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace MTGDeckBuilder.Core.Domain
 {
-    public class UserDeckCreate
+    public record UserDeckCreate
     {
-        public string DeckName { get; set; }
-        public string DeckDescription { get; set; }
-        public DateTime DateCreated { get; set; }
+        public string DeckName { get; init; }
+        public string? DeckDescription { get; init; }
+        public DateTime DateCreated { get; init; }
     }
 }

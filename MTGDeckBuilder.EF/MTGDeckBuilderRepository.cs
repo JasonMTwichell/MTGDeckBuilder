@@ -209,7 +209,7 @@ namespace MTGDeckBuilder.EF
         #region User Deck
         public IEnumerable<UserDeckData> GetUserDecks()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(); 
         }
 
         public UserDeckData GetUserDeck(int userDeckID)
@@ -217,9 +217,10 @@ namespace MTGDeckBuilder.EF
             throw new NotImplementedException();
         }
 
-        public Task CreateUserDeck(UserDeckData deckData)
+        public async Task CreateUserDeck(UserDeckData deckData)
         {
-            throw new NotImplementedException();
+            _ctx.UserDecks.Add(deckData);
+            await _ctx.SaveChangesAsync();
         }
 
         public Task UpdateUserDeck(UserDeckData deckData)
@@ -240,7 +241,27 @@ namespace MTGDeckBuilder.EF
         public Task DeleteUserDeckCards(UserDeckCardsDelete deleteCmd)
         {
             throw new NotImplementedException();
-        } 
+        }
+
+        public Task AddSideboardCard(UserDeckSideboardCardsCreate userDeckSideboardCardsCreate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteSideboardCard(UserDeckSideboardCardDelete userDeckSideboardCardDelete)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<UserDeckData> GetUserDeckStubs()
+        {
+            return _ctx.UserDecks.AsNoTracking().Select(ud => new UserDeckData()
+            {
+                pkUserDeck = ud.pkUserDeck,
+                DeckName = ud.DeckName,
+                DeckDescription = ud.DeckDescription,
+            });
+        }
         #endregion
 
         //public async Task BootstrapDB(BootstrapDBData fileData)

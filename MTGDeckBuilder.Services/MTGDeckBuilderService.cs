@@ -214,7 +214,7 @@ namespace MTGDeckBuilder.Services
                 DeckName = createUserDeck.DeckName,
                 DeckDescription = createUserDeck.DeckDescription,
                 DateCreated = createUserDeck.DateCreated,
-                SideBoard = new UserDeckSideboardData(),
+                SideBoard = new UserDeckSideboardData(),                
             };
 
             await _repo.CreateUserDeck(deckData);
@@ -268,6 +268,16 @@ namespace MTGDeckBuilder.Services
         public Task UpdateUserSideboardCard(UserDeckSideboardCardsCreate createCmd)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<UserDeckStub> GetUserDeckStubs()
+        {
+            return _repo.GetUserDeckStubs().Select(ud => new UserDeckStub()
+            {
+                UserDeckID = ud.pkUserDeck,
+                UserDeckName = ud.DeckName,
+                UserDeckDescription = ud.DeckDescription
+            }).ToArray();
         }
         #endregion
     }

@@ -56,11 +56,9 @@ namespace MTGDeckBuilder.EF.Entities
         public virtual ICollection<FormatData> Formats { get; set; }
         public virtual ICollection<CardFormatData> CardFormats { get; set; }
 
-        public virtual ICollection<UserDeckData> UserDecks { get; set; }
         public virtual ICollection<UserDeckCardData> UserDeckCardData { get; set; }
         
-        public virtual ICollection<UserDeckSideboardData> UserDeckSideboards { get; set; }
-        public virtual ICollection<UserDeckSideboardCardData> UserDeckSideboardCards { get; set; }
+       
 
         public virtual ICollection<PurchaseInformationData> PurchaseInformation { get; set; }
 

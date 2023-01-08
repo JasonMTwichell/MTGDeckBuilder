@@ -22,6 +22,7 @@ namespace MTGDeckBuilder.Core.Service
         #region User Decks
         IEnumerable<UserDeck> GetUserDecks();
         UserDeck GetUserDeck(int userDeckID);
+        IEnumerable<UserDeckStub> GetUserDeckStubs();
         Task CreateUserDeck(UserDeckCreate createUserDeck);
         Task UpdateUserDeck(UserDeckUpdate createUserDeck);
         Task DeleteUserDeck(int userDeckID);

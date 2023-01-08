@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MTGDeckBuilder.API.ViewModels;
+using MTGDeckBuilder.Core.Domain;
 using MTGDeckBuilder.Core.Service;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -7,10 +9,10 @@ namespace MTGDeckBuilder.API.Controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
-    public class DeckController : ControllerBase
+    public class UserDeckController : ControllerBase
     {
         private readonly IMTGDeckBuilderService _deckBuilderSvc;
-        public DeckController(IMTGDeckBuilderService deckBuilderService) 
+        public UserDeckController(IMTGDeckBuilderService deckBuilderService) 
         {
             _deckBuilderSvc = deckBuilderService;
         }
@@ -19,7 +21,12 @@ namespace MTGDeckBuilder.API.Controllers
         [HttpGet]
         public IEnumerable<UserDeckViewModel> Get()
         {
-                   
+            return _deckBuilderSvc.GetUserDeckStubs().Select(uds => new UserDeckViewModel
+            {
+                UserDeckID = uds.UserDeckID,
+                UserDeckName = uds.UserDeckName,
+                UserDeckDescription = uds.UserDeckDescription,
+            }).ToArray();
         }
 
         // GET api/<DeckController>/5
@@ -31,8 +38,16 @@ namespace MTGDeckBuilder.API.Controllers
 
         // POST api/<DeckController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task Post([FromBody] CreateUserDeckViewModel vm)
         {
+            UserDeckCreate createCmd = new UserDeckCreate()
+            {
+                DeckName = vm.UserDeckName,
+                DeckDescription = vm.UserDeckDescription,
+                DateCreated = DateTime.Now,
+            };
+
+            await _deckBuilderSvc.CreateUserDeck(createCmd);
         }
 
         // PUT api/<DeckController>/5

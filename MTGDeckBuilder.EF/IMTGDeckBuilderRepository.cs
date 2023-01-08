@@ -33,12 +33,15 @@ namespace MTGDeckBuilder.EF
 
         #region User Deck
         IEnumerable<UserDeckData> GetUserDecks();
+        IEnumerable<UserDeckData> GetUserDeckStubs();
         UserDeckData GetUserDeck(int userDeckID);
         Task CreateUserDeck(UserDeckData deckData);
         Task UpdateUserDeck(UserDeckData deckData);
         Task DeleteUserDeck(int userDeckID);
         Task AddDeckCard(UserDeckCardData deckCard);
         Task DeleteUserDeckCards(UserDeckCardsDelete deleteCmd);
+        Task AddSideboardCard(UserDeckSideboardCardsCreate userDeckSideboardCardsCreate);
+        Task DeleteSideboardCard(UserDeckSideboardCardDelete userDeckSideboardCardDelete);
         #endregion
     }
 }
