@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MTGDeckBuilder.Core.Domain
+﻿namespace MTGDeckBuilder.Core.Domain
 {
-    public class Keyword
+    public record Keyword
     {
-        public int? KeywordID { get; set; }
-        public string KeywordName { get; set; }
+        public int? KeywordID { get; init; }
+        public int? fkKeywordType { get; init; }
+        public string KeywordDescription { get; init; }
+
+        public virtual KeywordType KeywordType { get; init; }
     }
 }

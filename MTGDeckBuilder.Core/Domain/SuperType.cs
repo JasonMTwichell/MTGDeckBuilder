@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MTGDeckBuilder.Core.Domain
+﻿namespace MTGDeckBuilder.Core.Domain
 {
-    public class SuperType
+    public record Supertype
     {
-        public int? SuperTypeID { get; set; }
-        public string SuperTypeName { get; set; }
+        public int? SupertypeID { get; init; }
+        public string SupertypeDescription { get; init; }
     }
 }

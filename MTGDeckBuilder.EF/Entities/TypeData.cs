@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MTGDeckBuilder.EF.Entities
+﻿namespace MTGDeckBuilder.EF.Entities
 {
-    public class TypeData
+    internal class TypeData
     {
-        public int pkType { get; set; } // pk
-        public string Type { get; set; } // unique index
-
-        public virtual ICollection<CardData> Cards { get; set; }
-        public virtual ICollection<CardTypeData> CardTypes { get; set; }
+        public int? pkType { get; set; }
+        public string TypeDescription { get; set; }
     }
 }

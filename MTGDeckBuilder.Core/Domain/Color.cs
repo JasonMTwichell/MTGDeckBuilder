@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MTGDeckBuilder.Core.Domain
+﻿namespace MTGDeckBuilder.Core.Domain
 {
-    public class Color
+    public record Color
     {
-        public int? ColorID { get; set; }
-        public string ColorName { get; set; }
+        public int? ColorID { get; init; }
+        public string ColorDescription { get; init; }
     }
 }

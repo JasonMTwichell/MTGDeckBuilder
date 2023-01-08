@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MTGDeckBuilder.Core.Domain
+﻿namespace MTGDeckBuilder.Core.Domain
 {
-    public class ColorIdentity
+    public record ColorIdentity
     {
-        public int? ColorIdentityid { get; set; } 
-        public string ColorIdentityName { get; set; }
+        public int? ColorIdentityID { get; init; }
+        public string ColorIdentityDescription { get; init; }
     }
 }

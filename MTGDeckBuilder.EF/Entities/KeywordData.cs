@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MTGDeckBuilder.EF.Entities
+﻿namespace MTGDeckBuilder.EF.Entities
 {
-    public class KeywordData
+    internal class KeywordData
     {
-        public int pkKeyword { get; set; }
-        public string Keyword { get; set; } // unique index
+        public int? pkKeyword { get; set; }
+        public int? fkKeywordType { get; set; }
+        public string KeywordDescription { get; set; }
 
-        public virtual ICollection<CardData> Cards { get; set; }
-        public virtual ICollection<CardKeywordData> CardKeywords { get; set; }
+        public virtual KeywordTypeData KeywordType { get; set; }
     }
 }

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MTGDeckBuilder.Core.Domain
+﻿namespace MTGDeckBuilder.Core.Domain
 {
-    public class SubType
+    public record Subtype
     {
-        public int? SubTypeID { get; set; }
-        public string SubTypeName { get; set; }
+        public int? SubtypeID { get; init; }
+        public string SubtypeDescription { get; init; }
     }
 }
