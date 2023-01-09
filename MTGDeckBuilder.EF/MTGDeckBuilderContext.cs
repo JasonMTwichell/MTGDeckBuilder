@@ -106,7 +106,7 @@ namespace MTGDeckBuilder.EF
             supertypeEntity.HasKey(k => k.pkSupertype);
 
             var typeEntity = modelBuilder.Entity<CardTypeData>();
-            typeEntity.ToTable("tblType");
+            typeEntity.ToTable("tblCardType");
             typeEntity.HasKey(k => k.pkCardType);
 
             var watermarkEntity = modelBuilder.Entity<WatermarkData>();

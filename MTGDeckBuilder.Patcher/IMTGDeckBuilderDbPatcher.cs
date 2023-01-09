@@ -47,7 +47,7 @@ namespace MTGDeckBuilder.Patcher
             await PatchSetTypes(cmd.SetTypes);
             await PatchSides(cmd.Sides);
             await PatchSubtypes(cmd.Subtypes);
-            await PatchSupertypes(cmd.SuperTypes);
+            await PatchSupertypes(cmd.Supertypes);
             await PatchTcgPlayerSkuConditions(cmd.TcgPlayerSkuConditions);
             await PatchTcgPlayerSkuFinishes(cmd.TcgPlayerSkuFinishes);
             await PatchTcgPlayerSkuLanguages(cmd.TcgPlayerSkuLanguages);
@@ -88,7 +88,7 @@ namespace MTGDeckBuilder.Patcher
                 }).ToList();
 
             var deletes = _ctx.BoosterTypes
-                .Where(e => !boosterTypes.Select(a => a.BoosterTypeDescription).Contains(e.BoosterTypeDescription)).ToList();
+                .Where(e => !boosterTypes.Select(a => a.BoosterTypeDescription).Contains(e.BoosterTypeDescription))?.ToList();
 
             _ctx.BulkInsert(inserts);
             _ctx.BulkDelete(deletes);
