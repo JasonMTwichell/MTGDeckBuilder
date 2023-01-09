@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MTGDeckBuilder.EF.Entities
 {
-    internal class AvailabilityData
+    public class AvailabilityData
     {
         public int? pkAvailability { get; set; }
         public string AvailabilityDescription { get; set; }

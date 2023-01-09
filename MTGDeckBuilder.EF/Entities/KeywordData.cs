@@ -1,6 +1,6 @@
 ﻿namespace MTGDeckBuilder.EF.Entities
 {
-    internal class KeywordData
+    public class KeywordData
     {
         public int? pkKeyword { get; set; }
         public int? fkKeywordType { get; set; }
