@@ -31,6 +31,11 @@ namespace MTGDeckBuilder.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region Meta
+            var metaEntity = modelBuilder.Entity<MetaData>();
+            metaEntity.ToTable("tblMeta");
+            metaEntity.HasKey(k => k.pkMeta);
+            #endregion
 
             #region Reference
             var availabilityEntity = modelBuilder.Entity<AvailabilityData>();
@@ -156,6 +161,7 @@ namespace MTGDeckBuilder.EF
             base.OnModelCreating(modelBuilder);
         }
 
+        public DbSet<MetaData> Meta { get; set; }
         public DbSet<AvailabilityData> Availabilities { get; set; }
         public DbSet<BoosterTypeData> BoosterTypes { get; set; }
         public DbSet<BorderColorData> BorderColors { get; set; }

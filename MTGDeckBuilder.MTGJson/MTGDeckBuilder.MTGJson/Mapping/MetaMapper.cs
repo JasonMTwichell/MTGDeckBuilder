@@ -14,8 +14,8 @@ namespace MTGDeckBuilder.MTGJson.Mapping
         {
             return new ParsedMeta
             {
-                Date = deserializedMeta.Date,
-                Version = deserializedMeta.Version
+                Date = deserializedMeta.Data.Date,
+                Version = deserializedMeta.Data.Version
             };
         }
     }

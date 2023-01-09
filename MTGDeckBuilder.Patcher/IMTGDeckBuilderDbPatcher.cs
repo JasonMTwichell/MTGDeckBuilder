@@ -13,7 +13,8 @@ namespace MTGDeckBuilder.Patcher
 {
     internal interface IMTGDeckBuilderDbPatcher
     {
-        Task PatchReferenceData(PatchReferenceDataCommand cmd);
+        Meta GetLatestMeta();
+        Task PatchData(PatchDataCommand cmd);
     }
 
     public class MTGDeckBuilderDbPatcherSQLite : IMTGDeckBuilderDbPatcher
@@ -24,37 +25,41 @@ namespace MTGDeckBuilder.Patcher
             _ctx = ctx;
         }
 
-        public async Task PatchReferenceData(PatchReferenceDataCommand cmd)
+        public async Task PatchData(PatchDataCommand cmd)
         {
-            await PatchAvailabilities(cmd.Availabilities);
-            await PatchBoosterTypes(cmd.BoosterTypes);
-            await PatchBorderColors(cmd.BorderColors);
-            await PatchCardTypes(cmd.CardTypes);
-            await PatchColors(cmd.Colors);
-            await PatchColorIdentities(cmd.ColorIdentities);
-            await PatchDeckTypes(cmd.DeckTypes);
-            await PatchDuelDecks(cmd.DuelDecks);
-            await PatchFinishes(cmd.Finishes);
-            await PatchForeignDataLanguages(cmd.ForeignDataLanguages);
-            await PatchFrameEffects(cmd.FrameEffects);
-            await PatchFrameVersions(cmd.FrameVersions);
-            await PatchKeywords(cmd.Keywords);
-            await PatchLanguages(cmd.Languages);
-            await PatchLayouts(cmd.Layouts);
-            await PatchPromoTypes(cmd.PromoTypes);
-            await PatchRarities(cmd.Rarities);
-            await PatchSecurityStamps(cmd.SecurityStamps);
-            await PatchSetTypes(cmd.SetTypes);
-            await PatchSides(cmd.Sides);
-            await PatchSubtypes(cmd.Subtypes);
-            await PatchSupertypes(cmd.Supertypes);
-            await PatchTcgPlayerSkuConditions(cmd.TcgPlayerSkuConditions);
-            await PatchTcgPlayerSkuFinishes(cmd.TcgPlayerSkuFinishes);
-            await PatchTcgPlayerSkuLanguages(cmd.TcgPlayerSkuLanguages);
-            await PatchTcgPlayerSkuPrintings(cmd.TcgPlayerSkuPrintings);
-            await PatchWaterMarks(cmd.Watermarks);
+            using(var txn = _ctx.Database.BeginTransaction())
+            {
+                await PatchAvailabilities(cmd.Availabilities);
+                await PatchBoosterTypes(cmd.BoosterTypes);
+                await PatchBorderColors(cmd.BorderColors);
+                await PatchCardTypes(cmd.CardTypes);
+                await PatchColors(cmd.Colors);
+                await PatchColorIdentities(cmd.ColorIdentities);
+                await PatchDeckTypes(cmd.DeckTypes);
+                await PatchDuelDecks(cmd.DuelDecks);
+                await PatchFinishes(cmd.Finishes);
+                await PatchForeignDataLanguages(cmd.ForeignDataLanguages);
+                await PatchFrameEffects(cmd.FrameEffects);
+                await PatchFrameVersions(cmd.FrameVersions);
+                await PatchKeywords(cmd.Keywords);
+                await PatchLanguages(cmd.Languages);
+                await PatchLayouts(cmd.Layouts);
+                await PatchPromoTypes(cmd.PromoTypes);
+                await PatchRarities(cmd.Rarities);
+                await PatchSecurityStamps(cmd.SecurityStamps);
+                await PatchSetTypes(cmd.SetTypes);
+                await PatchSides(cmd.Sides);
+                await PatchSubtypes(cmd.Subtypes);
+                await PatchSupertypes(cmd.Supertypes);
+                await PatchTcgPlayerSkuConditions(cmd.TcgPlayerSkuConditions);
+                await PatchTcgPlayerSkuFinishes(cmd.TcgPlayerSkuFinishes);
+                await PatchTcgPlayerSkuLanguages(cmd.TcgPlayerSkuLanguages);
+                await PatchTcgPlayerSkuPrintings(cmd.TcgPlayerSkuPrintings);
+                await PatchWaterMarks(cmd.Watermarks);
 
-            await _ctx.SaveChangesAsync();
+                await AddMeta(cmd.MetaData);
+                txn.Commit();
+            }
         }
 
         private async Task PatchAvailabilities(IEnumerable<Availability> availabilities)
@@ -542,6 +547,39 @@ namespace MTGDeckBuilder.Patcher
 
             _ctx.BulkInsert(inserts);
             _ctx.BulkDelete(deletes);
+        }
+
+        public Meta GetLatestMeta()
+        {
+            MetaData metaData = _ctx.Meta.OrderByDescending(m => m.DateApplied).FirstOrDefault();
+            
+            if(metaData == null)
+            {
+                return null;
+            }
+
+            Meta latestMeta = new Meta()
+            {
+                MetaID = metaData.pkMeta,
+                MetaDate = metaData.MetaDate,
+                Version = metaData.Version,
+                DateApplied = metaData.DateApplied
+            };
+
+            return latestMeta;
+        }
+
+        public async Task AddMeta(Meta meta)
+        {
+            MetaData metaData = new MetaData()
+            {
+                MetaDate = meta.MetaDate,
+                Version = meta.Version,
+                DateApplied = meta.DateApplied
+            };
+
+            await _ctx.AddAsync(metaData);
+            await _ctx.SaveChangesAsync();
         }
     }
 }

@@ -1,5 +1,12 @@
 ﻿BEGIN TRANSACTION;
 
+CREATE TABLE "tblMeta" (
+    "pkMeta" INTEGER NOT NULL CONSTRAINT "PK_tblMeta" PRIMARY KEY AUTOINCREMENT,
+    "MetaDate" TEXT NOT NULL,
+    "Version" TEXT NOT NULL,
+    "DateApplied" TEXT NOT NULL
+);
+
 CREATE TABLE "tblAvailability" (
     "pkAvailability" INTEGER NOT NULL CONSTRAINT "PK_tblAvailability" PRIMARY KEY AUTOINCREMENT,
     "AvailabilityDescription" TEXT NOT NULL

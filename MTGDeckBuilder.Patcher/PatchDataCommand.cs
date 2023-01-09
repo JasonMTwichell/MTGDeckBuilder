@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace MTGDeckBuilder.Patcher
 {
-    public record PatchReferenceDataCommand
+    public record PatchDataCommand
     {
+        public Meta MetaData { get; init; }
         public IEnumerable<Availability> Availabilities { get; init; }
         public IEnumerable<BoosterType> BoosterTypes { get; init; }
         public IEnumerable<BorderColor> BorderColors { get; init; }

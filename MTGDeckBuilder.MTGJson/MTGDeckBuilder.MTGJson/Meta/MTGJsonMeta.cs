@@ -9,10 +9,7 @@ namespace MTGDeckBuilder.MTGJson.Meta
 {
     internal class MTGJsonMeta
     {
-        [JsonProperty("data.date")]
-        public DateTime Date { get; set; }
-
-        [JsonProperty("data.version")]
-        public string Version { get; set; }
+        [JsonProperty("data")]
+        public MTGJsonMetaData Data { get; set; }
     }
 }
