@@ -7,24 +7,25 @@ using System.Threading.Tasks;
 
 namespace MTGDeckBuilder.MTGJson.AllPrintings
 {
-    internal class MTGJsonAllPrintingsSet
+
+    public class MTGJsonAllPrintingsSet
     {
         [JsonProperty("baseSetSize")]
         public int? BaseSetSize { get; set; }
 
         [JsonProperty("block")]
-        public string? Block { get; set; }
+        public string? Block { get; set; }        
 
         [JsonProperty("cards")]
-        public MTGJsonAllPrintingsCard[]? Cards { get; set; }
-        
+        public MTGJsonAllPrintingsSetCard[]? Cards { get; set; }
+
         [JsonProperty("cardsphereSetId")]
         public int? CardsphereSetId { get; set; }
 
         [JsonProperty("code")]
         public string? Code { get; set; }
 
-        [JsonProperty("isNonFoilOnly")]
+        [JsonProperty("isFoilOnly")]
         public bool? IsFoilOnly { get; set; }
 
         [JsonProperty("isNonFoilOnly")]
@@ -41,15 +42,24 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
 
         [JsonProperty("name")]
         public string? Name { get; set; }
-        
+
         [JsonProperty("releaseDate")]
-        public DateTime? ReleaseDate { get; set; }
+        public string? ReleaseDate { get; set; }
+
+        [JsonProperty("sealedProduct")]
+        public MTGJsonAllPrintingsSetSealedProduct[]? SealedProduct { get; set; }
 
         [JsonProperty("tcgplayerGroupId")]
         public int? TcgplayerGroupId { get; set; }
-        
+
+        [JsonProperty("tokens")]
+        public string[]? Tokens { get; set; }
+
         [JsonProperty("totalSetSize")]
         public int? TotalSetSize { get; set; }
+
+        [JsonProperty("translations")]
+        public MTGJsonAllPrintingsSetTranslations? Translations { get; set; }
 
         [JsonProperty("type")]
         public string? Type { get; set; }

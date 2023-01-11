@@ -2,14 +2,12 @@
 
 namespace MTGDeckBuilder.MTGJson.AllPrintings
 {
-    internal class MTGJsonAllPrintingsPurchaseUrls
+    public class MTGJsonAllPrintingsSetCardPurchaseUrls
     {
         [JsonProperty("cardKingdom")]
-        public string CardKingdom { get; set; }
+        public string? CardKingdom { get; set; }
 
         [JsonProperty("tcgplayer")]
-        public string Tcgplayer { get; set; }
+        public string? Tcgplayer { get; set; }
     }
-
-
 }
