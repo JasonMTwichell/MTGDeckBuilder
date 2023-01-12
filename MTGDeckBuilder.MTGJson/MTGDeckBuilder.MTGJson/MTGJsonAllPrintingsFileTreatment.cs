@@ -46,13 +46,7 @@ namespace MTGDeckBuilder.MTGJson
                     // could work this off regex against the JToken path, but this is more intuitive to me
                     if (reader.TokenType == JsonToken.StartObject && reader.Depth == depth)
                     {
-                        using(StreamWriter writer = new StreamWriter(setFilePath))
-                        {
-                            using(JsonTextWriter jsonTextWriter= new JsonTextWriter(writer))
-                            {
-                                jsonTextWriter.WriteToken(reader);
-                            }
-                        }
+                        
                         //JObject obj = JObject.Load(reader);
                         //string? serializedSet = obj.ToString();
                         //File.WriteAllText(setFilePath, serializedSet);
