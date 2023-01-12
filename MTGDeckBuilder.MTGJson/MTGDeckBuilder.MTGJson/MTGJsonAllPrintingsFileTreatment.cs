@@ -8,7 +8,7 @@ namespace MTGDeckBuilder.MTGJson
 {
     public class MTGJsonAllPrintingsFileTreatment : IMTGJsonFileTreatment
     {
-        public Task TreatFile(string filePath)
+        public async Task TreatFile(string filePath)
         {
             Stopwatch watch = new Stopwatch();   
             watch.Start();
@@ -26,7 +26,7 @@ namespace MTGDeckBuilder.MTGJson
                 string setFilePath = string.Empty;
                 JsonSerializer serializer = new JsonSerializer();
                 while (true)
-                {
+                {                  
                     if (!reader.Read())
                     {
                         break;
@@ -45,21 +45,17 @@ namespace MTGDeckBuilder.MTGJson
 
                     // could work this off regex against the JToken path, but this is more intuitive to me
                     if (reader.TokenType == JsonToken.StartObject && reader.Depth == depth)
-                    {
-                        
-                        //JObject obj = JObject.Load(reader);
-                        //string? serializedSet = obj.ToString();
-                        //File.WriteAllText(setFilePath, serializedSet);
-
-                        // TODO: would be nice if we didnt have to serialize just to immediately deserialize, but finding the string content seems impossible
-                        //MTGJsonAllPrintingsSet set = serializer.Deserialize<MTGJsonAllPrintingsSet>(reader) ?? throw new Exception("Unable to deserialize set from JToken.");
-                        //string serializedSet = JsonConvert.SerializeObject(set);
-                        //File.WriteAllText(setFilePath, serializedSet);
+                    {                        
+                        using(StreamWriter writer = new StreamWriter(setFilePath))
+                        using(JsonTextWriter textWriter = new JsonTextWriter(writer))
+                        {
+                            textWriter.WriteToken(reader);
+                        }
                     }
                 }
 
                 Console.WriteLine(watch.Elapsed.ToString());
-                return Task.CompletedTask;
+               // return Task.CompletedTask;
             }
         }
     }
