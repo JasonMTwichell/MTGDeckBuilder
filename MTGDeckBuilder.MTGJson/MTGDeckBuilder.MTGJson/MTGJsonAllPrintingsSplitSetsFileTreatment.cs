@@ -1,4 +1,5 @@
-﻿using MTGDeckBuilder.MTGJson.AllPrintings;
+﻿using MTGDeckBuilder.Core.Service;
+using MTGDeckBuilder.MTGJson.AllPrintings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
@@ -6,20 +7,24 @@ using System.Text;
 
 namespace MTGDeckBuilder.MTGJson
 {
-    public class MTGJsonAllPrintingsFileTreatment : IMTGJsonFileTreatment
+    public class MTGJsonAllPrintingsSplitSetsFileTreatment : IFileTreatment
     {
-        public async Task TreatFile(string filePath)
+        public async Task TreatFile(string filePath, string? outputFilePath)
         {
             Stopwatch watch = new Stopwatch();   
             watch.Start();
             using (StreamReader streamReader = new StreamReader(filePath))
             using (JsonTextReader reader = new JsonTextReader(streamReader))
             {
-                string parentDirectory = Path.GetDirectoryName(filePath) ?? filePath;
-                string setsDirectoryPath = Path.Combine(parentDirectory, "Sets");                
-                if (!Directory.Exists(setsDirectoryPath))
+                if(outputFilePath == null)
                 {
-                    Directory.CreateDirectory(setsDirectoryPath);
+                    string parentDirectory = Path.GetDirectoryName(filePath) ?? filePath;
+                    outputFilePath = Path.Combine(parentDirectory, "Sets");
+                }
+
+                if (!Directory.Exists(outputFilePath))
+                {
+                    Directory.CreateDirectory(outputFilePath);
                 }
 
                 int depth = -1;
@@ -40,7 +45,7 @@ namespace MTGDeckBuilder.MTGJson
                     if (reader.TokenType == JsonToken.PropertyName && reader.Depth == depth)
                     {
                         string setCode = (string?)reader.Value ?? string.Empty;
-                        setFilePath = Path.Combine(setsDirectoryPath, string.Format("{0}.json", setCode));
+                        setFilePath = Path.Combine(outputFilePath, string.Format("{0}.json", setCode));
                     }
 
                     // could work this off regex against the JToken path, but this is more intuitive to me
