@@ -52,8 +52,8 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         [JsonProperty("tcgplayerGroupId")]
         public int? TcgplayerGroupId { get; set; }
 
-        [JsonProperty("tokens")]
-        public string[]? Tokens { get; set; }
+        //[JsonProperty("tokens")]
+        //public string[]? Tokens { get; set; }
 
         [JsonProperty("totalSetSize")]
         public int? TotalSetSize { get; set; }
