@@ -11,8 +11,8 @@ namespace MTGDeckBuilder.MTGJson
     {
         public async Task TreatFile(string filePath, string? outputFilePath)
         {
-            Stopwatch watch = new Stopwatch();   
-            watch.Start();
+            Stopwatch watch = Stopwatch.StartNew();   
+
             using (StreamReader streamReader = new StreamReader(filePath))
             using (JsonTextReader reader = new JsonTextReader(streamReader))
             {
@@ -59,8 +59,7 @@ namespace MTGDeckBuilder.MTGJson
                     }
                 }
 
-                Console.WriteLine(watch.Elapsed.ToString());
-               // return Task.CompletedTask;
+                Console.WriteLine(watch.Elapsed.ToString());               
             }
         }
     }
