@@ -42,7 +42,9 @@ class Program
         // fetch into staging to keep files consistent
         string metaFileFullPath = Path.Combine(stagingDirectory, string.Format("{0}.json.gz", _cfg.GetConfigurationValue("META_FILENAME")));
         await _httpSvc.GetMetaFile(metaFileFullPath);
-        ParsedMeta? fetchedMeta = await _parser.ParseMetaData(Path.GetFileNameWithoutExtension(metaFileFullPath));           
+
+        string unzippedMetaFilePath = Path.GetFileNameWithoutExtension(metaFileFullPath);
+        ParsedMeta? fetchedMeta = await _parser.ParseMetaData(Path.Combine(stagingDirectory, unzippedMetaFilePath));           
 
         if(existingMeta == null || existingMeta.Version != fetchedMeta.Version)
         {
@@ -78,61 +80,3 @@ class Program
         return Task.CompletedTask;
     }
 }
-
-public interface IMTGJsonHttpService
-{
-    Task GetMetaFile(string writeToPath);
-    Task GetEnumValuesFile(string writeToPath);
-    Task GetAllPrintingsFile(string writeToPath);
-}
-
-public class MTGJsonHttpService : IMTGJsonHttpService
-{
-    private readonly HttpClient _client;
-    private readonly IFileTreatment _gzipDecompressor;
-    public MTGJsonHttpService(HttpClient client)
-    {
-        _client = client;
-        _gzipDecompressor = new DecompressGZipFileTreatment();
-    }
-    public async Task GetMetaFile(string writeToPath)
-    {
-        // TODO: MOVE THIS TO CONFIG
-        string metaFileURI = @"https://mtgjson.com/api/v5/Meta.json.gz";
-        using (Stream stream = await _client.GetStreamAsync(metaFileURI))
-        using (FileStream fileStream = File.Create(writeToPath))
-        {
-            await stream.CopyToAsync(fileStream);
-        }
-
-        await _gzipDecompressor.TreatFile(writeToPath, Path.Combine(Path.GetDirectoryName(writeToPath), Path.GetFileNameWithoutExtension(writeToPath)));
-    }
-
-    public async Task GetEnumValuesFile(string writeToPath)
-    {
-        string metaFileURI = @"https://mtgjson.com/api/v5/EnumValues.json.gz";
-        using (Stream stream = await _client.GetStreamAsync(metaFileURI))
-        using (FileStream fileStream = File.Create(writeToPath))
-        {
-            await stream.CopyToAsync(fileStream);
-        }
-
-        await _gzipDecompressor.TreatFile(writeToPath, Path.Combine(Path.GetDirectoryName(writeToPath), Path.GetFileNameWithoutExtension(writeToPath)));
-    }
-
-    public async Task GetAllPrintingsFile(string writeToPath)
-    {
-        string metaFileURI = @"https://mtgjson.com/api/v5/AllPrintings.json.gz";
-        using (Stream stream = await _client.GetStreamAsync(metaFileURI))
-        using (FileStream fileStream = File.Create(writeToPath))
-        {
-            await stream.CopyToAsync(fileStream);
-        }
-
-        await _gzipDecompressor.TreatFile(writeToPath, Path.Combine(Path.GetDirectoryName(writeToPath), Path.GetFileNameWithoutExtension(writeToPath)));
-
-        IFileTreatment splitSetsTreatment = new MTGJsonAllPrintingsSplitSetsFileTreatment();
-        await splitSetsTreatment.TreatFile(Path.Combine(Path.GetDirectoryName(writeToPath), Path.GetFileNameWithoutExtension(writeToPath)), null);
-    }
-}
-
