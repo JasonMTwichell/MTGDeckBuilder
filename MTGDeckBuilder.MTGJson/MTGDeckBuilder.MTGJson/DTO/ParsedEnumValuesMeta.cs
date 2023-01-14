@@ -2,7 +2,7 @@
 {
     public record ParsedEnumValuesMeta
     {
-        public DateTime Date { get; set; }
-        public string Version { get; set; }
+        public DateTime? Date { get; set; }
+        public string? Version { get; set; }
     }
 }

@@ -32,7 +32,7 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         public string[]? Finishes { get; set; }
 
         [JsonProperty("foreignData")]
-        public List<object> ForeignData { get; set; }
+        public MTGJsonAllPrintingsSetCardForeignData[]? ForeignData { get; set; }
 
         [JsonProperty("frameVersion")]
         public string? FrameVersion { get; set; }
@@ -44,7 +44,7 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         public bool? HasNonFoil { get; set; }
 
         [JsonProperty("identifiers")]
-        public MTGJsonAllPrintingsSetCardIdentifiers Identifiers { get; set; }
+        public MTGJsonAllPrintingsSetCardIdentifiers? Identifiers { get; set; }
 
         [JsonProperty("isReprint")]
         public bool? IsReprint { get; set; }
@@ -59,7 +59,7 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         public string? Layout { get; set; }
 
         [JsonProperty("legalities")]
-        public MTGJsonAllPrintingsSetCardLegalities Legalities { get; set; }
+        public MTGJsonAllPrintingsSetCardLegalities? Legalities { get; set; }
 
         [JsonProperty("manaCost")]
         public string? ManaCost { get; set; }
@@ -83,7 +83,7 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         public string[]? Printings { get; set; }
 
         [JsonProperty("purchaseUrls")]
-        public MTGJsonAllPrintingsSetCardPurchaseUrls PurchaseUrls { get; set; }
+        public MTGJsonAllPrintingsSetCardPurchaseUrls? PurchaseUrls { get; set; }
 
         [JsonProperty("rarity")]
         public string? Rarity { get; set; }
@@ -98,7 +98,7 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         public string[]? Subtypes { get; set; }
 
         [JsonProperty("supertypes")]
-        public List<object> Supertypes { get; set; }
+        public string[]? Supertypes { get; set; }
 
         [JsonProperty("text")]
         public string? Text { get; set; }

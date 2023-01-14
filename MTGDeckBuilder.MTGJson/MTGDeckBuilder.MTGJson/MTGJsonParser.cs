@@ -33,7 +33,7 @@ namespace MTGDeckBuilder.MTGJson
             }
         }
 
-        public Task<ParsedAllPrintingsSet> ParseSets(string setFilePath)
+        public Task<ParsedAllPrintingsSet> ParseSet(string setFilePath)
         {
             using (StreamReader streamReader = new StreamReader(setFilePath))
             using (JsonReader jsonReader = new JsonTextReader(streamReader))

@@ -9,7 +9,7 @@ namespace MTGDeckBuilder.MTGJson.DTO
 {
     public record ParsedMeta
     {
-        public DateTime Date { get; set; }
-        public string Version { get; set; }
+        public DateTime? Date { get; set; }
+        public string? Version { get; set; }
     }
 }

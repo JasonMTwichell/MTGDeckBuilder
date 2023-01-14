@@ -48,6 +48,25 @@ public class MTGJsonHttpService : IMTGJsonHttpService
 
         IFileTreatment splitSetsTreatment = new MTGJsonAllPrintingsSplitSetsFileTreatment();
         await splitSetsTreatment.TreatFile(Path.Combine(Path.GetDirectoryName(writeToPath), Path.GetFileNameWithoutExtension(writeToPath)), null);
+    }   
+
+    public async Task GetScryfallImage(string writeToPath, string scryfallID, bool isDualFace)
+    {
+        string scryfallURI = string.Format("https://api.scryfall.com/cards/{0}?format=image", scryfallID);
+
+        try
+        {
+            using (Stream stream = await _client.GetStreamAsync(scryfallURI))
+            using (FileStream fileStream = File.Create(writeToPath))
+            {
+                await stream.CopyToAsync(fileStream);
+            }
+        }
+        catch(Exception ex) 
+        {
+            Console.WriteLine(ex.Message);
+        }
+        
     }
 }
 

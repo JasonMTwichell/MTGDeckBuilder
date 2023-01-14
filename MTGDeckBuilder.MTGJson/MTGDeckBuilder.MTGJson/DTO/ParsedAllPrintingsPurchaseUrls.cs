@@ -2,7 +2,7 @@
 {
     public record ParsedAllPrintingsPurchaseUrls
     {
-        public string CardKingdom { get; set; }
-        public string Tcgplayer { get; set; }
+        public string? CardKingdom { get; set; }
+        public string? Tcgplayer { get; set; }
     }
 }

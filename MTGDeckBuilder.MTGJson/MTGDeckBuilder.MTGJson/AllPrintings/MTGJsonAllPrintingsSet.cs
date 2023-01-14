@@ -44,7 +44,7 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         public string? Name { get; set; }
 
         [JsonProperty("releaseDate")]
-        public string? ReleaseDate { get; set; }
+        public DateTime? ReleaseDate { get; set; }
 
         [JsonProperty("sealedProduct")]
         public MTGJsonAllPrintingsSetSealedProduct[]? SealedProduct { get; set; }
