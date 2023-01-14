@@ -11,18 +11,20 @@ class Program
     private static IMTGConfiguration _cfg;
     private static IMTGJsonParser _parser;
     private static IMTGJsonHttpService _httpSvc;
+    private static ILoggingService _logSvc;
     static async Task Main(string[] args)
     {
         _container = IoCBootstrapper.BootstrapIoC();
+        _logSvc = _container.Resolve<ILoggingService>();
         _cfg = _container.Resolve<IMTGConfiguration>();
         _parser = _container.Resolve<IMTGJsonParser>();
         _httpSvc = _container.Resolve<IMTGJsonHttpService>();
 
-        //await FetchCards();
-        await FetchImages();
+        await FetchCardFiles();
+        await FetchCardImages();
     }
 
-    private async static Task FetchCards()
+    private async static Task FetchCardFiles()
     {
         // setup hosting directory
         string rootDirectory = _cfg.GetConfigurationValue("MTG_ROOTDIR_PATH");
@@ -66,7 +68,7 @@ class Program
         Directory.Delete(stagingDirectory, true);
     }
 
-    private async static Task FetchImages()
+    private async static Task FetchCardImages()
     {
         string imagesDir = _cfg.GetConfigurationValue("IMG_ROOTDIR_PATH");
         if(!Directory.Exists(imagesDir))

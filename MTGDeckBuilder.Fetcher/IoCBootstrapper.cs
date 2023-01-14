@@ -8,7 +8,7 @@ namespace MTGDeckBuilder.Fetcher
     {
         public static IUnityContainer BootstrapIoC()
         {
-            IUnityContainer container = new UnityContainer();
+            IUnityContainer container = new UnityContainer();            
             container.RegisterType<IMTGConfiguration, MTGFetcherConfiguration>(TypeLifetime.Hierarchical);
             container.RegisterType<IMTGJsonParser, MTGJsonParser>(TypeLifetime.Hierarchical);
             container.RegisterSingleton<HttpClient>();
