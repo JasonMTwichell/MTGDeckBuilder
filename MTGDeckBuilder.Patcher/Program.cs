@@ -48,7 +48,7 @@ namespace MTGDeckBuilder
                 {
                     MetaData = new Meta()
                     {
-                        MetaDate = parsedMeta.Date,
+                        MetaDate = parsedMeta.Date.Value,
                         Version = parsedMeta.Version,
                         DateApplied = DateTime.Now,
                     },

@@ -34,5 +34,7 @@ namespace MTGDeckBuilder.Patcher
         public IEnumerable<TcgPlayerSkuLanguage> TcgPlayerSkuLanguages { get; init; }
         public IEnumerable<TcgPlayerSkuPrinting> TcgPlayerSkuPrintings { get; init; }
         public IEnumerable<Watermark> Watermarks { get; init; }
+
+        public IEnumerable<Set> Sets { get; init; }
     }
 }

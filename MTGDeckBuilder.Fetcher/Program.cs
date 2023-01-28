@@ -15,7 +15,6 @@ class Program
     static async Task Main(string[] args)
     {
         _container = IoCBootstrapper.BootstrapIoC();
-        _logSvc = _container.Resolve<ILoggingService>();
         _cfg = _container.Resolve<IMTGConfiguration>();
         _parser = _container.Resolve<IMTGJsonParser>();
         _httpSvc = _container.Resolve<IMTGJsonHttpService>();
