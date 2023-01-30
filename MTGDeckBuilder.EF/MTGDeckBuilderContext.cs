@@ -174,7 +174,8 @@ namespace MTGDeckBuilder.EF
             setCardCfg.HasKey(k => k.pkSetCard);
             setCardCfg.HasAlternateKey(k => k.UUID);
             setCardCfg.HasMany(p => p.CardTypes)
-                .WithMany()
+                .WithMany(p => p.SetCards)
+                .UsingEntity()
                 
                 
             #endregion
