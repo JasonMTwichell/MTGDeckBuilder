@@ -10,5 +10,6 @@ namespace MTGDeckBuilder.EF.Entities
     {
         public int? pkAvailability { get; set; }
         public string AvailabilityDescription { get; set; }
+        public virtual ICollection<SetCardData>? SetCards { get; set; }
     }
 }

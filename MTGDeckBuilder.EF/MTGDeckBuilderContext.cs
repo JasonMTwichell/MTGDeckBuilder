@@ -175,9 +175,43 @@ namespace MTGDeckBuilder.EF
             setCardCfg.HasAlternateKey(k => k.UUID);
             setCardCfg.HasMany(p => p.CardTypes)
                 .WithMany(p => p.SetCards)
-                .UsingEntity()
-                
-                
+                .UsingEntity<SetCardCardTypeData>();
+            setCardCfg.HasMany(p => p.Subtypes)
+                .WithMany(p => p.SetCards)
+                .UsingEntity<SetCardSubtypeData>();
+            setCardCfg.HasMany(p => p.SuperTypes)
+                .WithMany(p => p.SetCards)
+                .UsingEntity<SetCardSupertypeData>();
+            setCardCfg.HasMany(p => p.Colors)
+                .WithMany(p => p.SetCards)
+                .UsingEntity<SetCardColorData>();
+            setCardCfg.HasMany(p => p.Keywords)
+                .WithMany(p => p.SetCards)
+                .UsingEntity<SetCardKeywordData>();
+            setCardCfg.HasMany(p => p.ColorIdentities)
+                .WithMany(p => p.SetCards)
+                .UsingEntity<SetCardColorIdentityData>();
+            setCardCfg.HasMany(p => p.Availabilities)
+                .WithMany(p => p.SetCards)
+                .UsingEntity<SetCardAvailabilityData>();
+            setCardCfg.HasMany(p => p.BoosterTypes)
+                .WithMany(p => p.SetCards)
+                .UsingEntity<SetCardBoosterTypeData>();
+            setCardCfg.HasMany(p => p.Finishes)
+                .WithMany(p => p.SetCards)
+                .UsingEntity<SetCardFinishData>();
+            setCardCfg.HasMany(p => p.Rulings)
+                .WithOne()
+                .HasForeignKey(k => k.fkSetCard);
+            setCardCfg.HasMany(p => p.ForeignData)
+                .WithOne()
+                .HasForeignKey(k => k.fkSetCard);
+            setCardCfg.HasMany(p => p.Printings)
+                .WithOne()
+                .HasForeignKey(k => k.fkSetCard);
+
+            var setCardTypeCfg = modelBuilder.Entity<SetCardCardTypeData>();
+            
             #endregion
             base.OnModelCreating(modelBuilder);
         }
