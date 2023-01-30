@@ -14,7 +14,9 @@ namespace MTGDeckBuilder.Patcher
     internal interface IMTGDeckBuilderDbPatcher
     {
         Meta GetLatestMeta();
-        Task PatchData(PatchDataCommand cmd);
+        Task PatchData(PatchReferenceDataCommand cmd);
+        Task<PatchReferenceData> GetReferenceData();
+        Task PatchSet(Set set);
     }
 
     public class MTGDeckBuilderDbPatcherSQLite : IMTGDeckBuilderDbPatcher
@@ -25,7 +27,7 @@ namespace MTGDeckBuilder.Patcher
             _ctx = ctx;
         }
 
-        public async Task PatchData(PatchDataCommand cmd)
+        public async Task PatchData(PatchReferenceDataCommand cmd)
         {
             using(var txn = _ctx.Database.BeginTransaction())
             {
@@ -580,6 +582,16 @@ namespace MTGDeckBuilder.Patcher
 
             await _ctx.AddAsync(metaData);
             await _ctx.SaveChangesAsync();
+        }
+
+        public Task<PatchReferenceData> GetReferenceData()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task PatchSet(Set set)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MTGDeckBuilder.Patcher
 {
-    public record PatchDataCommand
+    public record PatchReferenceDataCommand
     {
         public Meta MetaData { get; init; }
         public IEnumerable<Availability> Availabilities { get; init; }
@@ -34,7 +34,5 @@ namespace MTGDeckBuilder.Patcher
         public IEnumerable<TcgPlayerSkuLanguage> TcgPlayerSkuLanguages { get; init; }
         public IEnumerable<TcgPlayerSkuPrinting> TcgPlayerSkuPrintings { get; init; }
         public IEnumerable<Watermark> Watermarks { get; init; }
-
-        public IEnumerable<Set> Sets { get; init; }
     }
 }

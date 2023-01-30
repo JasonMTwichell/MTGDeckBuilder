@@ -1,5 +1,6 @@
 ﻿using MTGDeckBuilder.Core.Service;
 using MTGDeckBuilder.EF;
+using MTGDeckBuilder.MTGJson;
 using MTGDeckBuilder.Patcher;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace MTGDeckBuilder
             container.RegisterType<IMTGConfiguration, MTGDeckBuilderConfiguration>(TypeLifetime.Hierarchical);
             container.RegisterType<MTGDeckBuilderContext>(TypeLifetime.Hierarchical);
             container.RegisterType<IMTGDeckBuilderDbPatcher, MTGDeckBuilderDbPatcherSQLite>(TypeLifetime.Hierarchical);
+            container.RegisterType<IMTGJsonParser, MTGJsonParser>(TypeLifetime.Hierarchical);
             //container.RegisterType<IMTGDeckBuilderRepository, MTGDeckBuilderRepository>(TypeLifetime.Hierarchical);
             //container.RegisterType<MTGCardService, MTGCardService>(TypeLifetime.Hierarchical);
             return container;
