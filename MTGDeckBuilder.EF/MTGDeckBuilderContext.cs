@@ -158,6 +158,26 @@ namespace MTGDeckBuilder.EF
             tcgPlayerSkuPrintingEntity.HasKey(k => k.pkTcgPlayerSkuPrinting);
             #endregion
 
+            #region Set
+            var setCfg = modelBuilder.Entity<SetData>();
+            setCfg.ToTable("tblSet");
+            setCfg.HasKey(k => k.pkSet);
+            setCfg.HasAlternateKey(k => k.Code);
+            setCfg.HasMany(set => set.SetCards)
+                .WithOne(card => card.Set)
+                .HasForeignKey(card => card.fkSet);
+            #endregion
+
+            #region SetCard
+            var setCardCfg = modelBuilder.Entity<SetCardData>();
+            setCardCfg.ToTable("tblSetCard");
+            setCardCfg.HasKey(k => k.pkSetCard);
+            setCardCfg.HasAlternateKey(k => k.UUID);
+            setCardCfg.HasMany(p => p.CardTypes)
+                .WithMany()
+                
+                
+            #endregion
             base.OnModelCreating(modelBuilder);
         }
 
