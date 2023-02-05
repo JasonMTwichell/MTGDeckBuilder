@@ -5,5 +5,7 @@
         public int? pkSetCardPrinting { get; set; }
         public int? fkSetCard { get; set; }
         public string PrintingSetCode { get; set; }
+
+        public virtual SetCardData SetCard { get;set; }
     }
 }

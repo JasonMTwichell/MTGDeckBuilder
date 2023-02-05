@@ -6,5 +6,7 @@
         public int? fkSetCard { get; set; }
         public string? RulingDate { get; set; }
         public string? RulingText { get; set; }
+
+        public virtual SetCardData SetCard { get; set; }
     }
 }

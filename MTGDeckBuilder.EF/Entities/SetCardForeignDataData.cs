@@ -1,4 +1,6 @@
-﻿namespace MTGDeckBuilder.EF.Entities
+﻿using NetTopologySuite.Shape.Random;
+
+namespace MTGDeckBuilder.EF.Entities
 {
     public record SetCardForeignDataData
     {
@@ -11,5 +13,7 @@
         public string? FlavorText { get; set; }
         public string? MultiverseID { get; set; }
         public string? Text { get; set; }
+
+        public virtual SetCardData SetCard { get; set; }
     }
 }

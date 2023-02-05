@@ -172,7 +172,7 @@ namespace MTGDeckBuilder.EF
             var setCardCfg = modelBuilder.Entity<SetCardData>();
             setCardCfg.ToTable("tblSetCard");
             setCardCfg.HasKey(k => k.pkSetCard);
-            setCardCfg.HasAlternateKey(k => k.UUID);
+            setCardCfg.HasAlternateKey(k => k.UUID);                
             setCardCfg.HasMany(p => p.CardTypes)
                 .WithMany(p => p.SetCards)
                 .UsingEntity<SetCardCardTypeData>();
@@ -211,7 +211,115 @@ namespace MTGDeckBuilder.EF
                 .HasForeignKey(k => k.fkSetCard);
 
             var setCardTypeCfg = modelBuilder.Entity<SetCardCardTypeData>();
-            
+            setCardTypeCfg.ToTable("tblSetCardType");
+            setCardTypeCfg.HasKey(k => new { k.fkCardType, k.fkSetCard });
+            setCardTypeCfg.HasOne(p => p.SetCard)
+                .WithMany(p => p.SetCardTypes)
+                .HasForeignKey(p => p.fkSetCard);
+            setCardTypeCfg.HasOne(p => p.CardType)
+                .WithMany()
+                .HasForeignKey(p => p.fkCardType);
+
+            var setCardSubtypeCfg = modelBuilder.Entity<SetCardSubtypeData>();
+            setCardSubtypeCfg.ToTable("tblSetCardSubtype");
+            setCardSubtypeCfg.HasKey(k => new { k.fkSubtype, k.fkSetCard });
+            setCardSubtypeCfg.HasOne(p => p.SetCard)
+                .WithMany(p => p.SetCardSubtypes)
+                .HasForeignKey(p => p.fkSetCard);
+            setCardSubtypeCfg.HasOne(p => p.Subtype)
+                .WithMany()
+                .HasForeignKey(p => p.fkSubtype);
+
+            var setCardSupertypeCfg = modelBuilder.Entity<SetCardSupertypeData>();
+            setCardSupertypeCfg.ToTable("tblSetCardSupertype");
+            setCardSupertypeCfg.HasKey(k => new {k.fkSupertype, k.fkSetCard });
+            setCardSupertypeCfg.HasOne(p => p.SetCard)
+                .WithMany(p => p.SetCardSupertypes)
+                .HasForeignKey(p => p.fkSetCard);
+            setCardSupertypeCfg.HasOne(p => p.Supertype)
+                .WithMany()
+                .HasForeignKey(p => p.fkSupertype);
+
+            var setCardColorCfg = modelBuilder.Entity<SetCardColorData>();
+            setCardColorCfg.ToTable("tblSetCardColor");
+            setCardColorCfg.HasKey(k => new { k.fkColor, k.fkSetCard });
+            setCardColorCfg.HasOne(p => p.SetCard)
+                .WithMany(p => p.SetCardColors)
+                .HasForeignKey(p => p.fkSetCard);
+            setCardColorCfg.HasOne(p => p.Color)
+                .WithMany()
+                .HasForeignKey(p => p.fkColor);
+
+            var setCardColorIdentityCfg = modelBuilder.Entity<SetCardColorIdentityData>();
+            setCardColorIdentityCfg.ToTable("tblSetCardColorIdentity");
+            setCardColorIdentityCfg.HasKey(k => new { k.fkColorIdentity, k.fkSetCard });
+            setCardColorIdentityCfg.HasOne(p => p.SetCard)
+                .WithMany(p => p.SetCardColorIdentities)
+                .HasForeignKey(p => p.fkSetCard);
+            setCardColorIdentityCfg.HasOne(p => p.ColorIdentity)
+                .WithMany()
+                .HasForeignKey(p => p.fkColorIdentity);
+
+            var setCardKeywordCfg = modelBuilder.Entity<SetCardKeywordData>();
+            setCardKeywordCfg.ToTable("tblSetCardKeyword");
+            setCardKeywordCfg.HasKey(k => new { k.fkKeyword, k.fkSetCard });
+            setCardKeywordCfg.HasOne(p => p.SetCard)
+                .WithMany(p => p.SetCardKeywords)
+                .HasForeignKey(p => p.fkSetCard);
+            setCardKeywordCfg.HasOne(p => p.Keyword)
+                .WithMany()
+                .HasForeignKey(p => p.fkKeyword);
+
+            var setCardAvailabilityCfg = modelBuilder.Entity<SetCardAvailabilityData>();
+            setCardAvailabilityCfg.ToTable("tblSetCardAvailability");
+            setCardAvailabilityCfg.HasKey(k => new { k.fkAvailability, k.fkSetCard });
+            setCardAvailabilityCfg.HasOne(p => p.SetCard)
+                .WithMany(p => p.SetCardAvailabilities)
+                .HasForeignKey(p => p.fkSetCard);
+            setCardAvailabilityCfg.HasOne(p => p.AvailabilityData)
+                .WithMany()
+                .HasForeignKey(p => p.fkAvailability);
+
+            var setCardBoosterTypeCfg = modelBuilder.Entity<SetCardBoosterTypeData>();
+            setCardBoosterTypeCfg.ToTable("tblSetCardBoosterType");
+            setCardBoosterTypeCfg.HasKey(k => new { k.fkBoosterType, k.fkSetCard });
+            setCardBoosterTypeCfg.HasOne(p => p.SetCard)
+                .WithMany(p => p.SetCardBoosterTypes)
+                .HasForeignKey(p => p.fkSetCard);
+            setCardBoosterTypeCfg.HasOne(p => p.BoosterType)
+                .WithMany()
+                .HasForeignKey(p => p.fkBoosterType);
+
+            var setCardFinishCfg = modelBuilder.Entity<SetCardFinishData>();
+            setCardFinishCfg.ToTable("tblSetCardFinish");
+            setCardFinishCfg.HasKey(k => new { k.fkFinish, k.fkSetCard });
+            setCardFinishCfg.HasOne(p => p.SetCard)
+                .WithMany(p => p.SetCardFinishes)
+                .HasForeignKey(p => p.fkSetCard);
+            setCardFinishCfg.HasOne(p => p.Finish)
+                .WithMany()
+                .HasForeignKey(p => p.fkFinish);
+
+            var setCardRulingCfg = modelBuilder.Entity<SetCardRulingData>();
+            setCardRulingCfg.ToTable("tblSetCardRuling");
+            setCardRulingCfg.HasKey(p => p.pkSetCardRuling);
+            setCardRulingCfg.HasOne(p => p.SetCard)
+                .WithMany(p => p.Rulings)
+                .HasForeignKey(p => p.fkSetCard);
+
+            var setCardForeignDataCfg = modelBuilder.Entity<SetCardForeignDataData>();
+            setCardForeignDataCfg.ToTable("tblSetCardForeignData");
+            setCardForeignDataCfg.HasKey(p => p.pkSetCardForeignData);
+            setCardForeignDataCfg.HasOne(p => p.SetCard)
+                .WithMany(p => p.ForeignData)
+                .HasForeignKey(p => p.fkSetCard);
+
+            var setCardPrintingCfg = modelBuilder.Entity<SetCardPrintingData>();
+            setCardPrintingCfg.ToTable("tblSetCardPrinting");
+            setCardPrintingCfg.HasKey(p => p.pkSetCardPrinting);
+            setCardPrintingCfg.HasOne(p => p.SetCard)
+                .WithMany(p => p.Printings)
+                .HasForeignKey(p => p.fkSetCard);
             #endregion
             base.OnModelCreating(modelBuilder);
         }

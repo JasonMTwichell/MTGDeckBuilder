@@ -55,11 +55,11 @@
         public virtual ICollection<ColorData>? Colors { get; set; }
         public virtual ICollection<SetCardColorData>? SetCardColors { get; set; }
 
-        public virtual ICollection<KeywordData>? Keywords { get; set; }
-        public virtual ICollection<SetCardKeywordData>? SetCardKeywords { get; set; }
-
         public virtual ICollection<ColorIdentityData>? ColorIdentities { get; set; }
         public virtual ICollection<SetCardColorIdentityData>? SetCardColorIdentities { get; set; }
+
+        public virtual ICollection<KeywordData>? Keywords { get; set; }
+        public virtual ICollection<SetCardKeywordData>? SetCardKeywords { get; set; }
 
         public virtual ICollection<AvailabilityData>? Availabilities { get; set; }
         public virtual ICollection<SetCardAvailabilityData>? SetCardAvailabilities { get; set; }
