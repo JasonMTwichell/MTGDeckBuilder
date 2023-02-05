@@ -8,25 +8,22 @@ namespace MTGDeckBuilder.EF
     {
         private readonly string? _dbPath;
 
-        public MTGDeckBuilderContext(IMTGConfiguration cfg)
+        public MTGDeckBuilderContext()
         {
-            _dbPath = cfg.GetConfigurationValue("MTG_DB_PATH");
-        }
+
+        } 
 
         public MTGDeckBuilderContext(string connectionString)
         {
             _dbPath = connectionString;
         }
 
-        //public MTGDeckBuilderContext()
-        //{
-
-        //}
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite($"Data Source={_dbPath}");            
             optionsBuilder.EnableSensitiveDataLogging();
+
+            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -166,6 +163,19 @@ namespace MTGDeckBuilder.EF
             setCfg.HasMany(set => set.SetCards)
                 .WithOne(card => card.Set)
                 .HasForeignKey(card => card.fkSet);
+            setCfg.HasMany(p => p.Languages)
+                .WithMany(p => p.Sets)
+                .UsingEntity<SetLanguageData>();
+
+            var setLanguageCfg = modelBuilder.Entity<SetLanguageData>();
+            setLanguageCfg.ToTable("tblSetLanguage");
+            setLanguageCfg.HasKey(k => new {k.fkLanguage, k.fkSet});
+            setLanguageCfg.HasOne(p => p.Set)
+                .WithMany(p => p.SetLanguages)
+                .HasForeignKey(p => p.fkSet);
+            setLanguageCfg.HasOne(p => p.Language)
+                .WithMany()
+                .HasForeignKey(p => p.fkLanguage);
             #endregion
 
             #region SetCard

@@ -17,13 +17,22 @@ namespace MTGDeckBuilder.EF.Entities
         public bool? IsFoilOnly { get; set; }
         public bool? IsNonFoilOnly { get; set; }
         public bool? IsOnlineOnly { get; set; }
-        public string? KeyruneCode { get; set; }
-        public string[]? Languages { get; set; }
+        public string? KeyruneCode { get; set; }        
         public string? Name { get; set; }
         public DateTime? ReleaseDate { get; set; }
         public int? TcgplayerGroupId { get; set; }
         public int? TotalSetSize { get; set; }
         public string? Type { get; set; }
         public ICollection<SetCardData> SetCards { get; set; }
+        public ICollection<LanguageData> Languages { get; set; }
+        public ICollection<SetLanguageData> SetLanguages { get; set; }
+    }
+
+    public class SetLanguageData
+    {
+        public int fkSet { get; set; }
+        public int fkLanguage { get; set; }
+        public virtual SetData Set { get; set; }
+        public virtual LanguageData Language { get; set; }
     }
 }

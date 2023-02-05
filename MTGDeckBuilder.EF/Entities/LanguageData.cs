@@ -4,5 +4,7 @@
     {
         public int? pkLanguage { get; set; }
         public string LanguageDescription { get; set; }
+
+        public virtual ICollection<SetData> Sets { get; set; }
     }
 }
