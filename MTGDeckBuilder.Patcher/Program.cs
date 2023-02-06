@@ -69,13 +69,13 @@ namespace MTGDeckBuilder
                         IsFoilOnly = parsedSet.IsFoilOnly,
                         IsNonFoilOnly = parsedSet.IsNonFoilOnly,
                         IsOnlineOnly = parsedSet.IsOnlineOnly,
-                        KeyruneCode = parsedSet.KeyruneCode,
-                        Languages = parsedSet.Languages,
+                        KeyruneCode = parsedSet.KeyruneCode,                        
                         Name = parsedSet.Name,
                         ReleaseDate = parsedSet.ReleaseDate,
                         TcgplayerGroupId = parsedSet.TcgplayerGroupId,
                         TotalSetSize = parsedSet.TotalSetSize,
                         Type = parsedSet.Type,
+                        Languages = parsedSet.Languages,
                         Cards = parsedSet.Cards?.Select(parsedSetCard => new Card
                         {
                             Artist = parsedSetCard.Artist,
@@ -99,7 +99,25 @@ namespace MTGDeckBuilder
                             Text = parsedSetCard.Text,
                             Type = parsedSetCard.Type,
                             UUID = parsedSetCard.UUID,
-
+                            CardKingdomPurchaseUrl = parsedSetCard.PurchaseUrls?.CardKingdom,
+                            TcgplayerPurchaseUrl = parsedSetCard.PurchaseUrls?.Tcgplayer,
+                            CardKingdomId = parsedSetCard.Identifiers?.CardKingdomId,
+                            CardsphereId = parsedSetCard.Identifiers?.CardsphereId,
+                            McmId = parsedSetCard.Identifiers?.McmId,
+                            MultiverseId = parsedSetCard.Identifiers?.MultiverseId,
+                            MtgjsonV4Id = parsedSetCard.Identifiers?.MtgjsonV4Id,
+                            TcgplayerProductId = parsedSetCard.Identifiers?.TcgplayerProductId,
+                            ScryfallOracleId = parsedSetCard.Identifiers?.ScryfallOracleId,
+                            ScryfallId = parsedSetCard.Identifiers?.ScryfallId,
+                            ScryfallIllustrationId = parsedSetCard.Identifiers?.ScryfallIllustrationId,
+                            IsVintageFormatLegal = parsedSetCard.Legalities?.Vintage?.ToLower() == "legal",
+                            IsLegacyFormatLegal = parsedSetCard.Legalities?.Legacy?.ToLower() == "legal",
+                            IsOldschoolFormatLegal = parsedSetCard.Legalities?.Oldschool?.ToLower() == "legal",
+                            IsPremodernFormatLegal = parsedSetCard.Legalities?.Premodern?.ToLower() == "legal",
+                            IsCommanderFormatLegal = parsedSetCard.Legalities?.Commander?.ToLower() == "legal",
+                            IsDuelFormatLegal = parsedSetCard.Legalities?.Duel?.ToLower() == "legal",
+                            IsPennyFormatLegal = parsedSetCard.Legalities?.Penny?.ToLower() == "legal",
+                            
                             Types = parsedSetCard.Types.Select(cardType => new CardType()
                             {
                                 CardTypeID = refData.CardTypes.FirstOrDefault(ct => ct.CardTypeDescription == cardType).CardTypeID,
@@ -116,14 +134,34 @@ namespace MTGDeckBuilder
                             {
                                 CardID = refData.SetTypes.FirstOrDefault(set => set.SetTypeDescription == printing).SetTypeID,
                             }),
-                            Keywords = parsedSetCard.Keywords,
-                            Finishes = parsedSetCard.Finishes,
-                            Colors = parsedSetCard.Colors,
-                            ColorIdentity = parsedSetCard.ColorIdentity,
-                            BoosterTypes = parsedSetCard.BoosterTypes,
-                            Availability = parsedSetCard.Availability,
-                            Rulings = parsedSetCard.Rulings != null ? new IEnumerable<CardRuling>() : null,
-
+                            Keywords = parsedSetCard.Keywords.Select(keyword => new Keyword() { 
+                                KeywordID = refData.Keywords.FirstOrDefault(k => k.KeywordDescription == keyword).KeywordID,
+                            }),
+                            Finishes = parsedSetCard.Finishes.Select(finish => new Finish()
+                            {
+                                FinishID = refData.Finishes.FirstOrDefault(f => f.FinishDescription == finish).FinishID,
+                            }),
+                            Colors = parsedSetCard.Colors.Select(color => new Color()
+                            {
+                                ColorID = refData.Colors.FirstOrDefault(c => c.ColorDescription == color).ColorID,
+                            }),
+                            ColorIdentity = parsedSetCard.ColorIdentity.Select(colorIdentity => new ColorIdentity()
+                            {
+                                ColorIdentityID = refData.ColorIdentities.FirstOrDefault(ci => ci.ColorIdentityDescription == colorIdentity).ColorIdentityID
+                            }),
+                            BoosterTypes = parsedSetCard.BoosterTypes.Select(boosterType => new BoosterType()
+                            {
+                                BoosterTypeID = refData.BoosterTypes.FirstOrDefault(bt => bt.BoosterTypeDescription == boosterType).BoosterTypeID,  
+                            }),
+                            Availability = parsedSetCard.Availability.Select(availability => new Availability()
+                            {
+                                AvailabilityID = refData.Availabilities.FirstOrDefault(a => a.AvailabilityDescription == availability).AvailabilityID,  
+                            }),
+                            Rulings = parsedSetCard.Rulings?.Select(ruling => new CardRuling()
+                            {
+                                Date = ruling.Date,
+                                Text = ruling.Text,
+                            }).ToArray(),
                             ForeignData = parsedSetCard.ForeignData?.Select(parsedSetCardForeignDatum => new CardForeignData
                             {
                                 FaceName = parsedSetCardForeignDatum.FaceName,
@@ -133,7 +171,8 @@ namespace MTGDeckBuilder
                                 FlavorText = parsedSetCardForeignDatum.FlavorText,
                                 MultiverseID = parsedSetCardForeignDatum.MultiverseID,
                                 Text = parsedSetCardForeignDatum.Text
-                            })
+                            }).ToArray(),
+                            
                         })
                     };
 

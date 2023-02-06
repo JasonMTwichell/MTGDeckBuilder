@@ -30,7 +30,7 @@
         public string[]? Printings { get; set; }
         public ParsedAllPrintingsPurchaseUrls? PurchaseUrls { get; set; }
         public string? Rarity { get; set; }
-        public ParsedAllPrintingsRuling? Rulings { get; set; }
+        public ParsedAllPrintingsRuling[]? Rulings { get; set; }
         public string? SetCode { get; set; }
         public string[]? Subtypes { get; set; }
         public string[]? Supertypes { get; set; }
