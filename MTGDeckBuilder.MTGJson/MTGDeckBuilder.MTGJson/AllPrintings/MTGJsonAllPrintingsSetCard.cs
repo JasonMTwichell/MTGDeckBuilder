@@ -7,6 +7,9 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         [JsonProperty("artist")]
         public string? Artist { get; set; }
 
+        [JsonProperty("asciiName")]
+        public string? AsciiName { get; set; }
+
         [JsonProperty("availability")]
         public string[]? Availability { get; set; }
 
@@ -15,6 +18,9 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
 
         [JsonProperty("borderColor")]
         public string? BorderColor { get; set; }
+
+        [JsonProperty("cardParts")]
+        public string[]? CardParts { get; set; }
 
         [JsonProperty("colorIdentity")]
         public string[]? ColorIdentity { get; set; }
@@ -112,6 +118,7 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         [JsonProperty("uuid")]
         public string? UUID { get; set; }
 
+
         [JsonProperty("flavorText")]
         public string? FlavorText { get; set; }
 
@@ -126,5 +133,104 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
 
         [JsonProperty("hasContentWarning")]
         public bool? HasContentWarning { get; set; }
+
+        [JsonProperty("colorIndicator")]
+        public string[]? ColorIndicator { get; set; }
+
+        [JsonProperty("faceConvertedManaCost")]
+        public double? FaceConvertedManaCost { get; set; }
+
+        [JsonProperty("faceFlavorName")]
+        public string? FaceFlavorName { get; set; }
+
+        [JsonProperty("faceManaValue")]
+        public double? FaceManaValue { get; set; }
+
+        [JsonProperty("faceName")]
+        public string? FaceName { get; set; }
+
+        [JsonProperty("flavorName")]
+        public string? FlavorName { get; set; }
+
+        [JsonProperty("frameEffects")]
+        public string[]? FrameEffects { get; set; }
+
+        [JsonProperty("hand")]
+        public string? HandSizeModifier { get; set; }
+
+        [JsonProperty("hasAlternativeDeckLimit")]
+        public bool? HasAlternativeDeckLimit { get; set; }
+
+        [JsonProperty("isAlternative")]
+        public bool? IsAlternativePrinting { get; set; }
+
+        [JsonProperty("isFullArt")]
+        public bool? IsFullArt { get; set; }
+
+        [JsonProperty("isFunny")]
+        public bool? IsFunny { get; set; }
+
+        [JsonProperty("isOnlineOnly")]
+        public bool? IsOnlineOnly { get; set; }
+
+        [JsonProperty("isOversized")]
+        public bool? IsOversized { get; set; }
+
+        [JsonProperty("isPromo")]
+        public bool? IsPromotionalPrinting { get; set; }
+
+        [JsonProperty("isRebalanced")]
+        public bool? IsRebalancedForAlchemy { get; set; }
+
+        [JsonProperty("isStarter")]
+        public bool? IsInStarterDeck { get; set; }
+
+        [JsonProperty("isStorySpotlight")]
+        public bool? IsStorySpotlight { get; set; }
+
+        [JsonProperty("isTextless")]
+        public bool? IsTextless { get; set; }
+
+        [JsonProperty("isTimeshifted")]
+        public bool? IsTimeshifted { get; set; }
+
+        [JsonProperty("leadershipSkills")]
+        public MTGJsonAllPrintingsSetCardLeadershipSkills? LeadershipSkills { get; set; }
+
+        [JsonProperty("life")]
+        public string? LifeTotalModifier { get; set; }
+
+        [JsonProperty("loyalty")]
+        public string? Loyalty { get; set; }
+
+        [JsonProperty("originalPrintings")]
+        public string[]? OriginalPrintingUUIDs { get; set; }
+
+        [JsonProperty("originalReleaseDate")]
+        public DateTime? OriginalReleaseDate { get; set; }
+
+        [JsonProperty("otherFaceIds")]
+        public string[]? OtherFaceUUIDs { get; set; }
+
+        [JsonProperty("promoTypes")]
+        public string[]? PromoTypes { get; set; }
+
+        [JsonProperty("rebalancedPrintings")]
+        public string[]? RebalancedPrintingUUIDs { get; set; }
+
+        [JsonProperty("securityStamp")]
+        public string? SecurityStamp { get; set; }
+
+        [JsonProperty("side")]
+        public string? Side { get; set; }
+
+        [JsonProperty("signature")]
+        public string? Signature { get; set; }
+
+        [JsonProperty("variations")]
+        public string[]? Variations { get; set; }
+
+        [JsonProperty("watermark")]
+        public string? Watermark { get; set; }
     }
 }

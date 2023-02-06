@@ -7,7 +7,7 @@ namespace MTGDeckBuilder.MTGJson.DTO
     {
         public int? BaseSetSize { get; set; }
         public string? Block { get; set; }
-        public ParsedAllPrintingsCard[]? Cards { get; set; }
+        public ParsedAllPrintingsSetCard[]? Cards { get; set; }
         public int? CardsphereSetId { get; set; }
         public string? Code { get; set; }
         public bool? IsFoilOnly { get; set; }

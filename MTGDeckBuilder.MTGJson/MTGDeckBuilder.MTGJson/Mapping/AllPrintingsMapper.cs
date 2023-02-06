@@ -16,7 +16,7 @@ namespace MTGDeckBuilder.MTGJson.Mapping
             {
                 BaseSetSize = deserializedSet.BaseSetSize,
                 Block = deserializedSet.Block,
-                Cards = deserializedSet.Cards?.Select(deserializedSetCard => new ParsedAllPrintingsCard
+                Cards = deserializedSet.Cards?.Select(deserializedSetCard => new ParsedAllPrintingsSetCard
                 {
                     Artist = deserializedSetCard.Artist,
                     Availability = deserializedSetCard.Availability,
