@@ -2,7 +2,7 @@
 
 namespace MTGDeckBuilder.MTGJson.AllPrintings
 {
-    public class MTGJsonAllPrintingsSetCard
+    public record MTGJsonAllPrintingsSetTokens
     {
         [JsonProperty("artist")]
         public string? Artist { get; set; }
@@ -31,50 +31,23 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         [JsonProperty("colors")]
         public string[]? Colors { get; set; }
 
-        [JsonProperty("convertedManaCost")]
-        public double? ConvertedManaCost { get; set; }
-
-        [JsonProperty("edhrecRank")]
-        public int? EdhrecRank { get; set; }
-
-        [JsonProperty("faceConvertedManaCost")]
-        public double? FaceConvertedManaCost { get; set; }
+        [JsonProperty("faceName")]
+        public string? FaceName { get; set; }
 
         [JsonProperty("faceFlavorName")]
         public string? FaceFlavorName { get; set; }
 
-        [JsonProperty("faceManaValue")]
-        public double? FaceManaValue { get; set; }
-
-        [JsonProperty("faceName")]
-        public string? FaceName { get; set; }
-
         [JsonProperty("finishes")]
         public string[]? Finishes { get; set; }
 
-        [JsonProperty("flavorName")]
-        public string? FlavorName { get; set; }
-
         [JsonProperty("flavorText")]
         public string? FlavorText { get; set; }
-
-        [JsonProperty("foreignData")]
-        public MTGJsonAllPrintingsSetCardForeignData[]? ForeignData { get; set; }
-
+        
         [JsonProperty("frameEffects")]
         public string[]? FrameEffects { get; set; }
 
         [JsonProperty("frameVersion")]
         public string? FrameVersion { get; set; }
-
-        [JsonProperty("hand")]
-        public string? HandSizeModifier { get; set; }
-
-        [JsonProperty("hasAlternativeDeckLimit")]
-        public bool? HasAlternativeDeckLimit { get; set; }
-
-        [JsonProperty("hasContentWarning")]
-        public bool? HasContentWarning { get; set; }
 
         [JsonProperty("hasFoil")]
         public bool? HasFoil { get; set; }
@@ -85,9 +58,6 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         [JsonProperty("identifiers")]
         public MTGJsonAllPrintingsSetCardIdentifiers? Identifiers { get; set; }
 
-        [JsonProperty("isAlternative")]
-        public bool? IsAlternativePrinting { get; set; }
-
         [JsonProperty("isFullArt")]
         public bool? IsFullArt { get; set; }
 
@@ -97,32 +67,11 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         [JsonProperty("isOnlineOnly")]
         public bool? IsOnlineOnly { get; set; }
 
-        [JsonProperty("isOversized")]
-        public bool? IsOversized { get; set; }
-
         [JsonProperty("isPromo")]
         public bool? IsPromotionalPrinting { get; set; }
 
-        [JsonProperty("isRebalanced")]
-        public bool? IsRebalancedForAlchemy { get; set; }
-
         [JsonProperty("isReprint")]
         public bool? IsReprint { get; set; }
-
-        [JsonProperty("isReserved")]
-        public bool? IsReserved { get; set; }
-
-        [JsonProperty("isStarter")]
-        public bool? IsInStarterDeck { get; set; }
-
-        [JsonProperty("isStorySpotlight")]
-        public bool? IsStorySpotlight { get; set; }
-
-        [JsonProperty("isTextless")]
-        public bool? IsTextless { get; set; }
-
-        [JsonProperty("isTimeshifted")]
-        public bool? IsTimeshifted { get; set; }
 
         [JsonProperty("keywords")]
         public string[]? Keywords { get; set; }
@@ -133,23 +82,8 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         [JsonProperty("layout")]
         public string? Layout { get; set; }
 
-        [JsonProperty("leadershipSkills")]
-        public MTGJsonAllPrintingsSetCardLeadershipSkills? LeadershipSkills { get; set; }
-
-        [JsonProperty("legalities")]
-        public MTGJsonAllPrintingsSetCardLegalities? Legalities { get; set; }
-
-        [JsonProperty("life")]
-        public string? LifeTotalModifier { get; set; }
-
         [JsonProperty("loyalty")]
         public string? Loyalty { get; set; }
-
-        [JsonProperty("manaCost")]
-        public string? ManaCost { get; set; }
-
-        [JsonProperty("manaValue")]
-        public double? ManaValue { get; set; }
 
         [JsonProperty("name")]
         public string? Name { get; set; }
@@ -157,41 +91,17 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         [JsonProperty("number")]
         public string? Number { get; set; }
 
-        [JsonProperty("originalPrintings")]
-        public string[]? OriginalPrintingUUIDs { get; set; }
-
-        [JsonProperty("originalReleaseDate")]
-        public DateTime? OriginalReleaseDate { get; set; }
-
-        [JsonProperty("originalText")]
-        public string? OriginalText { get; set; }
-
-        [JsonProperty("originalType")]
-        public string? OriginalType { get; set; }
-
         [JsonProperty("otherFaceIds")]
         public string[]? OtherFaceUUIDs { get; set; }
 
         [JsonProperty("power")]
         public string? Power { get; set; }
 
-        [JsonProperty("printings")]
-        public string[]? Printings { get; set; }
-
         [JsonProperty("promoTypes")]
         public string[]? PromoTypes { get; set; }
 
-        [JsonProperty("purchaseUrls")]
-        public MTGJsonAllPrintingsSetCardPurchaseUrls? PurchaseUrls { get; set; }
-
-        [JsonProperty("rarity")]
-        public string? Rarity { get; set; }
-
-        [JsonProperty("rebalancedPrintings")]
-        public string[]? RebalancedPrintingUUIDs { get; set; }
-
-        [JsonProperty("rulings")]
-        public MTGJsonAllPrintingsSetCardRuling[]? Rulings { get; set; }
+        [JsonProperty("reverseRelated")]
+        public string[]? ReverseRelatedUUIDs { get; set; }
 
         [JsonProperty("securityStamp")]
         public string? SecurityStamp { get; set; }
@@ -225,9 +135,6 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
 
         [JsonProperty("uuid")]
         public string? UUID { get; set; }
-       
-        [JsonProperty("variations")]
-        public string[]? Variations { get; set; }
 
         [JsonProperty("watermark")]
         public string? Watermark { get; set; }

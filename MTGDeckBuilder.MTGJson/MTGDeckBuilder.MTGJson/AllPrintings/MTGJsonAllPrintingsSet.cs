@@ -25,6 +25,12 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         [JsonProperty("code")]
         public string? Code { get; set; }
 
+        [JsonProperty("codeV3")]
+        public string? CodeV3 { get; set; }
+
+        [JsonProperty("isForeignOnly")]
+        public bool? IsForeignOnly { get; set; }
+
         [JsonProperty("isFoilOnly")]
         public bool? IsFoilOnly { get; set; }
 
@@ -34,14 +40,35 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         [JsonProperty("isOnlineOnly")]
         public bool? IsOnlineOnly { get; set; }
 
+        [JsonProperty("isPaperOnly")]
+        public bool? IsPaperOnly { get; set; }
+
+        [JsonProperty("isPartialPreview")]
+        public bool? IsPartialPreview { get; set; }
+
         [JsonProperty("keyruneCode")]
         public string? KeyruneCode { get; set; }
+
+        [JsonProperty("mcmId")]
+        public int? McmId { get; set; }
+
+        [JsonProperty("mcmIdExtras")]
+        public int? McmIdExtras { get; set; }
+
+        [JsonProperty("mcmName")]
+        public int? McmName { get; set; }
+
+        [JsonProperty("mtgoCode")]
+        public string? MtgoCode { get; set; }
 
         [JsonProperty("languages")]
         public string[]? Languages { get; set; }
 
         [JsonProperty("name")]
         public string? Name { get; set; }
+
+        [JsonProperty("parentCode")]
+        public string? ParentCode { get; set; }
 
         [JsonProperty("releaseDate")]
         public DateTime? ReleaseDate { get; set; }
@@ -52,8 +79,8 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         [JsonProperty("tcgplayerGroupId")]
         public int? TcgplayerGroupId { get; set; }
 
-        //[JsonProperty("tokens")]
-        //public string[]? Tokens { get; set; }
+        [JsonProperty("tokens")]
+        public MTGJsonAllPrintingsSetTokens[]? Tokens { get; set; }
 
         [JsonProperty("totalSetSize")]
         public int? TotalSetSize { get; set; }

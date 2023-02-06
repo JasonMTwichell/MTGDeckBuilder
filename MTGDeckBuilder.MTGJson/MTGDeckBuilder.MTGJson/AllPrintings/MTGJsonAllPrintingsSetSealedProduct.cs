@@ -17,6 +17,6 @@ namespace MTGDeckBuilder.MTGJson.AllPrintings
         public DateTime? ReleaseDate { get; set; }
 
         [JsonProperty("uuid")]
-        public string? Uuid { get; set; }
+        public string? UUID { get; set; }
     }
 }
